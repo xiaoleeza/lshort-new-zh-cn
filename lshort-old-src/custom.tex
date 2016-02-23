@@ -51,7 +51,7 @@
 %In this example, I am using both a new environment called\\
 %\ei{lscommand}, which is responsible for drawing the box around the
 %command, and a new command named \ci{ci}, which typesets the command
-%name and makes a corresponding entry in the index. You can check
+%name and makes a corresponding entry in the index. Check
 %this out by looking up the \ci{dum} command in the index at the back
 %of this book, where you'll find an entry for \ci{dum}, pointing to
 %every page where I mentioned the \ci{dum} command.
@@ -61,7 +61,7 @@
 然后你会发现有一个 \ci{dum} 的条目，这个条目中列出了包含有 \ci{dum} 命令
 的所有页的页码。
 
-%If I ever decide that I do not like the commands to be typeset in
+%If I ever decide that I do not like having the commands typeset in
 %a box any more, I can simply change the definition of the
 %\texttt{lscommand} environment to create a new look. This is much
 %easier than going through the whole document to hunt down all the
@@ -263,7 +263,7 @@ Same\\here.
 
 %\subsection{Commandline \LaTeX}
 \subsection{命令行的 \LaTeX}
-%If you work on a Unix like OS, you might be using Makefiles to build your
+%If you work on a Unix-like OS, you might be using Makefiles to build your
 %\LaTeX{} projects. In that connection it might be interesting to produce
 %different versions of the same document by calling \LaTeX{} with commandline
 %parameters. If you add the following structure to your document:
@@ -296,11 +296,11 @@ latex '\newcommand{\blackandwhite}{true}\input{test.tex}'
 %If you define a lot of new environments and commands, the preamble of
 %your document will get quite long. In this situation, it is a good
 %idea to create a \LaTeX{} package containing all your command and
-%environment definitions. You can then use the \ci{usepackage}
+%environment definitions. Use the \ci{usepackage}
 %command to make the package available in your document.
 如果你定义了很多新的环境和命令，你的文档的导言部分将变得相当长，在这种情况下，
 建立一个新的 \LaTeX{} 宏包来存放所有你自己定义的命令和环境将是一个好的处理方式。
-然后你可以在文档中使用 \ci{usepackage} 命令来引入自定义宏包。
+然后在你的文档中使用 \ci{usepackage} 命令来引入自定义宏包。
 
 \begin{figure}[!htbp]
 \begin{lined}{\textwidth}
@@ -342,7 +342,7 @@ latex '\newcommand{\blackandwhite}{true}\input{test.tex}'
 %\index{font}\index{font size} \LaTeX{} chooses the appropriate font
 %and font size based on the logical structure of the document
 %(sections, footnotes, \ldots).  In some cases, one might like to change
-%fonts and sizes by hand. To do this, you can use the commands listed in
+%fonts and sizes by hand. To do this, use the commands listed in
 %Tables \ref{fonts} and \ref{sizes}. The actual size of each font
 %is a design issue and depends on the document class and its options.
 %Table \ref{tab:pointsizes} shows the absolute point size for these
@@ -361,17 +361,17 @@ latex '\newcommand{\blackandwhite}{true}\input{test.tex}'
 \end{example}
 
 %One important feature of \LaTeXe{} is that the font attributes are
-%independent. This means that you can issue size or even font
+%independent. This means that issuing size or even font
 %changing commands, and still keep the bold or slant attribute set
 %earlier.
 \LaTeXe{} 的一个重要特征是字体的各种属性是相互独立的，这意味着你可以改变字体
 的大小而仍然保留字体原有的粗体或者斜体的特性。
 
-%In \emph{math mode} you can use the font changing \emph{commands} to
+%In \emph{math mode} use the font changing \emph{commands} to
 %temporarily exit \emph{math mode} and enter some normal text. If you want to
 %switch to another font for math typesetting you need another
 %special set of commands; refer to Table \ref{mathfonts}.
-在\textbf{数学模式}中你可以使用字体变换命令来暂时退出\textbf{数学模式}，然后输入
+在\textbf{数学模式}中使用字体变换命令来暂时退出\textbf{数学模式}，然后输入
 一些正常的文字。如果你希望改变数学公式本身所使用的字体，\LaTeX{} 提供了另外一套命令。
 参看表 \ref{mathfonts}。
 
@@ -553,16 +553,29 @@ of unknown origin and purpose.
 \end{example}
 
 %This approach has the advantage that you can decide at some later
-%stage that you want to use some visual representation of danger other
+%stage that you want to use a visual representation of danger other
 %than \verb|\textbf|, without having to wade through your document,
 %identifying all the occurrences of \verb|\textbf| and then figuring out
 %for each one whether it was used for pointing out danger or for some other
 %reason.
-这种方法具有一个明显的优点，你可以在以后决定使用一些不是很有把握实现的特别外观并
+这种方法具有一个明显的优点，你可以在以后决定使用一个不是很有把握实现的特别外观并
 使之不同于 \verb|\textbf|，
 那时你就不需要遍历你的整篇文章来找出所有 \verb|\textbf| 的地方，
 然后一个一个地确定是不是要改成没有把握的外观。
 
+%Please note the difference between telling \LaTeX{} to
+%\emph{emphasize} something and telling it to use a different
+%\emph{font}. The \ci{emph} command is context aware, while the font commands are absolute.
+告诉 \LaTeX{} 去 \emph{强调} 某些东西与告诉它去使用不同的 \emph{字体} ，务必注意到这两者的不同之处。
+\begin{example}
+	\textit{You can also
+		\emph{emphasize} text if 
+		it is set in italics,}
+	\textsf{in a 
+		\emph{sans-serif} font,}
+	\texttt{or in 
+		\emph{typewriter} style.}
+\end{example}
 %\subsection{Advice}
 \subsection{建议}
 
@@ -592,7 +605,7 @@ of unknown origin and purpose.
 \subsection{行距}
 %
 %\index{line spacing} If you want to use larger inter-line spacing in a
-%document, you can change its value by putting the
+%document, change its value by putting the
 \index{line spacing}如果你想在文档中使用更大的行距，你可以在导言中使用
 如下命令进行设定：
 \begin{lscommand}
@@ -602,7 +615,7 @@ of unknown origin and purpose.
 %Use \verb|\linespread{1.3}| for ``one and a half'' line
 %spacing, and \verb|\linespread{1.6}| for ``double'' line spacing.  Normally
 %the lines are not spread, so the default line spread factor
-%is 1.\index{double line spacing}
+%is~1.\index{double line spacing}
 如 \verb|\linespread{1.3}| 产生 $1.5$ 倍行距，而 \verb|\linespread{1.6}| 
 则产生双倍行距。缺省情况下的行距为 $1$。 \index{double line spacing}
 
@@ -647,7 +660,7 @@ everything is back to normal.
 这两个命令增加了段落间距，并将首行缩进设置为 $0$。
 
 %The \texttt{plus} and \texttt{minus} parts of the length above tell
-%\TeX{} that it can compress and expand the inter paragraph skip by the
+%\TeX{} that it can compress and expand the inter-paragraph skip by the
 %amount specified, if this is necessary to properly fit the paragraphs
 %onto the page.
 例子中，长度设定中的 \texttt{plus} 和 \texttt{minus} 部分将使得 \TeX{} 按照指定大小
@@ -667,7 +680,7 @@ everything is back to normal.
 中 \verb|\tableofcontents| 以下适合的位置，或者根本不要使用这些，因为一般来说专业的书籍都是用缩进并且
 通常不用空白来分离段落。
 %
-%If you want to indent a paragraph that is not indented, you can use
+%If you want to indent a paragraph that is not indented, use
 %\begin{lscommand}
 %\ci{indent}
 %\end{lscommand}
@@ -682,7 +695,7 @@ everything is back to normal.
 \end{lscommand}
 当然，这个命令只有在 \verb|\parindent| 不为零的情况下才有效果。
 
-%To create a non-indented paragraph, you can use
+%To create a non-indented paragraph, use
 %\begin{lscommand}
 %\ci{noindent}
 %\end{lscommand}
@@ -697,6 +710,11 @@ everything is back to normal.
 %\subsection{Horizontal Space}
 \subsection{水平间距}
 \label{sec:hspace}
+%\LaTeX{} determines the spaces between words and sentences
+%automatically. To add horizontal space, use: \index{horizontal!space}
+%\begin{lscommand}
+%	\ci{hspace}\verb|{|\emph{length}\verb|}|
+%\end{lscommand}
 \LaTeX{} 系统自动决定单词和句子之间的距离。为了增加水平距离，
 使用命令：\index{horizontal!space}
 \begin{lscommand}
@@ -705,7 +723,7 @@ everything is back to normal.
 %If such a space should be kept even if it falls at the end or the
 %start of a line, use \verb|\hspace*| instead of \verb|\hspace|.  The
 %\emph{length} in the simplest case is just a number plus a unit.  The
-%most important units are listed in Table \ref{units}.
+%most important units are listed in Table~\ref{units}.
 %\index{units}\index{dimensions}
 如果这个水平间距即使在行首或者行末也应该保持的话，用命令 \verb|\hspace*| 代替 \verb|\hspace|。命令的 \emph{length} 参数在简单的情况下只是一个带有单位
 的数字。最重要的长度单位在表 \ref{units} 中列了出来。
@@ -747,7 +765,7 @@ of 1.5 cm.
 \ci{stretch}\verb|{|\emph{n}\verb|}|
 \end{lscommand}
 \noindent 将产生一个特殊的橡皮长度：一个能把行内剩余所有空隙填满的空白。
-如果两个 \verb|\hspace{\stretch{|\emph{n}\verb|}}| 命令位于同一行，那么它们将根据伸缩因子分配空间。
+如果多个 \verb|\hspace{\stretch{|\emph{n}\verb|}}| 命令位于同一行，那么它们将根据伸缩因子分配空间所有可用空间。
 
 \begin{example}
 x\hspace{\stretch{1}}
@@ -840,9 +858,9 @@ This goes onto the last line of the page.\pagebreak
 %the predefined values. Naturally, you can change them.
 %%no idea why this is needed here ...
 %\thispagestyle{fancyplain}
-%Figure \ref{fig:layout} shows all the parameters that can be changed.
+%Figure~\ref{fig:layout} shows all the parameters that can be changed.
 %The figure was produced with the \pai{layout} package from the tools bundle.%
-%\footnote{\CTANref|macros/latex/required/tools|}
+%\footnote{\CTANref|pkg/tools|}
 \index{page layout}
 \LaTeXe{} 允许你在 \verb|\documentclass| 命令中指定纸张尺寸 (\wi{paper size})。
 然后它将自动的选择合适的页边距。但有些时候你可能不满意 \LaTeX{} 的预设值，这个
@@ -850,7 +868,7 @@ This goes onto the last line of the page.\pagebreak
 %no idea why this is needed here ...
 \thispagestyle{fancyplain}
 图 \ref{fig:layout} 中显示了所有能改变的页面参数。这个图是用 \pai{layout} 宏包
-产生的\footnote{\CTANref|macros/latex/required/tools|}。
+产生的\footnote{\CTANref|pkg/tools|}。
 
 %\textbf{WAIT!} \ldots before you launch into a ``Let's make that
 %narrow page a bit wider'' frenzy, take a few seconds to think. As with
@@ -899,10 +917,10 @@ This goes onto the last line of the page.\pagebreak
 \end{lscommand}
 
 %This second command is actually more useful than the \ci{setlength}
-%command, because you can now work relative to the existing settings.
+%command, because it works relative to the existing settings.
 %To add one centimetre to the overall text width, I put the
 %following commands into the document preamble:
-第二个命令实际上比 \ci{setlength} 命令更为实用，因为你可以相对于现有的设置来获得
+第二个命令实际上比 \ci{setlength} 命令更为实用，因为它相对于现有的设置来获得
 所需的结果。为了给文本的宽度增加 1 厘米，我将如下的命令放置到文档导言：
 \begin{code}
 \verb|\addtolength{\hoffset}{-0.5cm}|\\
@@ -911,7 +929,7 @@ This goes onto the last line of the page.\pagebreak
 
 %In this context, you might want to look at the \pai{calc} package.
 %It allows you to use arithmetic operations in the argument of \ci{setlength}
-%and other places where you can enter numeric values into function
+%and other places where numeric values are entered into function
 %arguments.
 这时候，你可能会想要看看 \pai{calc} 包，它允许你在 \ci{setlength} 的参量
 中进行算术运算。它也可以运用到任何用数值作为函数参量的地方。
@@ -984,12 +1002,12 @@ here at all. Isn't that puzzling?
 任何东西包括其他盒子放到一个盒子中。 然后 \LaTeX{} 将会像处理
 单个字母一样处理这个盒子。
 
-%In the past chapters you have already encountered some boxes, although
-%I did not tell you. The \ei{tabular} environment and the
-%\ci{includegraphics}, for example, both produce a box. This means that you can
-%easily arrange two tables or images side by side. You just have to
-%make sure that their combined width is not larger than the textwidth.
-在过去的章节中，尽管我并没有明确的说出来，你已经遇到了一些盒子。例如
+%In earlier chapters you encountered some boxes, although I did
+%not tell you. The \ei{tabular} environment and the \ci{includegraphics}, for
+%example, both produce a box. This means that you can easily arrange two
+%tables or images side by side. You just have to make sure that their
+%combined width is not larger than the textwidth.
+在之前的章节中，尽管我并没有明确的说出来，你已经遇到了一些盒子。例如
  \ei{tabular} 环境和 \ci{includegraphics} 命令就都产生了一个盒子。这就
 意味着你可以轻松的将两个表格或图像并列。你唯一需要保证的就是它们
 宽度的总和不大于文本宽度。
@@ -1026,7 +1044,7 @@ here at all. Isn't that puzzling?
 %only on horizontally aligned material. We already know one of them;
 %it's called \ci{mbox}. It simply packs up a series of boxes into
 %another one, and can be used to prevent \LaTeX{} from breaking two
-%words. As you can put boxes inside boxes, these horizontal box packers
+%words. As boxes can be put inside boxes, these horizontal box packers
 %give you ultimate flexibility.
 虽然\ci{parbox} 可以打包整个段落，完成分行在内的几乎所有事情，
 \LaTeX{} 中还存在与此不同的另外一类盒子命令用于处理水平对齐的东西。我们已经知道其中的
@@ -1090,29 +1108,29 @@ Can you read this?
 \ci{raisebox}\verb|{|\emph{lift}\verb|}[|\emph{extend-above-baseline}\verb|][|\emph{extend-below-baseline}\verb|]{|\emph{text}\verb|}|
 \end{lscommand}
 
-%\noindent command lets you define the vertical properties of a
-%box. You can use \ci{width}, \ci{height}, \ci{depth}, and
-%  \ci{totalheight} in the first three parameters, in order to act
-%  upon the size of the box inside the \emph{text} argument.
+\noindent command lets you define the vertical properties of a
+box. You can use \ci{width}, \ci{height}, \ci{depth}, and
+  \ci{totalheight} in the first three parameters, in order to act
+  upon the size of the box inside the \emph{text} argument.
 \noindent 让你能够定义一个盒子在垂直方向的属性。在前面的三个参数中，
 你可以使用 \ci{width}、\ci{height}、\ci{depth} 
 和 \ci{totalheight}，这样可以使得盒子的参数能够与盒子内部的文本匹配。
 
 \begin{example}
-\raisebox{0pt}[0pt][0pt]{\Large%
-\textbf{Aaaa\raisebox{-0.3ex}{a}%
-\raisebox{-0.7ex}{aa}%
-\raisebox{-1.2ex}{r}%
-\raisebox{-2.2ex}{g}%
-\raisebox{-4.5ex}{h}}}
-he shouted but not even the next
-one in line noticed that something
-terrible had happened to him.
+	\raisebox{0pt}[0pt][0pt]{\Large%
+		\textbf{Aaaa\raisebox{-0.3ex}{a}%
+			\raisebox{-0.7ex}{aa}%
+			\raisebox{-1.2ex}{r}%
+			\raisebox{-2.2ex}{g}%
+			\raisebox{-4.5ex}{h}}}
+	she shouted, but not even the next
+	one in line noticed that something
+	terrible had happened to her.
 \end{example}
 
 
-%\section{Rules and Struts}
-\section{标尺和支撑}
+%\section{Rules}
+\section{标尺}
 \label{sec:rule}
 
 %A few pages back you may have noticed the command
@@ -1136,25 +1154,6 @@ terrible had happened to him.
 %lines. The line on the title page, for example, has been created with a
 %\ci{rule} command.
 \noindent 这个命令可以用来产生水平方向和垂直方向的线条。例如标题页上的直线就是用一个 \ci{rule} 命令创建的。
-
-%A special case is a rule with no width but a certain height. In
-%professional typesetting, this is called a \wi{strut}. It is used to
-%guarantee that an element on a page has a certain minimal height. You
-%could use it in a \texttt{tabular} environment to make sure a row has
-%a certain minimum height.
-一种特殊的例子是没有宽度只有高度的标尺。在专业的出版中，这被称为支撑 (\wi{Struts})。
-它被用来保证页面的某个元素具有一个确定的高度最小值。你可以在 \texttt{tabular} 环境中使用支撑
-来使得某行具有一个特定的高度最小值。
-
-\begin{example}
-\begin{tabular}{|c|}
-\hline
-\rule{1pt}{4ex}Pitprop \ldots\\
-\hline
-\rule{0pt}{4ex}Strut\\
-\hline
-\end{tabular}
-\end{example}
 
 \bigskip
 %{\flushright The End.\par}
