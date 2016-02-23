@@ -25,7 +25,7 @@ TODO LIST
 - [ ] 更新第三章 math.tex 和符号表 lssym.tex 的翻译
 - [ ] 更新第四章 spec.tex 的翻译
 - [ ] 更新第五章 graphic.tex 的翻译
-- [ ] 更新第六章 custom.tex 的翻译
+- [x] 更新第六章 custom.tex 的翻译
 - [ ] 增添附录 install.tex 的翻译
 
 未来的目标
