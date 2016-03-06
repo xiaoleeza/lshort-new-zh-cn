@@ -1,1 +1,165 @@
+\chapter{自定义 \LaTeX 命令和功能}
+
+\begin{intro}
+读到这一章之前，如果你确保掌握了前几章的知识并熟练运用，你已经能制作出内容和形式都相当丰富的文档了。
+但你可能还不会满足：我要如何制作一个简单但像样的毕业论文/书籍/简历模板，每次可以直接套用，
+而不是再在导言区写一堆代码？
+
+本章的内容将有助于你实现这一个目标，让你能编写可重复利用的模块——宏包和文档类，并在其中自己定义命令和环境。
+不过作为入门手册，这些知识仍是不全面的。如果你不满足于此，需要参考更多资料。
+\end{intro}
+
+\section{自定义命令和环境}
+
+你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个矩形框里，
+并且出现在本书最后的索引中。我并没有直接使用基础的 \LaTeX\ 命令
+来实现这个效果，而是创建了一个宏包 (\wi{package})，并在其中定义了我
+所需要的命令和环境。现在我只需写成这样简单的形式：
+
+\begin{example}
+\begin{command}
+\ci{dum}
+\end{command}
+\end{example}
+
+在这个例子中，我使用了一个新的环境 \ei{command}。这个环境负责在命令的周围画出一个矩形框。
+同时我还使用了一个命令：\ci{ci}， 这个命令负责输出命令的名字，
+并且在索引中添加相应的条目。你可以在本书最后的索引中查找命令 \cmd{dum}，
+然后你会发现有一个 \cmd{dum} 的条目，这个条目中列出了 \cmd{dum} 命令所在的所有位置的页码。
+
+一旦我不再喜欢在一个矩形框中排版命令，我可以很容易地改变 \env{command} 环境的定义，
+来创建新的外观。相比于追踪并修改所有使用原始的 \LaTeX{} 命令在文字周围画框的地方，这种做法容易得多。
+
+\subsection{定义新命令}
+
+使用如下命令可以定义你自己的命令：
+\begin{command}
+\cmd{newcommand}\marg{name}\oarg{num}\marg{definition}
+\end{command}
+\cih{newcommand}
+基本上，这个命令有两个参数，第一个 \Arg{name} 是你想要建立的命令
+的名称，第二个 \Arg{definition} 是命令的定义。方括号里的参数 \Arg{num} 是可选的，
+用于指定新命令所需的参数数目（最多 9 个）。如果不给出这个参数，默认就是 0，也就是新建的命令不要任何参数。
+
+接下来的两个例子有助你的理解。第一个例子定义了一个新的命令：\ci{tnss}。
+这个命令是句子 ``The Not So Short Introduction to \LaTeXe'' 的简写。
+如果你需要在文档中多次使用本书的名称，那么定义这个命令将是非常方便的。
+
+\begin{example}
+\newcommand{\tnss}{The not
+    so Short Introduction to
+    \LaTeXe}
+This is ``\tnss'' \ldots{}
+``\tnss''
+\end{example}
+
+下一个例子演示了如何定义一个接受一个参数的命令。在命令的定义中，标记 \verb|#1| 
+将被你指定的参数所代替。如果你想使用多个参数，那么可以依次使用 \verb|#2|、……、
+\verb|#9| 等标记。
+
+\begin{example}
+\newcommand{\txsit}[1]
+ {This is the \emph{#1} Short
+      Introduction to \LaTeXe}
+% in the document body:
+\begin{itemize}
+\item \txsit{not so}
+\item \txsit{very}
+\end{itemize}
+\end{example}
+
+\LaTeX\ 不允许你新建一个与现有命令重名的命令。 如果你确实需要这么做，有一个专门
+的命令用于处理这种情况：\ci{renewcommand}。它使用与命令 \cmd{newcommand}
+相同的语法。
+
+在某些情况之下，你可能会希望使用 \ci{providecommand} 命令。它完成与 \cmd{newcommand} 
+命令相同的工作。但如果命令已经存在，\LaTeXe{} 将会忽略你的定义。
+
+\subsection{定义环境}
+
+与 \cmd{newcommand} 命令类似，有一个命令用于定义新的环境。这个命令是 \cmd{newenvironment}，它的语法如下所示：
+
+\begin{command}
+\cmd{newenvironment}\marg{name}\oarg{num}\marg{before}\marg{after}
+\end{command}
+\cih{newenvironment}
+
+同样地，\cmd{newenvironment} 命令有一个可选的参数。
+在 \Arg{before} 中的内容将在此环境包含的文本之前处理，而在 \Arg{after} 中的内容将在遇到 \cmd{end\marg{name}} 命令时处理。
+
+下面的例子演示了 \ci{newenvironment} 命令的用法：
+\begin{example}
+\newenvironment{king}
+{\rule{1ex}{1ex}%
+     \hspace{\stretch{1}}}
+{\hspace{\stretch{1}}%
+     \rule{1ex}{1ex}}
+
+\begin{king}
+My humble subjects \ldots
+\end{king}
+\end{example}
+
+参数 \Arg{num} 的使用方式与 \cmd{newcommand} 命令相同。\LaTeX\ 还同样保证你
+不会不小心新建重名的环境。如果你确实希望改变一个现有的环境，你可以使用命令
+ \ci{renewenvironment}，它使用和命令 \ci{newenvironment} 相同的语法。
+
+\section{编写自己的宏包和文档类}
+
+\subsection{编写简单的宏包}
+
+如果你定义了很多新的环境和命令，你的文档的导言区将变得相当长，在这种情况下，好的方式是
+建立一个新的 \LaTeX\ 宏包来存放所有你自己定义的命令和环境，
+然后在你的文档中使用 \ci{usepackage} 命令来调用自定义的宏包。
+
+\begin{sourcecode}[htbp]
+\begin{Verbatim}
+% Demo Package by Tobias Oetiker
+\ProvidesPackage{demopack}
+\newcommand{\tnss}{The not so Short Introduction
+                   to \LaTeXe}
+\newcommand{\txsit}[1]{The \emph{#1} Short
+                       Introduction to \LaTeXe}
+\newenvironment{king}{\begin{quote}}{\end{quote}}
+\end{Verbatim}
+\caption{宏包的一个最简示例。}\label{code:package}
+\end{sourcecode}
+
+写一个宏包的基本工作就是将原本在你的文档导言区里很长的内容拷贝到另一个文件中去，
+ 这个文件需要以 \texttt{.sty} 作扩展名。你还需要加入一个宏包专用的命令：
+\begin{command}
+\cmd{ProvidesPackage}\marg{package name}
+\end{command}
+\cih{ProvidesPackage}
+这个命令应该放在你的宏包的最前面，并且一定要注意：\textbf{\Arg{package name} 需要和宏包的文件名一致。}
+\cmd{ProvidesPackage} 让 \LaTeX\ 记录宏包的名称，从而在你尝试再次调用同一个宏包的时候忽略后面的引入%
+\footnote{但如果你以\emph{不同的选项}多次引入宏包，则有可能会引起错误。}。
+源代码 \ref{code:package} 给出了一个小的宏包示例，其中包含了我们之前定义的一些命令。
+
+\subsection{在宏包中调用其它宏包}
+
+如果你想进一步把各种宏包的功能汇总到一个文件里，而不是在文档的导言区罗列一大堆宏包的话，
+\LaTeX\ 允许你在自己编写的宏包中调用其它宏包，命令为 \cmd{RequirePackage}，用法和 \cmd{usepackage}
+一致：
+\begin{command}
+\cmd{RequirePackage}\oarg*{\Arg{option1},\Arg{option2}}\marg{package name}
+\end{command}
+
+\subsection{编写自己的文档类}
+
+当你更进一步，需要编写自己的文档类，如论文模板等，问题就稍稍麻烦了一些。首先，自己的文档类以 \texttt{.cls} 作扩展名，开头使用
+\cmd{ProvidesClass} 命令：
+\begin{command}
+\cmd{ProvidesClass}\marg{class name}
+\end{command}
+\cih{ProvidesClass}
+当然了，\marg{class name}也需要和文档类的文件名一致。
+
+但是有了上述命令和和你之前学到的 \cmd{newcommand} 等，还并不能完成一个文档类的编写，因为诸如 \cmd{chapter}、
+\cmd{section} 等等许多常用的命令都是在文档类中定义的。事实上，许多时候我们只需要像调用宏包那样调用一个基本的文档类，
+省去许多不必要的麻烦。在你的文档类中调用其它文档类的命令是 \cmd{LoadClass} ，用法和 \cmd{documentclass} 十分相像：
+\begin{command}
+\cmd{LoadClass}\oarg*{\Arg{option1},\Arg{option2}}\marg{package name}
+\end{command}
+
 \endinput

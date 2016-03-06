@@ -1,1 +1,43 @@
-\endinput
+\pdfbookmark{标题页}{title}
+\thispagestyle{empty}
+
+\newlength{\centeroffset}
+\setlength{\centeroffset}{-0.5\oddsidemargin}
+\addtolength{\centeroffset}{0.5\evensidemargin}
+
+\vspace*{\stretch{1}}
+\noindent\hspace*{\centeroffset}\makebox[0pt][l]{\begin{minipage}{\textwidth}
+\raggedleft
+{\huge \bfseries 一份不太简短的~\LaTeXe{}~介绍}
+\noindent\rule[-1ex]{\textwidth}{5pt}\\[2.5ex]
+\hfill\emph{\Large 或~\pageref{LastPage}~分钟学会~\LaTeXe}
+\end{minipage}}
+
+\vspace{\stretch{1}}
+\noindent\hspace*{\centeroffset}\rlap{\begin{minipage}{\textwidth}
+\raggedleft
+{\bfseries 原版作者：} Tobias Oetiker\\[1.5ex]
+　　　　　             Hubert Partl, Irene Hyna and  Elisabeth Schlegl\\[1.5ex]
+{\bfseries 原版版本：} Version~5.05, July 18, 2015\\[3ex]
+{\bfseries 中文翻译：} 中文~\TeX{}~学会\\[1.5ex]
+{\bfseries 中文版本：} 版本~5.05，二零一六年二月
+\end{minipage}}
+
+\vspace{\stretch{2}}
+
+\newpage\thispagestyle{empty}
+\begingroup\small
+% GPL 声明 % 改成 FDL 1.3?
+% http://www.thebigfly.com/gnu/gpl/
+版权所有~\copyright\ 1995 -- 2005 Tobias\ Oetiker~及贡献者。保留所有权利。
+
+本文档是自由的；你可以在自由软件协会颁布的~GNU~通用公共许可证的条款下
+再次发布或修改本文档。许可证可以是第二版，或者任何（自行选择的）后继版本。
+
+本文档基于使用的目的发布，但并不负责任何担保；亦没有用于商业目的或某一特定目的的任何暗示性的担保。
+更多的细节请查看~GNU~通用公共许可证。
+
+你应该随本文档同时收到一份~GNU~通用公共许可证的拷贝；如果没有，请发信
+给自由软件协会，地址：675 Mass Ave, Cambridge, MA 02139, USA。
+
+\endgroup
