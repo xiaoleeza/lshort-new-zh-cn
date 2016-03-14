@@ -1,0 +1,374 @@
+\chapter{特色工具和功能}
+
+\begin{intro}
+本章介绍一些特色的 \LaTeX\ 辅助功能。前两个功能 \hologo{BibTeX} 和 makeindex 依靠一些辅助程序自动生成参考文献、索引等；
+之后的使用颜色、超链接等则令我们生成美观易用的电子文档。电子文档的特点在 \pkg{beamer} 里发挥到极致，它令 \LaTeX\ 能够做出不逊于
+PowerPoint 的用于幻灯演示的文档。
+\end{intro}
+
+\section{参考文献和 \hologo{BibTeX} 工具}
+
+\subsection{基本的参考文献和引用}
+
+\LaTeX\ 提供的参考文献和引用方式比较原始，需要用户自行书写参考文献列表。不同学术论文对参考文献列表的格式要求不一样，
+自行书写是一件极其头疼的事情。相关的命令我们只作最简单的介绍。
+
+\LaTeX\ 提供了最基本的 \cmd{cite} 命令用于在正文中引用参考文献：
+\begin{command}
+\cmd{cite}\marg{citation}
+\end{command}
+
+\cmd{cite} 带一个可选参数，为引用的编号之后加上额外的内容，如 \cmd{cite} \oarg*{page 22} 可能得到形如 [13, page 22] 这样的引用。
+
+参考文献由 \env{thebibliography} 环境包裹，每条参考文献由 \cmd{bibitem} 开头，其后是参考文献本身的内容：
+\begin{command}
+\cmd{bibitem}\oarg{item number}\marg{citation}
+\end{command}
+
+其中 \Arg{citation} 是 \cmd{cite} 用以引用的一个标签，类似交叉引用里的 \cmd{label}。
+\Arg{item number} 自定义参考文献的序号，如果省略，则按自然排序给定序号。
+
+\env{thebibliography} 环境带一个参数，用以设定 \cmd{cite} 命令生成的引用编号的最大宽度，
+如 99 意味着不超过两位数字。通常设定为与参考文献的数目一致。
+
+\begin{verbatim}
+Partl~\cite{pa} has proposed that \ldots
+
+\begin{thebibliography}{99}
+\bibitem{pa} H.~Partl: \emph{German \TeX}, 
+  TUGboat Volume~9, Issue~1 (1988)
+\end{thebibliography}
+\end{verbatim}
+
+\subsection{\hologo{BibTeX} 数据库}
+
+\hologo{BibTeX} 是最为流行的参考文献数据组织格式之一。它的出现让我们摆脱手写参考文献条目的麻烦。我们还可以通过参考文献格式的支持，
+让同一份 \hologo{BibTeX} 数据库生成不同格式的参考文献列表。我们首先简单介绍 \hologo{BibTeX} 数据库，之后介绍如何将数据库利用在 \LaTeX\ 中。
+
+\hologo{BibTeX} 数据库以 \texttt{.bib} 作为扩展名，其内容是若干个文献条目，每个条目的格式为：
+\begin{command}
+\texttt @\Arg{type}\texttt\{\Arg{citation}, \\
+\qquad\Arg{key1} = \marg{value1}, \\
+\qquad\Arg{key2} = \marg{value2}, \\
+\qquad\ldots\\
+\texttt\}
+\end{command}
+
+其中 \Arg{type} 为参考文献的类型，如 \texttt{article} 为学术论文，\texttt{book} 为书籍，\texttt{in\-collection} 为论文集中的某一篇，等等。
+\Arg{citation} 为 \cmd{cite} 命令所用的参考文献的标签。在 \Arg{citation} 之后为条目里的各个数据项，以 \Arg{key} = \marg{value} 的形式组织。
+
+我们在此简单列举学术论文里使用较多的 \hologo{BibTeX} 文献条目格式。所有条目格式参考 \CTAN|biblio/bibtex/base/btxdoc.pdf|。
+\begin{description}
+  \item[\texttt{article}] 学术论文，必需数据项有 author, title, journal, year; 可选数据项包括 volumn, issue, number, pages, doi 等；
+  \item[\texttt{book}] 书籍，必需数据项有 author/editor, title, publisher, year; 可选数据项包括 volumn/number, series, address 等；
+  \item[\texttt{incollection}] 论文集中的一篇，必需数据项有 author, title, booktitle, publisher, year; 可选数据项包括 editor, volumn/number, chapter, pages, address 等；
+  \item[\texttt{inbook}] 书中的一章，必需数据项有 author/editor, title, chapter/pages, publisher, year; 可选数据项包括 volumn/number, series, address 等。
+\end{description}
+
+多数时候，我们无需自己手写 \hologo{BibTeX} 文献条目。从 Google Scholar 或者期刊/数据库的网站上都能够导出 \hologo{BibTeX} 文献条目，
+老牌的文献管理软件 EndNote 也支持生成 \hologo{BibTeX} 格式的数据库。开源软件 JabRef 甚至支持 \hologo{BibTeX} 文献条目的导入、导出和管理。
+
+\subsection{使用 \hologo{BibTeX} 排版参考文献}\label{subsec:bibtex-use}
+
+现在我们来看如何利用 \hologo{BibTeX} 数据库生成参考文献和引用。
+
+第一步：我们当然需要一份 \hologo{BibTeX} 数据库，假设起名为 \texttt{books.bib} ，和我们的 \LaTeX\ 源代码\textbf{一般位于同一个目录下}。
+
+\begin{sourcecode}[htp]
+\begin{Verbatim}
+@book{Lamport1994,
+  title = {{\LaTeX:} A Document Preparation System},
+  author = {Leslie Lamport},
+  publisher = {Addison-Wesley},
+  address = {Reading, Massachusetts},
+  year = {1994},
+  edition = {2nd}
+}
+@book{Mittelbach2004,
+  title = {The {\LaTeX} Companion},
+  author = {Frank Mittelbach and Michel Goossens and 
+  Johannes Braams and David Carlisle and Chris Rowley},
+  publisher = {Addison-Wesley},
+  address = {Reading, Massachusetts},
+  year = {2004},
+  edition = {2nd}
+}
+\end{Verbatim}
+\caption{\hologo{BibTeX} 数据库示例 \texttt{books.bib}。}
+\end{sourcecode}
+
+第二步：在源代码中添加必要的命令。假设源代码的名称为 \texttt{demo.tex}。首先需要的是在\textbf{导言区}设定参考文献的格式：
+\begin{command}
+\cmd{bibliographystyle}\marg{bst-name}
+\end{command}
+
+其中 \Arg{bst-name} 为格式文件的名称。\hologo{BibTeX} 提供了几个预定义的格式，如 plain, unsrt, alpha 等。
+一些学术论文的模板会提供自有的格式文件，以 \texttt{.bst} 作为扩展名，同样和 \LaTeX\ 源代码\textbf{放在同一个目录下}。
+
+其次就是在正文中引用参考文献了。\hologo{BibTeX} 程序在生成参考文献列表的时候，通常只列出你用 \cmd{cite} 命令引用的那些。
+如果需要列出没有被引用的文献，则需要 \cmd{nocite}\marg{citation} 命令；而 \cmd{nocite}\marg*{*} 则让所有未引用的参考文献都列出。
+
+再次，在你需要列出参考文献的位置，使用 \cmd{biblio\-graphy} 命令代替 \env{the\-biblio\-graphy} 环境：
+\begin{command}
+\cmd{bibliography}\marg{bib-name}
+\end{command}
+
+其中 \Arg{bib-name} 是 \hologo{BibTeX} 数据库的文件名，\textbf{不要带 \texttt{.bib} 扩展名}。
+
+\begin{sourcecode}[htp]
+\begin{Verbatim}
+\documentclass{article}
+\bibliographystyle{plain}
+\begin{document}
+\section{Some words}
+Some excellent books, for example, \cite{Lamport1994} 
+and \cite{Mittelbach2004} \ldots
+
+\bibliography{books}
+\end{document}
+\end{Verbatim}
+\caption{利用 \texttt{books.bib} 生成参考文献的源代码 \texttt{demo.tex}。}
+\end{sourcecode}
+
+注意：\cmd{bibliographystyle} 和 \cmd{bibliography} 命令缺一不可，没有这两个命令，使用 \hologo{BibTeX} 生成参考文献列表的时候会报错。
+
+第三步：写好了以上两个文件之后，我们就可以开始编译了。
+\begin{enumerate}
+  \item 首先使用 \texttt{latex} 或 \texttt{pdflatex} 等命令编译 \LaTeX\ 源代码 \texttt{demo.tex}；
+  \item 接下来用 \texttt{bibtex} 命令处理 \texttt{demo.aux} 文件记录的参考文献格式、引用条目等信息。
+  \texttt{bibtex} 命令处理完毕后会生成 \texttt{demo.bbl} 文件，内容就是一个 \env{thebibliography} 环境；
+  \item 然后再使用\textbf{两遍} \texttt{latex} 或 \texttt{pdflatex} 等命令编译源代码，读入参考文献并正确生成引用。
+\end{enumerate}
+
+整个过程使用的命令如下（可以略去扩展名）：
+\begin{verbatim}
+pdflatex demo
+bibtex demo
+pdflatex demo
+pdflatex demo
+\end{verbatim}
+
+我们当然也可以换成 \texttt{xelatex} 命令；如果使用 \texttt{latex + dvipdfmx} 命令，则 \texttt{dvipdfmx} 命令放在最后，相当于先后使用
+\texttt{latex}, \texttt{bibtex}, \texttt{latex}, \texttt{latex}, \texttt{dvipdfmx}。
+
+\subsection{\pkg{natbib} 宏包}
+
+时下许多学术期刊比较喜欢使用人名——年份的引用方式，形如(\emph{Alice et~al.}, 2005)。
+\pkg{natbib} 宏包提供了对这种“自然”引用方式的处理。
+
+\pkg{natbib} 宏包在正文中支持两种引用方式：
+\begin{command}
+\cmd{citep}\marg{citation} \\
+\cmd{citet}\marg{citation}
+\end{command}
+
+它们分别生成形如(\emph{Alice et~al.}, 2005) 和 \emph{Alice et~al.}(2005) 的人名——年份引用。
+
+\pkg{natbib} 宏包同样也支持数字引用，并且支持将引用的序号压缩，例如：
+\begin{verbatim}
+\usepackage[numbers,sort&compress]{natbib}
+\end{verbatim}
+用以上选项调用 \pkg{natbib} 宏包后，连续引用多篇文献时，会生成形如 [3-7] 的引用而不是 [3, 4, 5, 6, 7]。
+
+\pkg{natbib} 宏包还有更多选项和用法，比如默认的引用是用小括号包裹的，可以为宏包添加 \texttt{square} 选项改为中括号；
+再比如 \cmd{citep} 命令也支持可选参数，为引用前后都添加额外内容。这里不再赘述，请参考 \pkg{natbib} 宏包的帮助文档。
+
+\section{索引和 makeindex 工具}\label{sec:index}
+
+书籍和大文档通常用索引来归纳关键词，方便用户查阅。\LaTeX\ 借助配套的 makeindex 程序完成对索引的排版。
+
+\subsection{使用 makeindex 工具的方法}\label{subsec:makeidx}
+
+要使用索引，须经过这么几个步骤（仍设源代码名为 \texttt{demo.tex}）：
+
+第一步，在 \LaTeX\ 源代码的导言区加载 \pkg{makeidx} 宏包，并使用 \cmd{makeindex} 命令开启索引的收集：
+\begin{verbatim}
+\usepackage{makeidx}
+\makeindex
+\end{verbatim}
+
+第二步，在正文中需要索引的地方使用 \cmd{index} 命令。\cmd{index} 命令的参数写法详见下一小节；
+并在需要输出索引的地方（如源代码所有章节之后）使用 \cmd{printindex} 命令。
+
+第三步，用 \hologo{pdfLaTeX} 等命令编译源代码 \texttt{demo.tex}，编译过程中产生索引记录文件 \texttt{demo.idx}。
+
+第四步，用 makeindex 程序处理 \texttt{demo.idx}，生成用于排版的索引列表文件 \texttt{demo.ind}。
+
+第五步，再次编译源代码 \texttt{demo.tex}，正确生成索引列表。
+
+\subsection{索引项的写法}\label{subsec:index-entry}
+
+添加索引项的命令为：
+\begin{command}
+\cmd{index}\marg{index entry}
+\end{command}
+
+其中 \Arg{index entry} 为索引项，写法由表 \ref{tbl:index-entry} 汇总。其中 \texttt!、\texttt @ 和 \texttt| 
+为特殊符号，如果要向索引项直接输出这些符号，需要加前缀 \texttt"；而 \texttt" 需要输入两个引号 \texttt{""} 才能输出。
+
+\begin{table}[tp]
+\centering
+\caption{索引项的写法列表。}\label{tbl:index-entry}
+\begin{tabular}{@{}lll@{}}
+  \hline
+  \textbf{举例} &\textbf{索引项} &\textbf{备注}\\
+  \hline
+  \multicolumn{3}{l}{普通索引} \\
+  \hline
+  \verb+hello+              & hello, 1             & 普通索引 \\ 
+  \hline
+  \multicolumn{3}{@{}l@{}}{分级索引，以 \texttt! 分隔，最多支持三级} \\
+  \hline
+  \verb+hello+              & hello, 1             & 一级索引 \\ 
+  \verb+hello!Peter+        &\hspace*{2ex}Peter, 3 & 二级索引 \\ 
+  \verb+hello!Peter!Jack+   &\hspace*{4ex}Jack,  3 & 三级索引 \\ 
+  \hline
+  \multicolumn{3}{@{}l@{}}{格式化索引，形式为 \Arg{alpha}\texttt @\Arg{format}} \\
+  \multicolumn{3}{@{}l@{}}{\Arg{alpha}为纯字母，用来排序} \\
+  \multicolumn{3}{@{}l@{}}{\Arg{format}为索引的格式，可以包括 \LaTeX 代码和公式} \\
+  \hline
+  \verb+Mobius@M\"obius+    & M\"obius, 2          & 输出重音 \\
+  \verb+alpha@$\alpha$+     & $\alpha$, 7          & 输出公式 \\
+  \verb+bold@\textbf{bold}+ & \textbf{bold}, 12    & 输出粗体 \\
+  \hline
+  \multicolumn{3}{@{}l@{}}{页码范围} \\
+  \hline
+  \verb+morning|(+          & morning, 6-7         & 范围索引的开头 \\
+  \verb+morning|)+          &                      & 范围索引的结尾 \\
+  \hline
+  \multicolumn{3}{@{}l@{}}{格式化索引页码} \\
+  \hline
+  \verb+Jenny|textbf+       & Jenny, \textbf{3}       & 调用 \cmd{textbf} 加粗页码 \\
+  \verb+Joe|see{Jenny}+     & Joe, \textit{see} Jenny & 调用 \cmd{see} 生成特殊形式 \\
+  \verb+Joe|seealso{Jenny}+ & Joe, \textit{see also} Jenny & 调用 \cmd{seealso} 生成特殊形式 \\
+  \hline
+\end{tabular}
+\end{table}
+
+读者可以钻研一下一个较为复杂的，结合多级索引、索引格式、页码格式等的示例。但在自己使用时，仍然要遵循“简单的就是最好的”原则：
+\begin{verbatim}
+Test index.
+\index{Test@\textsf{""Test}|(textbf}
+\index{Test@\textsf{""Test}!sub@"|sub"||see{Test}}
+\newpage
+Test index.
+\index{Test@\textsf{""Test}|)textbf}
+\end{verbatim}
+
+\section{使用颜色}\label{sec:color}
+
+\def\showcolor#1{\texttt{#1} \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1em height 1ex}}\endgroup}
+
+\LaTeX\ 原生不支持颜色，它依赖 \texttt{dvipdfmx} 或者 \hologo{pdfLaTeX} / \hologo{XeLaTeX} 等命令输出带颜色的内容。
+为了使用颜色，须调用 \pkg{color} 宏包或者 \pkg{xcolor} 宏包。
+
+\subsection{颜色的表达方式}
+
+调用 \pkg{color} 宏包后，我们就可以用如下命令切换颜色：
+\begin{command}
+\cmd{color}\oarg{color-mode}\marg{code} \\
+\cmd{color}\marg{color-name}
+\end{command}
+
+颜色的表达方式有两种，其一是使用色彩模型和色彩代码，代码用 $0\sim1$ 的数字代表成分的比例：
+\begin{example}
+\large\sffamily
+{\color[gray]{0.6} 
+  60\% 灰色} \\
+{\color[rgb]{0,1,1} 
+  青色} 
+\end{example}
+
+\pkg{color} 宏包支持 \texttt{rgb}、\texttt{cmyk} 和 \texttt{gray} 模型，\pkg{xcolor} 支持更多的模型如 \texttt{hsb} 等。
+
+还可以直接使用名称代表颜色，前提是已经定义了颜色名称（没定义的话会报错）：
+\begin{example}
+\large\sffamily
+{\color{red} 红色} \\
+{\color{blue} 蓝色} 
+\end{example}
+
+\pkg{color} 宏包\textbf{仅定义了八种颜色名称}：
+\begin{center}
+\begin{tabular}{rrrr}
+ \hline
+ \showcolor{black} & \showcolor{red} & \showcolor{green} & \showcolor{blue} \\
+ \showcolor{white} & \showcolor{cyan} & \showcolor{magenta} & \showcolor{yellow} \\
+ \hline
+\end{tabular}
+\end{center}
+
+\pkg{xcolor} 宏包定义了 19 种颜色名称，并且还支持将颜色通过表达式混合或互补：
+\begin{example}
+\large\sffamily
+{\color{red!40} 40\% 红色}\\
+{\color{blue}蓝色
+\color{blue!50!black}蓝黑
+\color{black}黑色}\\
+{\color{-red}红色的互补色}
+\end{example}
+
+我们还可以通过命令自定义颜色名称，注意这里的 \Arg{color-mode} 是必选参数：
+\begin{command}
+\cmd{definecolor}\marg{color-name}\marg{color-mode}\marg{code}
+\end{command}
+
+如果调用 \pkg{color} 或 \pkg{xcolor} 宏包时使用 \texttt{dvipsnames} 选项，就有额外的 68 种颜色名称可用。
+\pkg{xcolor} 宏包还支持通过其它选项载入更多颜色名称。限于篇幅不展开介绍，详情请参考 \pkg{xcolor} 宏包的手册。
+
+\subsection{带颜色的文本和盒子}
+
+原始的 \cmd{color} 命令类似于字体命令 \cmd{bfseries}，它使之后排版的内容全部变成指定的颜色，
+所以直接使用时通常要加花括号分组。\pkg{color} / \pkg{xcolor} 宏包都定义了一些方便用户使用的带颜色元素。
+
+输入带颜色的文本可以用类似 \cmd{textbf} 的命令：
+\begin{command}
+\cmd{textcolor}\oarg{color-mode}\marg{code}\marg{text} \\
+\cmd{textcolor}\marg{color-name}\marg{text}
+\end{command}
+
+以下命令构造一个带背景色的盒子，\Arg{material} 为盒子中的内容：
+\begin{command}
+\cmd{colorbox}\oarg{color-mode}\marg{code}\marg{material} \\
+\cmd{colorbox}\marg{color-name}\marg{material}
+\end{command}
+
+以下命令构造一个带背景色和有色边框的盒子，\Arg{fcode} 或 \Arg{fcolor-name} 用于设置边框颜色：
+\begin{command}
+\cmd{fcolorbox}\oarg{color-mode}\marg{fcode}\marg{code}\marg{material} \\
+\cmd{fcolorbox}\marg{fcolor-name}\marg{color-name}\marg{material}
+\end{command}
+
+\begin{example}
+\sffamily
+文字用\textcolor{red}{红色}强调\\
+\colorbox[gray]{0.95}{浅灰色背景} \\
+\fcolorbox{blue}{yellow}{%
+ \textcolor{blue}{蓝色边框+文字，%
+  白色背景}
+}
+\end{example}
+
+\section{使用超链接}
+
+PDF 文档格式是现今最流行的电子文档格式，而电子文档的最实用的功能之一就是链接功能。
+\LaTeX\ 中实现这一功能的 \pkg{hyperref} 宏包堪称 \LaTeX\ 里最强大也最复杂的宏包。
+
+\subsection{\pkg{hyperref} 宏包}
+
+\pkg{hyperref} 宏包涉及到的链接涉及到 \LaTeX\ 的每一个角落——目录、引用、脚注、索引、参考文献等等，
+凡是有可能需要链接其它地方的文档元素，几乎都被 \pkg{hyperref} 包装起来。
+但这也使得 \pkg{hyperref} 宏包与其它宏包的冲突机会大大增加，虽然宏包已经尽力解决各方面的兼容性，但仍不能面面俱到。
+为减少冲突的可能性，习惯上将 \pkg{hyperref} 宏包\textbf{放在其它宏包之后调用}。
+
+\subsection{超链接}
+
+\subsection{PDF 书签}
+
+\subsection{PDF 文档属性}
+
+\section{\textsf{beamer} 幻灯片宏包}
+
+\leavevmode\nobreakspace
+
+\endinput

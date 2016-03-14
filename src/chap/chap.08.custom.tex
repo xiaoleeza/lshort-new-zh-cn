@@ -1,4 +1,4 @@
-\chapter{自定义 \LaTeX 命令和功能}
+\chapter{自定义 \LaTeX\ 命令和功能}
 
 \begin{intro}
 读到这一章之前，如果你确保掌握了前几章的知识并熟练运用，你已经能制作出内容和形式都相当丰富的文档了。
@@ -9,7 +9,7 @@
 不过作为入门手册，这些知识仍是不全面的。如果你不满足于此，需要参考更多资料。
 \end{intro}
 
-\section{自定义命令和环境}
+\section{自定义命令和环境}\label{sec:newcommands}
 
 你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个矩形框里，
 并且出现在本书最后的索引中。我并没有直接使用基础的 \LaTeX\ 命令
@@ -18,17 +18,15 @@
 
 \begin{example}
 \begin{command}
-\ci{dum}
+\cmd{dum}
 \end{command}
 \end{example}
 
-在这个例子中，我使用了一个新的环境 \ei{command}。这个环境负责在命令的周围画出一个矩形框。
-同时我还使用了一个命令：\ci{ci}， 这个命令负责输出命令的名字，
-并且在索引中添加相应的条目。你可以在本书最后的索引中查找命令 \cmd{dum}，
-然后你会发现有一个 \cmd{dum} 的条目，这个条目中列出了 \cmd{dum} 命令所在的所有位置的页码。
+在这个例子中，我使用了一个新的环境 \env{command}。这个环境负责在命令的周围画出一个矩形框。
+同时我还使用了一个命令：\cmd{dum}， 这个命令负责输出命令的名字，包括前面的反斜杠。
 
 一旦我不再喜欢在一个矩形框中排版命令，我可以很容易地改变 \env{command} 环境的定义，
-来创建新的外观。相比于追踪并修改所有使用原始的 \LaTeX{} 命令在文字周围画框的地方，这种做法容易得多。
+来创建新的外观，而不是挨个修改每个画着矩形框的命令示例。
 
 \subsection{定义新命令}
 
@@ -161,5 +159,7 @@ My humble subjects \ldots
 \begin{command}
 \cmd{LoadClass}\oarg*{\Arg{option1},\Arg{option2}}\marg{package name}
 \end{command}
+
+\section{计数器}\label{sec:counters}
 
 \endinput

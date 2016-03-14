@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 内容：lshort 文档用到的宏包和
+% 内容：lshort 文档用到的宏包和命令
 % $Id: lshort.sty,v 1.2 2003/03/19 20:57:45 oetiker Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -8,11 +8,12 @@
 %
 % 基本工具宏包
 % 
-\RequirePackage{hologo,makeidx,verbatim,fancyvrb,layouts}
-\RequirePackage{lastpage,float,tocbibind,enumitem}
+\RequirePackage{xcolor,hologo,makeidx,verbatim,fancyvrb,layouts}
+\RequirePackage{float,enumitem}
+\RequirePackage[nottoc]{tocbibind}
 \RequirePackage{amsmath,amsthm}
-\RequirePackage[all]{xy}
-%\RequirePackage{pgfbaseplot}
+\RequirePackage[hmargin=1.25in,vmargin=1in]{geometry}
+%\RequirePackage[all]{xy}
 %\RequirePackage{tikz}
 %\usetikzlibrary{%
 %  arrows,%
@@ -61,7 +62,7 @@
 %
 % 字体和符号宏包
 % 
-\RequirePackage{lmodern,amssymb,latexsym,textcomp,mathrsfs,eucal}
+\RequirePackage{lmodern,amssymb,latexsym,textcomp,mathrsfs,euscript}
 \RequirePackage[LGR,T1]{fontenc}
 % marvosym 宏包已经解决了命名冲突，不需要再 Hack 了。
 % \let\org@Rightarrow\Rightarrow
@@ -69,10 +70,10 @@
 % \let\MVRightarrow\Rightarrow
 % \let\Rightarrow\org@Rightarrow
 
-%\newcommand{\pozhehao}{\kern0.5ex\rule[.2\baselineskip]{1.5em}{.4pt}\kern0.5ex}
-%\providecommand*\pozhehao{—\nobreak —}
 \RequirePackage[colorlinks,hyperindex]{hyperref}
-\hypersetup{pdfstartview=FitH}
+\hypersetup{bookmarksnumbered=true,pdfstartview=FitH}
+
+\raggedbottom
 
 %
 % 不依赖 fancyhdr 的页眉页脚设定
@@ -82,22 +83,22 @@
 \newdimen\headrulewidth \headrulewidth=0.4pt
 \def\ps@fancyplain{%
   \let\@oddfoot\@empty\let\@evenfoot\@empty
-  \def\@evenhead{\hss\vbox to \headheight{%
+  \def\@evenhead{\vbox to \headheight{%
     \hb@xt@\headwidth{\bfseries\thepage\hfil\leftmark}%
     \vss\hrule\@height\headrulewidth}}%
   \def\@oddhead{\vbox to \headheight{%
     \hb@xt@\headwidth{\bfseries\rightmark\hfil\thepage}%
-    \vss\hrule\@height\headrulewidth}\hss}%
+    \vss\hrule\@height\headrulewidth}}%
   \let\@mkboth\markboth
-  \def\chaptermark##1{\markboth{##1}{}}
-  \def\sectionmark##1{\markright{\thesection{} ##1}}
+  \def\chaptermark##1{\markboth{\if@mainmatter\CTEXthechapter\fi\quad ##1}{}}
+  \def\sectionmark##1{\markright{\S\thesection\quad ##1}}
 }
+%\let\ps@plain\ps@fancyplain
 \pagestyle{fancyplain}
 
 %
 % 改写 theindex 环境令其能够正确链接
 %
-
 \renewenvironment{theindex}%
   {\if@twocolumn
      \@restonecolfalse
@@ -129,7 +130,7 @@
 %
 \renewcommand{\Email}{\begingroup \def\UrlLeft{<}\def\UrlRight{>} \urlstyle{tt}\Url}     % email address
 \def\mailto|#1|{\href{mailto:#1}{\Email|#1|}}        % url to mail somewhere
-\newcommand{\CTANref}{\begingroup \urlstyle{tt}\Url}     % 
+\def\CTANref{\begingroup \urlstyle{tt}\Url}
 \def\CTAN|#1|{\href{http://mirrors.tuna.tsinghua.edu.cn/CTAN/#1}{\CTANref|CTAN://#1|}}
 \newcommand\Newsgroup{\begingroup \urlstyle{tt}\Url} % newsgroup
 
@@ -142,22 +143,29 @@
 \newcommand{\contrib}[3]{#1\quad\mailto|#2|{\small\\\quad\textit{#3}}\\[1ex]}
 
 %
-% 示意长度
-%
-\newcommand{\demowidth}[1]{\rule{0.3pt}{1.3ex}\rule{#1}{0.3pt}\rule{0.3pt}{1.3ex}}
+% PDF 书签中对符号的特殊处理
+% 
+\ifx\hypersetup\undefined\else
+  \pdfstringdefDisableCommands{\edef\ci{\textbackslash}}%
+  \pdfstringdefDisableCommands{\edef\sim{\textasciitilde}}%
+  \pdfstringdefDisableCommands{\edef\circ{\textdegree}}%
+  \pdfstringdefDisableCommands{\edef\ldots{...}}%
+  \pdfstringdefDisableCommands{\def\AmS{AMS}}%
+\fi
 
 %
-% 展示命令
+% 示意长度
 %
-\newenvironment{command}%
-  {\begin{flushleft}\renewcommand*\arraystretch{1.2}\begin{tabular}{|l|}
-    \hline}
-  {\\%
-    \hline\end{tabular}\end{flushleft}}
+\newcommand{\demowidth}[1]{\rule{0.4pt}{1.2ex}\rule{#1}{0.4pt}\rule{0.4pt}{1.2ex}}
+
+%
+% 命令和环境的写法
+%
 \DeclareRobustCommand*\cmd[1]{\texttt{\char`\\#1}}
 \DeclareRobustCommand*\env[1]{\texttt{#1}}
 \DeclareRobustCommand*\pkg[1]{\textsf{#1}}
 \DeclareRobustCommand*\cls[1]{\textsf{#1}}
+\DeclareRobustCommand*\shellcmd[1]{\texttt{#1}}
 \DeclareRobustCommand*\marg{\@ifstar\@marg\@margmeta}
 \DeclareRobustCommand*\oarg{\@ifstar\@oarg\@oargmeta}
 \DeclareRobustCommand*\Arg[1]{\@meta{#1}}
@@ -167,6 +175,13 @@
 \def\@margmeta#1{\@marg{\@meta{#1}}}
 \def\@meta#1{$\m@th\langle$\textnormal{\textit{#1}}$\m@th\rangle$}
 
+% \def\pkgindex#1{\index{#1@\pkg{#1} 宏包}
+% \def\clsindex#1{\index{#1@\cls{#1} 文档类}
+% \def\cmdindex#1{\index{#1@\cmd{#1}}
+% \def\envindex#1{\index{#1@\env{#1} 环境}
+% \def\shellindex#1{\index{#1@\shell{#1} 程序/命令}
+% \def\pdflatex{\shellcmd{pdflatex}}
+% \def\xelatex{\shellcmd{xelatex}}
 %
 % 格式化输出 LaTeX 命令等并生成索引
 %
@@ -207,95 +222,60 @@
 %
 % 每章最前的介绍内容环境 intro
 %
-\newenvironment{intro}{\sffamily}{\vspace*{2ex minus 1.5ex}}
-\newcommand{\secby}[2]{\nopagebreak\par\addvspace{-1.5ex}%
-     \vskip -\parskip\noindent{\tiny By #1 \mailto|#2|}\par\nopagebreak%
-     \addvspace{1ex plus 0.8ex minus 0.2ex}% 
-     \vskip -\parskip\noindent\ignorespaces}
-%
-% PDF 书签中对符号的特殊处理
-% 
-\ifx\hypersetup\undefined\else
-  \pdfstringdefDisableCommands{\edef\ci{\textbackslash}}%
-  \pdfstringdefDisableCommands{\edef\sim{\textasciitilde}}%
-  \pdfstringdefDisableCommands{\edef\circ{\textdegree}}%
-  \pdfstringdefDisableCommands{\edef\ldots{... }}%
-\fi
+\newenvironment{intro}
+  {\advance\leftskip\parindent\advance\rightskip\parindent\sffamily}%
+  {\vspace*{2ex minus 1.5ex}}
 
-% 
-% 文本和数学符号列表中的宏
 %
-% <TODO>
-% 将可能发生冲突的宏名用别的名称代替。
-%\newcommand{\X}[1]{$#1$&\texttt{\string#1}\hspace*{1ex}}
-%% normal text .... 
-%\newcommand{\SC}[1]{#1&\texttt{\string#1}\hspace*{1ex}}
-%% for accents in text mode
-%\newcommand{\A}[1]{#1&\texttt{\string#1}\hspace*{1ex}}
-%% \B 在 fontspec 宏包 xunicode 中定义，因而冲突。
-%% \newcommand{\B}[2]{#1#2&\texttt{\string#1{} #2}\hspace*{1ex}}
-%\renewcommand{\B}[2]{#1#2&\texttt{\string#1{} #2}\hspace*{1ex}}
-%\newcommand{\W}[2]{$#1{#2}$&
-%  \texttt{\string#1}\texttt{\string{\string#2\string}}\hspace*{1ex}}
-%\newcommand{\Y}[1]{$\big#1$ &\texttt{\string#1}}  %
-%% Mathsymbol Table
-%\newsavebox{\symbbox}
-%\newenvironment{symbols}[1]%
-%{\par\vspace*{2ex}
-%\renewcommand{\arraystretch}{1.1}
-%\begin{lrbox}{\symbbox}
-%\hspace*{4ex}\begin{tabular}{@{}#1@{}}}%
-%{\end{tabular}\end{lrbox}\makebox[\textwidth]{\usebox{\symbbox}}\par\medskip}
-% </TODO>
+% 展示命令
+%
+\newenvironment{command}%
+  {\trivlist\item\relax%
+  \renewcommand*\arraystretch{1.2}%
+  \hskip\parindent%
+  \begin{tabular}{|l|}
+    \hline}
+  {\\ \hline
+  \end{tabular}
+  \endtrivlist}
 
 % 
 % 示例环境 example
-% 环境中的代码被 verbatim 环境处理到一个临时文件中，
-% 再从临时文件中读取，分别生成代码盒子
+% 环境中的代码被 verbatim 环境处理到一个临时文件中
+% 再从临时文件中读取，分别生成代码盒子和示例盒子
 % 
 \newwrite\example@out
-\newcounter{exacnt}
-\setcounter{exacnt}{1}
 \newlength\savefboxrule
 \newlength\savefboxsep
-\newlength\outdent
-\setlength\outdent{1cm}
-\addtolength{\headwidth}{\outdent}
 \newenvironment{example}%
-{\begingroup% Lets Keep the Changes Local
-  \@bsphack
-  \immediate\openout \example@out \jobname.exa
+{\begingroup\@bsphack
+  \immediate\openout\example@out lshort-example.tex
   \let\do\@makeother\dospecials\catcode`\^^M\active
-  \def\verbatim@processline{%
-    \immediate\write\example@out{\the\verbatim@line}}%
+  \def\verbatim@processline{\immediate\write\example@out{\the\verbatim@line}}%
   \verbatim@start}%
 {\immediate\closeout\example@out\@esphack\endgroup%
-  \refstepcounter{exacnt}
-  \vskip\topsep\noindent
-  \expandafter\ifx\csname r@exa\theexacnt\endcsname\relax\else
-    \ifodd\HyPsd@pageref{exa\theexacnt}\hspace*{0pt}\else\hspace*{-\outdent}\fi%
-  \fi
-  \rlap{\hb@xt@\headwidth{%
-    \begin{minipage}[c]{0.475\headwidth}%
-      \small\verbatiminput{\jobname.exa}%
-    \end{minipage}%
-    \hfill
-    \setlength{\savefboxrule}{\fboxrule}%
-    \setlength{\fboxrule}{0.4pt}%
-    \setlength{\savefboxsep}{\fboxsep}%
-    \setlength{\fboxsep}{3mm}%
-    \fbox{%
-    \begin{minipage}{0.425\headwidth}%
+  \trivlist\item\relax
+  \setlength{\savefboxrule}{\fboxrule}%
+  \setlength{\savefboxsep}{\fboxsep}%
+  \setlength{\fboxsep}{0.025\textwidth}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox[gray]{0}{0.95}{%
+    \begin{minipage}[c]{0.425\textwidth}%
       \setlength{\fboxrule}{\savefboxrule}%
       \setlength{\fboxsep}{\savefboxsep}%
-      \setlength{\fboxrule}{0.4pt}%
-      \setlength{\parskip}{1ex plus 0.4ex minus 0.2ex}%
-      \small\input{\jobname.exa}%
+      \small\verbatiminput{lshort-example.tex}%
     \end{minipage}%
-    }%
-  }}%
-  \vskip\topsep
-  \label{exa\theexacnt}
+  }%
+  \hfill%
+  \fbox{%
+    \begin{minipage}[c]{0.425\textwidth}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \setlength{\parskip}{1ex plus 0.4ex minus 0.2ex}%
+      \normalsize\input{lshort-example.tex}%
+    \end{minipage}%
+  }%
+  \endtrivlist
 }
 
 %
@@ -305,6 +285,6 @@
 \fvset{fontsize=\small,frame=lines}
 \newfloat{sourcecode}{tbp}{los}[chapter]
 \floatname{sourcecode}{源代码}
-\def\listofsources{\listof{sourcecode}{源代码示例列表}\addcontentsline{toc}{chapter}{源代码示意列表}}
+\def\listofsources{\listof{sourcecode}{源代码示例列表}}
 
 \endinput
