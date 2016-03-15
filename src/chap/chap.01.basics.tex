@@ -36,36 +36,46 @@
 
 \begin{itemize}
   \item 专业的排版输出，产生的文档看上去就像“印刷品”一样。
+
   \item 方便而强大的数学公式排版能力，无出其右。
+
   \item 绝大多数时候，用户只需掌握一些简单易懂的命令来组织文档结构，无需（或很少）操心文档的版面设计。
+
   \item 复杂的专业排版元素，如脚注、交叉引用、参考文献、目录等很容易生成。
+
   \item 强大的扩展性，世界各地的人开发了数以千计的 \LaTeX\ 宏包用于补充和扩展 \LaTeX\ 的功能。
-  本手册附录中的 \ref{sec:pkg-list} 小节可见一瞥。更多的宏包参考 \companion 。
+  本手册附录中的 \ref{sec:pkg-list} 小节可见一瞥。更多的宏包参考 \textit{The \LaTeX\ companion}\cite{companion}。
+
   \item \LaTeX\ 促使用户写出结构良好的文档——而这也是 \LaTeX\ 存在的初衷。
+
   \item \LaTeX\ 依赖的 \TeX\ 排版引擎和其它软件是跨平台、免费、开源的。
-  无论用户使用的是 Windows，OS X，GNU/Linux 还是 FreeBSD 系统，都能轻松获得并使用这一强大的排版工具。
+  无论用户使用的是 Windows，OS X，GNU/Linux 还是 FreeBSD 等系统，都能轻松获得并使用这一强大的排版工具。
 \end{itemize}
 
 \LaTeX\ 的缺点也是显而易见的：
 \begin{itemize}
-  \item 入门门槛高。本手册的副标题叫做 “\pageref{lshort-minutes}~分钟了解~\LaTeXe ”，实际上 \pageref{lshort-minutes} 是本手册正文部分的页数。
-  如果你以平均一页一分钟的速度看完了本手册，你只是粗窥门径而已，离学会它还很远。
-  \item 排查错误困难。作为一个靠写代码工作的排版工具，\LaTeX\ 使用的宏语言比 C++ 或 Python 等编程语言的调试难度多得多。它虽然能够提示错误，
-  但不提供 Debug 的机制，有时错误提示还很难理解。
+  \item 入门门槛高。本手册的副标题叫做 “\pageref{lshort-minutes}~分钟了解 \LaTeXe ”，
+  实际上 \pageref{lshort-minutes} 是本手册正文部分的页数。如果你以平均一页一分钟的速度看完了本手册，
+  你只是粗窥门径而已，离学会它还很远。
+
+  \item 排查错误困难。作为一个靠写代码工作的排版工具，\LaTeX\ 使用的宏语言比 C++ 或 Python 等编程语言的调试难度多得多。
+  它虽然能够提示错误，但不提供 Debug 的机制，有时错误提示还很难理解。
+
   \item 样式定制困难。\LaTeX\ 提供了一个基本上良好的样式，为了让用户不去关注样式而专注于文档结构。
-  但如果想要改进 \LaTeX\ 文档的样式则是十分困难。
+  但如果想要改进 \LaTeX\ 生成的文档样式则是十分困难。
+
   \item 相比“所见即所得”的模式有一些不便，为了查看生成的文档，用户总要不停地编译。
 \end{itemize}
 
 \section{\LaTeX\ 命令和代码架构}\label{sec:src}
 
-\LaTeX\ 的源代码本质上就是个文本文件。哪怕用 Windows 的记事本或者 Linux 的 gedit 等简单的编辑器，
+\LaTeX\ 的源代码本质上是文本文件。哪怕用 Windows 的记事本或者 Linux 的 gedit 等简单的编辑器，
 你也可以编写一份 \LaTeX\ 源代码并编译出文档来。专用于编辑 \LaTeX\ 源代码的编辑器如
 TeXworks / TeXstudio / WinEdt 等提供了一些语法高亮、命令补全等功能，以及调用排版引擎的一些按钮。
 
 \subsection{\LaTeX\ 命令和环境}\label{subsec:cmds}
 
-\LaTeX\ 的命令贯穿于代码之中。命令以反斜线 \texttt\textbackslash 开头，为以下两种形式之一：
+\LaTeX\ 的命令贯穿于代码的文本之中。命令以反斜线 \texttt\textbackslash 开头，为以下两种形式之一：
 \begin{itemize}
   \item 反斜线和后面的一串字母，如 \cmd{LaTeX}。它们以任意非字母符号（空格、数字、标点等）作为分隔符。
   \item 反斜线和后面的一个非字母符号，如 \cmd{\$}。它们无需分隔符。
@@ -74,8 +84,8 @@ TeXworks / TeXstudio / WinEdt 等提供了一些语法高亮、命令补全等�
 要注意 \LaTeX\ 命令是\textbf{对大小写敏感}的，比如输入 \cmd{LaTeX} 命令可以生成错落有致的 \LaTeX\ 字母组合，
 但输入 \cmd{Latex} 或者 \cmd{LaTex} 什么都得不到，还会报错。
 
-\LaTeX\ 命令（字母形式的）忽略其后的所有空格。如果要人为引入空格，需要在命令后面加一对括号阻止其忽略空格%
-\footnote{另外也可以在命令后面紧跟一个 \cmd{\textvisiblespace} 命令（反斜线加空格），代表插入一个间距。\\
+字母形式的 \LaTeX\ 命令忽略其后的所有空格。如果要人为引入空格，需要在命令后面加一对括号阻止其忽略空格%
+\footnote{另外也可以在命令后面紧跟一个 \cmd{\textvisiblespace} 命令（反斜线加空格），代表插入一个间距。
 比如 \cmd{TeX}\cmd{\textvisiblespace}\-\texttt{user} 的输出效果就是 \TeX\ user。}：
 \begin{example}
 Shall we call ourselves 
@@ -165,7 +175,7 @@ or \TeX{} users?
  \hline
 \end{tabular}
 \end{center}
-\footnotetext{现今的发行版中 \texttt{latex} 命令也用 \hologo{pdfTeX} 引擎编译 \LaTeX\ 格式的代码，生成的文档是 DVI。}
+\footnotetext{现今的发行版中 \texttt{latex} 命令也用 \hologo{pdfTeX} 引擎编译 \LaTeX\ 格式的代码，生成的文档是 DVI 格式。}
 
 \subsection{\texttt{latex}命令}
 
@@ -232,7 +242,7 @@ xelatex helloworld.tex
   \item [\normalfont\texttt{article}] 文章格式的文档类，广泛用于科技论文、报告、说明文档等。
   \item [\normalfont\texttt{proc}] 基于 article 文档类的一个简单的学术文档模板。
   \item [\normalfont\texttt{minimal}] 一个极其精简的文档类，只设定了纸张大小和字号，
-  用作代码测试的最小工作实例（Minimal Working Example）。
+  用作代码测试的最小工作示例（Minimal Working Example）。
   \item [\normalfont\texttt{report}] 长篇报告格式的文档类，具有章节结构，用于综述、长篇论文、简单的书籍等。
   \item [\normalfont\texttt{book}] 书籍文档类，包含前言、正文、后记等结构。
   \item [\normalfont\texttt{slides}] 幻灯格式的文档类，使用无衬线字体。
@@ -305,13 +315,12 @@ xelatex helloworld.tex
 
 除了我们需要编写的源代码 \texttt{.tex} 文件，我们还可能接触到形形色色的文件。本节简单介绍一下这些文件。
 
-每个宏包和文档类都是带特定扩展名的文件：
+每个宏包和文档类都是带特定扩展名的文件，除此之外也有一些文件出现于 \LaTeX\ 模板中：
 \begin{description}
   \item[\texttt{.sty}] 宏包文件。宏包的名称就是去掉扩展名的文件名。
   \item[\texttt{.cls}] 文档类文件。同样地，文档类名称就是文件名。
   \item[\texttt{.bib}] \hologo{BibTeX} 参考文献数据库文件。
   \item[\texttt{.bst}] \hologo{BibTeX} 用到的参考文献格式模板。详见 \ref{subsec:bibtex-use}。
-  \item[\texttt{.ist}] makeinidex 用到的索引格式模板。
 \end{description}
 
 \LaTeX\ 在编译过程中生成相当多的辅助文件和日志。一些功能如交叉引用、参考文献、目录、索引等，需要先编译生成辅助文件，

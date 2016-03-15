@@ -18,7 +18,7 @@ ASCII （美国通用信息交换码）覆盖前 128 个数 0-127，也就是 7-
 它们之中的绝大多数都向下兼容 ASCII，因此无论是在哪种编码下，\TeX\ 以及 \LaTeX\ 的命令和符号都能用。
 
 西欧（拉丁字母）、俄语系（西里尔字母）等的编码较容易处理，因为它们刚好能够利用 128-255 这个编码范围。
-\texttt{latex} 命令及 \hologo{pdfLaTeX} 命令下，这些编码的支持由 \pkg{inputenc} 宏包提供。比如将文档保存为 Latin-1 编码，并在导言区使用：
+\texttt{latex} 命令及 \texttt{pdflatex} 命令下，这些编码的支持由 \pkg{inputenc} 宏包提供。比如将文档保存为 Latin-1 编码，并在导言区使用：
 \begin{verbatim}
 \usepackage[latin1]{inputenc}
 \end{verbatim}
@@ -35,12 +35,12 @@ GBK 等编码是多字节编码，ASCII 字符为一个字节，而非 ASCII 字
 Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的语言文字。UTF-8 是 Unicode 的一套编码方案，
 一个字符可以由一个到四个（现在用到三个）字节编码，其中单字节范围仍然是 ASCII 字符。
 
-\texttt{latex} 命令及 \hologo{pdfLaTeX} 命令下可以使用 \pkg{inputenc} 宏包支持 UTF-8：
+\texttt{latex} 命令及 \texttt{pdflatex} 命令下可以使用 \pkg{inputenc} 宏包支持 UTF-8：
 \begin{verbatim}
 \usepackage[utf8]{inputenc}
 \end{verbatim}
 
-\hologo{XeLaTeX} 原生支持 UTF-8 编码，而且也\textbf{不适用 \pkg{inputenc} 宏包}。将源代码以 UTF-8 格式保存，
+\texttt{xelatex} 命令原生支持 UTF-8 编码，而且也\textbf{不适用 \pkg{inputenc} 宏包}。将源代码以 UTF-8 格式保存，
 并用 \pkg{fontspec} 宏包（见 \ref{subsec:fontspec} 小节）载入所需的字体，就可以在 \texttt{.tex} 源代码中输入任意语言的文字。
 但各个语言的特殊排版要求需要更多的宏包支持（印地语、阿拉伯语等等），如 \pkg{babel}、 \pkg{polyglossia} 等。
 
@@ -50,7 +50,7 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 
 用 \LaTeX\ 排版中文的一大门槛是中文字体。\TeX\ 使用的字体格式仅支持不超过 256 个字符，要想排版中文，比如旧式的 \pkg{CJK} 宏包，
 往往需要复杂的预处理，将中文字体拆分成数百个小字体，非常麻烦%
-\footnote{现在的 \hologo{pdfLaTeX} 以及 \texttt{latex} + \texttt{dvipdfmx} 通过字体映射的方式支持直接使用中文字体，不需要经过预处理，
+\footnote{现在的 \texttt{pdflatex} 以及 \texttt{latex} + \texttt{dvipdfmx} 命令通过字体映射的方式支持直接使用中文字体，不需要经过预处理，
 但仍然是不方便新手操作的。}。
 
 \hologo{XeLaTeX} 支持直接使用系统安装的 TTF/OTF 等格式的字体，加上对 UTF-8 编码的原生支持，免去了预处理字体的麻烦。
@@ -81,8 +81,8 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 \end{verbatim}
 
 \pkg{ctex} 宏包/文档类支持源代码使用 UTF-8 和 GBK 编码（要在文档类指定 UTF8 或 GBK 选项，详见 \pkg{ctex} 宏包参考手册），
-用 \texttt{latex}+\texttt{dvipdfmx} 命令、\hologo{pdfLaTeX} 或 \hologo{XeLaTeX} 命令（不支持 GBK）都能够编译。
-推荐使用 UTF-8 编码编写源代码，用 \hologo{XeLaTeX} 命令编译。
+用 \texttt{latex} + \texttt{dvipdfmx} 命令、\texttt{pdflatex} 或 \texttt{xelatex} 命令（不支持 GBK）都能够编译。
+推荐使用 UTF-8 编码编写源代码，用 \texttt{xelatex} 命令编译。
 
 \section{\LaTeX\ 中的符号}
 

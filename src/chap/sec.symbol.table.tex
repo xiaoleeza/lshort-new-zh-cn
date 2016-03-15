@@ -1,15 +1,12 @@
-\makeatletter
-\newcommand{\SYM}[1]%
-  {$#1$     & \texttt{\string#1}\hspace*{0.5em}}
-\newcommand{\SC}[1]%
-  {#1       & \texttt{\string#1}\hspace*{0.5em}}
-\newcommand{\ACC}[2]%
-  {$#1{#2}$ & \texttt{\string#1}\marg*{\string#2}\hspace*{0.5em}}
-\newcommand{\AMSACC}[2]%
-  {$#1{#2}$ & \textcolor{blue}{\texttt{\string#1}}\marg*{\string#2}\hspace*{0.5em}}
-\newcommand{\DEL}[1]%
-  {$\big#1$ & \texttt{\string#1}}
-\newcommand*\lsym{$\m@th{}^a$}
+% Definitions
+\def\SYM     #1{$#1$     & \texttt{\string#1}}
+\def\BIGSYM  #1{$#1$     & $\displaystyle #1$ & \texttt{\string#1}}
+\def\SC      #1{#1       & \texttt{\string#1}}
+\def\ACC   #1#2{$#1{#2}$ & \texttt{\string#1}\marg*{#2}}
+\def\AMSACC#1#2{$#1{#2}$ & \textcolor{blue}{\texttt{\string#1}}\marg*{#2}}
+\def\DEL     #1{$\big#1$ & \texttt{\string#1}}
+
+\def\lsym{\textsuperscript{latexsym}}
 
 \newsavebox{\symbbox}
 \newenvironment{symbols}[1]%
@@ -18,7 +15,8 @@
   \begin{lrbox}{\symbbox}
   \begin{tabular}{@{}#1@{}}}%
   {\end{tabular}\end{lrbox}\makebox[\linewidth]{\usebox{\symbbox}}\par\vskip\topsep\vskip\partopsep}
-\makeatother
+
+\newcount\savesecdepth
 
 \clearpage
 \section{符号表}\label{sec:math-tables}
@@ -70,7 +68,7 @@
 \begin{symbols}{*3{cl}}
 \hline
  \SYM{<}              & \SYM{>}                    & \SYM{=}          \\
- \SYM{\leq}or \cmd{le}   & \SYM{\geq}or \cmd{ge}   & \SYM{\equiv}     \\
+ \SYM{\leq} or \cmd{le}   & \SYM{\geq} or \cmd{ge} & \SYM{\equiv}     \\
  \SYM{\ll}            & \SYM{\gg}                  & \SYM{\doteq}     \\
  \SYM{\prec}          & \SYM{\succ}                & \SYM{\sim}       \\
  \SYM{\preceq}        & \SYM{\succeq}              & \SYM{\simeq}     \\
@@ -82,7 +80,7 @@
  \SYM{\vdash}         & \SYM{\dashv}               & \SYM{\models}    \\
  \SYM{\mid}           & \SYM{\parallel}            & \SYM{\perp}      \\
  \SYM{\smile}         & \SYM{\frown}               & \SYM{\asymp}     \\
- \SYM{:}              & \SYM{\notin}               & \SYM{\neq}or \cmd{ne} \\
+ \SYM{:}              & \SYM{\notin}               & \SYM{\neq} or \cmd{ne} \\
 \hline
 \end{symbols}
 \end{table}
@@ -110,13 +108,13 @@
 
 \begin{table}[!htbp]
 \caption{巨算符。}\label{tbl:math-bigop}
-\begin{symbols}{*3{cl}}
+\begin{symbols}{*3{ccl}}
 \hline
- \SYM{\sum}      & \SYM{\bigcup}   & \SYM{\bigvee}  \\
- \SYM{\prod}     & \SYM{\bigcap}   & \SYM{\bigwedge} \\
- \SYM{\coprod}   & \SYM{\bigsqcup} & \SYM{\biguplus} \\
- \SYM{\int}      & \SYM{\oint}     & \SYM{\bigodot} \\
- \SYM{\bigoplus} & \SYM{\bigotimes} & \\
+ \BIGSYM{\sum}      & \BIGSYM{\bigcup}   & \BIGSYM{\bigvee}  \\
+ \BIGSYM{\prod}     & \BIGSYM{\bigcap}   & \BIGSYM{\bigwedge} \\
+ \BIGSYM{\coprod}   & \BIGSYM{\bigsqcup} & \BIGSYM{\biguplus} \\
+ \BIGSYM{\int}      & \BIGSYM{\oint}     & \BIGSYM{\bigodot} \\
+ \BIGSYM{\bigoplus} & \BIGSYM{\bigotimes} & \\
 \hline
 \end{symbols}
 \end{table}
@@ -139,7 +137,7 @@
 \begin{symbols}{*2{cl}}
 \hline
  \SYM{\leftarrow} or \cmd{gets} & \SYM{\longleftarrow} \\
- \SYM{\rightarrow}or \cmd{to}   & \SYM{\longrightarrow} \\
+ \SYM{\rightarrow} or \cmd{to}   & \SYM{\longrightarrow} \\
  \SYM{\leftrightarrow}    & \SYM{\longleftrightarrow} \\
  \SYM{\Leftarrow}         & \SYM{\Longleftarrow}     \\
  \SYM{\Rightarrow}        & \SYM{\Longrightarrow}    \\
@@ -175,10 +173,10 @@
 \begin{symbols}{*3{cl}}
 \hline
  \SYM{(}                  & \SYM{)}                 & \SYM{\uparrow} \\
- \SYM{[}or \cmd{lbrack}   & \SYM{]}or \cmd{rbrack}  & \SYM{\downarrow}   \\
- \SYM{\{}or \cmd{lbrace}  & \SYM{\}}or \cmd{rbrace} & \SYM{\updownarrow} \\
+ \SYM{[} or \cmd{lbrack}   & \SYM{]} or \cmd{rbrack}  & \SYM{\downarrow}   \\
+ \SYM{\{} or \cmd{lbrace}  & \SYM{\}} or \cmd{rbrace} & \SYM{\updownarrow} \\
  \SYM{\langle}            & \SYM{\rangle}           & \SYM{\Uparrow} \\
- \SYM{|}or \cmd{vert}     & \SYM{\|}or \cmd{Vert}   & \SYM{\Downarrow} \\
+ \SYM{|} or \cmd{vert}     & \SYM{\|} or \cmd{Vert}   & \SYM{\Downarrow} \\
  \SYM{/}            & \SYM{\backslash}   &   \SYM{\Updownarrow}  \\ 
  \SYM{\lfloor}      & \SYM{\rfloor}      &   \\
  \SYM{\rceil}       &  \SYM{\lceil}      & & \\
@@ -209,7 +207,7 @@
  \SYM{\nabla}      & \SYM{\triangle}   & \SYM{\Box}\lsym   & \SYM{\Diamond}\lsym  \\
  \SYM{\bot}        & \SYM{\top}        & \SYM{\angle}      & \SYM{\surd}      \\
  \SYM{\diamondsuit} & \SYM{\heartsuit} & \SYM{\clubsuit}   & \SYM{\spadesuit} \\
- \SYM{\neg}or \cmd{lnot} & \SYM{\flat} & \SYM{\natural}    & \SYM{\sharp}     \\
+ \SYM{\neg} or \cmd{lnot} & \SYM{\flat} & \SYM{\natural}    & \SYM{\sharp}     \\
 \hline
 \end{symbols}
 \end{table}
@@ -262,7 +260,7 @@
  \SYM{\leqslant}          & \SYM{\geqslant}          & \SYM{\risingdotseq}     \\
  \SYM{\eqslantless}       & \SYM{\eqslantgtr}        & \SYM{\fallingdotseq}    \\
  \SYM{\leqq}              & \SYM{\geqq}              & \SYM{\eqcirc}           \\
- \SYM{\lll}or \cmd{llless}& \SYM{\ggg}               & \SYM{\circeq}  \\
+ \SYM{\lll} or \cmd{llless}& \SYM{\ggg}               & \SYM{\circeq}  \\
  \SYM{\lesssim}           & \SYM{\gtrsim}            & \SYM{\triangleq}        \\
  \SYM{\lessapprox}        & \SYM{\gtrapprox}         & \SYM{\bumpeq}           \\
  \SYM{\lessgtr}           & \SYM{\gtrless}           & \SYM{\Bumpeq}           \\
@@ -351,6 +349,5 @@
 \hline
 \end{symbols}
 \end{table}
-
 
 \endinput

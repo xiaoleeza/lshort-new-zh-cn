@@ -56,7 +56,9 @@ or
 \end{equation}
 \end{example}
 
-当然你不会愿意为每个公式都手动取消编号。\LaTeX\ 提供了一对命令 \cmd{[} 和 \cmd{]} 用于生成不带编号的行间公式，
+当然你不会愿意为每个公式都手动取消编号。\LaTeX\ 提供了一对命令 \cmd{[} 和 \cmd{]} 用于生成不带编号的行间公式%
+\footnote{\TeX\ 原生排版行间公式的方法是用一对 \texttt{\$\$} 命令包裹，不过无法通过 \texttt{fleqn} 选项控制左对齐，
+与上下文之间的间距也不好调整，故不太推荐使用。}，
 与之等效的是 \env{displaymath} 环境。有的人更喜欢 \amsenv{equation*} 环境，体现了带星号和不带星号的环境之间的区别。
 
 \begin{example}
@@ -67,7 +69,7 @@ a^2 + b^2 = c^2
 or you can type less for the
 same effect:
 \[ a^2 + b^2 = c^2 \]
-or totally the same:
+or if you like the long one:
 \begin{displaymath}
 a^2 + b^2 = c^2
 \end{displaymath}
@@ -88,7 +90,10 @@ And this is display style:
 \]
 \end{example}
 
-\subsection{数学模式浅谈}\label{subsec:math-mode}
+行间公式的对齐、编号位置等性质由文档类选项控制，文档类的 \texttt{fleqn} 选项令行间公式左对齐；
+\texttt{leqno} 选项令编号放在公式左边。
+
+\subsection{数学模式和文本}\label{subsec:math-mode}
 
 当你使用 \texttt\$ 开启行内公式输入，或是使用 \cmd{[} 命令、\env{equation} 环境时，你就进入了所谓的\textbf{数学模式}。
 数学模式相比于文本模式有以下特点：
@@ -97,7 +102,7 @@ And this is display style:
   需要人为引入空隙时，使用 \cmd{quad} 和 \cmd{qquad} 等命令。详见\ref{sec:math-space} 节。
   \item \textbf{不允许有空行（分段）。}每个公式（每组多行公式）自成一个段落。
   \item 所有的字母被当作数学公式中的变量处理，字母间距与文本模式不一致，也无法生成单词之间的空格。
-  如果想在数学公式中输入正常字体的文本，\pkg{amsmath} 提供了一个方便的 \amscmd{text} 命令%
+  如果想在数学公式中输入正体的文本，简单情况下用 \ref{subsec:math-alpha} 中提供的 \cmd{mathrm} 命令，或者 \pkg{amsmath} 提供的更方便的 \amscmd{text} 命令%
   \footnote{\amscmd{text} 命令仅适合在公式中穿插少量文字。如果你的情况正好相反，需要在许多文字中穿插使用公式，
   则应该像正常的行内公式那样，而不是滥用 \amscmd{text} 命令。}。
 \end{enumerate}
@@ -108,7 +113,7 @@ $x^{2} \geq 0 \qquad
 
 \section{公式元素}
 
-\def\msym#1{$\csname #1\endcsname$ (\cmd{#1})}
+\def\msym#1{$\csname #1\endcsname$(\cmd{#1})}
 
 本节我们将接触到形形色色的数学符号，它们是 \LaTeX\ 卓越的数学公式排版能力的基础。\LaTeX\ 默认提供了常用的数学符号，
 \pkg{amssymb} 宏包提供了一些次常用的符号。这些符号全部能在本章末尾的 \ref{sec:math-tables} 节列出的表格里查到。
@@ -145,7 +150,7 @@ $f(x) = x^2 \quad f'(x)
 = 2x \quad f''^{2}(x) = 4$
 \end{example}
 
-\subsection{分式和根式}
+\subsection{分式和根式}\label{subsec:frac-sqrt}
 
 分式使用 \cmd{frac}\marg*{分子}\marg*{分母} 来书写。分式的大小在行间公式中是正常大小，而在行内被极度压缩。
 \pkg{amsmath} 提供了方便的命令 \amscmd{dfrac} 和 \amscmd{tfrac}，令用户能够在行内使用正常大小的行间公式，或是反过来。
@@ -178,7 +183,7 @@ Pascal’s rule is
 \]
 \end{example}
 
-\subsection{关系符}
+\subsection{关系符}\label{subsec:math-rel}
 
 \LaTeX\ 常见的关系符号除了可以直接输入的 $=$，$>$，$<$，其它符号用命令输入，如不等号 $\ne$ （\cmd{ne}）、
 大于等于号 $\ge$ （\cmd{ge}）、小于等于号 $\le$ （\cmd{le}）、
@@ -193,7 +198,7 @@ f_n(x) \stackrel{*}{\approx} 1
 \]
 \end{example}
 
-\subsection{算符}
+\subsection{算符}\label{subsec:math-op}
 
 \LaTeX\ 中的算符大多数是二元算符，除了直接用键盘可以输入的 $+$、$-$、$*$、$/$，其它符号用命令输入，
 如乘号 \msym{times}、 除号 \msym{div}、点乘 \msym{cdot}、加减号 \msym{pm} 等等。
@@ -442,6 +447,9 @@ l + m &= n
 \end{equation}
 \end{example}
 
+\env{split} 环境和 \env{aligned} 环境用法类似，也用于和 \env{equation} 环境套用，区别是 \env{split} 只能将每行的一个公式分两栏，
+\env{aligned} 能分多栏。
+
 \section{数组和矩阵}
 
 为了排版二维数组，\LaTeX\ 提供了 \env{array} 环境，用法与 \env{tabular} 环境极为类似，也需要定义列格式，并用 \cmd{\char`\\} 换行。
@@ -554,8 +562,8 @@ f(x)g(y) \diff x \diff y \\
 \LaTeX\ 允许一部分数学符号切换字体，主要是拉丁字母、数字等等。
 表 \ref{tbl:math-fonts} 给出了切换字体的命令。某一些命令需要字体宏包的支持。
 \begin{example}
-$\mathcal{R} \qquad \mathfrak{R} 
-\qquad \mathbb{R}$ \\
+$\mathcal{R} \quad \mathfrak{R} 
+\quad \mathbb{R}$ 
 \[\mathcal{L}
 = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}\]
 $\mathfrak{su}(2)$ and
@@ -648,7 +656,8 @@ $\mu, M \qquad
 \cmd{newtheorem}\marg{type}\oarg{counter}\marg{title}
 \end{command}
 
-其中 \Arg{type} 为定理类型的名称，作为一个环境来使用。\Arg{title} 是定理类型的标签（“定理”，“公理”等），排版在序号之前。
+\Arg{type} 为定理类型的名称，作为一个环境来使用。定理环境都需要定义，\LaTeX\ 里\textbf{没有现成的 \env{theorem} 环境}，
+直接使用很可能会出错。\Arg{title} 是定理类型的标签（“定理”，“公理”等），排版在序号之前。
 
 定理的序号由两个可选参数之一决定，它们\textbf{不能同时使用}：
 \begin{itemize}
@@ -673,7 +682,7 @@ is $299,792,458 \mathrm{m/s}$.
 \end{mytheorem}
 \begin{mytheorem}[Relativity]
 The relationship of energy, 
-momentumand mass is 
+momentum and mass is 
 $E^2 = m^2 c^4 + p^2 c^2$,
 where $c$ is the light speed 
 described in theorem \ref{thm:light}.
@@ -688,7 +697,7 @@ described in theorem \ref{thm:light}.
 \pkg{amsthm} 提供了 \cmd{theo\-rem\-style} 命令支持定理格式的切换，
 在用 \cmd{new\-theo\-rem} 命令定义定理环境之前使用。
 \pkg{amsthm} 预定义了三种格式用于 \cmd{theo\-rem\-style}：\texttt{plain} 和 \LaTeX\ 原始的格式一致；
-\texttt{des\-crip\-tion} 使用粗体标签、正体内容；\texttt{remark} 使用斜体标签、正体内容。
+\texttt{defi\-ni\-tion} 使用粗体标签、正体内容；\texttt{remark} 使用斜体标签、正体内容。
 
 另外 \pkg{amsthm} 还支持用带星号的 \cmd{new\-theo\-rem*} 定义不带序号的定理环境：
 \begin{verbatim}
@@ -766,7 +775,7 @@ E=mc^2.\qedhere
 \end{proof}
 \end{example}
 
-在 \cmd{align} 中使用则会盖掉公式的编号；使用 \env{equation} 嵌套 \amsenv{aligned} 环境时，
-\cmd{qedhere} 会将 \qedsymbol 直接放在公式后。这些位置都不太正常。
+在 \cmd{align} 中使用则会令 \qedsymbol\ 盖掉公式的编号；使用 \env{equation} 嵌套 \amsenv{aligned} 环境时，
+\cmd{qedhere} 会将 \qedsymbol\ 直接放在公式后。这些位置都不太正常。
 
 \endinput

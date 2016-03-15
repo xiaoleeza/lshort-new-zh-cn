@@ -2,8 +2,7 @@
 
 \begin{intro}
 本章介绍一些特色的 \LaTeX\ 辅助功能。前两个功能 \hologo{BibTeX} 和 makeindex 依靠一些辅助程序自动生成参考文献、索引等；
-之后的使用颜色、超链接等则令我们生成美观易用的电子文档。电子文档的特点在 \pkg{beamer} 里发挥到极致，它令 \LaTeX\ 能够做出不逊于
-PowerPoint 的用于幻灯演示的文档。
+之后的使用颜色、超链接等则令我们生成美观易用的电子文档。
 \end{intro}
 
 \section{参考文献和 \hologo{BibTeX} 工具}
@@ -18,7 +17,7 @@ PowerPoint 的用于幻灯演示的文档。
 \cmd{cite}\marg{citation}
 \end{command}
 
-\cmd{cite} 带一个可选参数，为引用的编号之后加上额外的内容，如 \cmd{cite} \oarg*{page 22} 可能得到形如 [13, page 22] 这样的引用。
+\cmd{cite} 带一个可选参数，为引用的编号后加上额外的内容，如 \cmd{cite}\oarg*{page 22}\marg{pa} 可能得到形如 [13, page 22] 这样的引用。
 
 参考文献由 \env{thebibliography} 环境包裹，每条参考文献由 \cmd{bibitem} 开头，其后是参考文献本身的内容：
 \begin{command}
@@ -245,7 +244,8 @@ pdflatex demo
 \end{tabular}
 \end{table}
 
-读者可以钻研一下一个较为复杂的，结合多级索引、索引格式、页码格式等的示例。但在自己使用时，仍然要遵循“简单的就是最好的”原则：
+读者可以钻研一下下面给出的一个较为复杂的，结合多级索引、索引格式、页码格式等的示例。但在自己使用时，
+最好还是遵循“简单的就是最好的”原则，尽量使用表 \ref{tbl:index-entry} 中的写法。
 \begin{verbatim}
 Test index.
 \index{Test@\textsf{""Test}|(textbf}
@@ -356,19 +356,126 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
 
 \subsection{\pkg{hyperref} 宏包}
 
-\pkg{hyperref} 宏包涉及到的链接涉及到 \LaTeX\ 的每一个角落——目录、引用、脚注、索引、参考文献等等，
-凡是有可能需要链接其它地方的文档元素，几乎都被 \pkg{hyperref} 包装起来。
-但这也使得 \pkg{hyperref} 宏包与其它宏包的冲突机会大大增加，虽然宏包已经尽力解决各方面的兼容性，但仍不能面面俱到。
+\pkg{hyperref} 宏包涉及到的链接涉及到 \LaTeX\ 的每一个角落——目录、引用、脚注、索引、参考文献等等都被封装成链接。
+但这也使得它与其它宏包的冲突机会大大增加，虽然宏包已经尽力解决各方面的兼容性，但仍不能面面俱到。
 为减少冲突的可能性，习惯上将 \pkg{hyperref} 宏包\textbf{放在其它宏包之后调用}。
+
+与 \pkg{graphicx} 宏包类似，\texttt{latex} + \texttt{dvipdfmx} 编译方式下，调用 \pkg{hyperref} 宏包时需显式指定 \texttt{dvipdfmx} 选项：
+\begin{verbatim}
+\usepackage[dvipdfmx]{hyperref}
+\end{verbatim}
+而 \texttt{pdflatex} 或 \texttt{xelatex} 命令下，直接可用 \cmd{use\-package}\marg*{hyper\-ref} 调用宏包。
+
+\pkg{hyperref} 宏包提供了命令 \cmd{hypersetup} 配置各种选项，或者也可以作为宏包选项，在调用宏包时使用：
+\begin{command}
+\cmd{hypersetup}\marg*{\Arg{option1},\Arg{option2}=\marg*{value},\ldots} \\
+\cmd{usepackage}\oarg*{\Arg{option1},\Arg{option2}=\marg*{value},\ldots}\marg*{hyperref}
+\end{command}
 
 \subsection{超链接}
 
+\pkg{hyperref} 宏包提供了直接书写超链接的命令，用于在 PDF 中生成 URL：
+\begin{command}
+\cmd{url}\marg{url} \\
+\cmd{nolinkurl}\marg{url}
+\end{command}
+
+其中 \cmd{url} 生成可以点击的 URL，而 \cmd{nolinkurl} 只生成文本。在 \cmd{url} 命令中作为参数的 URL 里，
+\textbf{可直接输入如 \texttt\%、\texttt\& 这样的特殊符号}。
+
+我们也可以像网页一样，把一段文字赋予其“超链接”的作用：
+\begin{command}
+\cmd{href}\marg{url}\marg{text}
+\end{command}
+
+\begin{example}
+\url{http://wikipedia.org} \\
+\nolinkurl{http://wikipedia.org} \\
+\href{http://wikipedia.org}{Wiki}
+\end{example}
+
+使用 \pkg{hyperref} 宏包后，文档中所有的引用、参考文献、索引等等都转换为超链接。
+用户也可将某个交叉引用的标签 \Arg{label} 作为超链接（注意这里的 \Arg{label} 虽然用了方括号，但是是\textbf{必填的}%
+\footnote{不带方括号的 \cmd{hyperref} 命令带四个必选参数，前三个组成特殊格式的超链接，最后一个同 \Arg{text}。}）：
+\begin{command}
+\cmd{hyperref}\oarg{label}\marg{text}
+\end{command}
+
+默认的超链接在文字外边加上一个带颜色的方框（在打印 PDF 时边框不会打印），可使用 \texttt{color\-links} 选项修改为将文字本身加上颜色；
+\texttt{hide\-links} 则令超链接既不变色也不加框：
+\begin{verbatim}
+\hypersetup{hidelinks}
+% or:
+\hypersetup{pdfborder={0 0 0}}
+\end{verbatim}
+
 \subsection{PDF 书签}
+
+\pkg{hyperref} 宏包另一个强大的功能是为 PDF 生成书签。对于章节命令 \cmd{chapter}、\cmd{section} 等，
+默认情况下会为 PDF 自动生成书签。和交叉引用、索引等类似，\texttt{latex} 等命令也需要多次编译，第一次编译将书签写入 \texttt{.out} 文件，
+第二次编译才正确生成书签。
+
+书签的一些属性见表 \ref{tbl:hyperref-settings}。
+在 \texttt{latex} + \texttt{dvipdfmx} 或 \texttt{pdflatex} 下使用 \pkg{ctex} 宏包或 \pkg{CJK} 宏包时，
+为了正确生成书签而不出现乱码，需要更加繁琐的工序（这也是我们推荐使用 \texttt{xelatex} 命令处理中文的原因）。
+
+\pkg{hyperref} 还提供了手动生成书签的命令：
+\begin{command}
+\cmd{pdfbookmark}\oarg{level}\marg{bookmark}\marg{anchor}
+\end{command}
+\Arg{bookmark} 为书签名称，\Arg{anchor} 为书签项使用的锚点（类似交叉引用的标签）。可选参数 \Arg{level} 为书签的层级，默认为 0。
+
+章节命令里往往有 \LaTeX\ 命令甚至数学公式，而 PDF 书签是纯文本，对命令和公式的处理很困难，有出错的风险。
+\pkg{hyperref} 宏包已经为我们处理了许多常见命令，如 \cmd{LaTeX} 和字体命令 \cmd{textbf} 等，
+其它一些情况就要使用在 \cmd{section} 等命令中使用如下命令，分别提供 \LaTeX\ 代码和 PDF 书签可用的纯文本：
+\begin{command}
+\cmd{texorpdfstring}\marg{\LaTeX\ code}\marg{PDF bookmark text}
+\end{command}
+比如：
+\begin{verbatim}
+\section{\texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
+\end{verbatim}
 
 \subsection{PDF 文档属性}
 
-\section{\textsf{beamer} 幻灯片宏包}
+\pkg{hyperref} 宏包还提供了一些选项用于改变 PDF 文档的属性，部分见表 \ref{tbl:hyperref-settings}。
 
-\leavevmode\nobreakspace
+\begin{table}[!hbp]
+\centering
+\caption{\pkg{hyperref} 宏包提供的设置。}\label{tbl:hyperref-settings}
+\begin{tabular}{lcp{18em}}
+ \hline
+ 选项                         &  默认值         & \multicolumn{1}{c}{含义} \\
+ \hline
+ \texttt{colorlinks=}\Arg{true\textrm|false} 
+                              & \textit{false}  & 设置为 \textit{true} 为链接文字带颜色，反之加上带颜色的边框 \\
+ \texttt{hidelinks}           &                 & 取消链接的颜色和边框 \\
+ \texttt{pdfborder=}\marg*{\Arg{num} \Arg{num} \Arg{num}}   
+                              &  0 0 1          & 超链接边框设置，设为 0 0 0 可取消边框 \\
+ \hline
+ \texttt{bookmarks=}\Arg{true\textrm|false} 
+                              & \textit{true}   & 是否生成书签 \\
+ \texttt{bookmarksopen=}\Arg{true\textrm|false} 
+                              & \textit{false}  & 是否展开书签 \\
+ \texttt{bookmarksnumbered=}\Arg{true\textrm|false} 
+                              & \textit{false}  & 书签是否带章节编号 \\
+ \texttt{CJKbookmarks=}\Arg{true\textrm|false} 
+                              & \textit{false}   & 使用 \pkg{CJK} 宏包/ \pkg{GBK} 编码时必须的选项，
+                                                 在第一次编译后需要将生成的 \texttt{.out} 文件用工具处理编码 \\
+ \texttt{unicode}             &                  & 使用 \pkg{CJKutf8} 宏包/ \pkg{UTF-8} 编码时必须的选项 \\
+ \hline
+ \texttt{pdftitle=}\Arg{string} 
+                              & 空               & 标题 \\
+ \texttt{pdfauthor=}\Arg{string} 
+                              & 空               & 作者 \\
+ \texttt{pdfsubject=}\Arg{string} 
+                              & 空               & 主题 \\
+ \texttt{pdfkeywords=}\Arg{string} 
+                              & 空               & 关键词 \\
+ \texttt{pdfstartview=}\Arg{Fit\textrm|FitH\textrm|FitV}
+                              & \textit{Fit}     & 设置 PDF 页面以适合页面/适合宽度/适合高度等方式显示，默认为适合页面 \\
+ \hline
+\end{tabular}
+\end{table}
 
 \endinput

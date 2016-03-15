@@ -3,16 +3,16 @@
 % $Id: lshort.sty,v 1.2 2003/03/19 20:57:45 oetiker Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{lshort-style-new}
+\ProvidesPackage{lshort-zh-cn-style}
 
 %
 % 基本工具宏包
 % 
-\RequirePackage{xcolor,hologo,makeidx,verbatim,fancyvrb,layouts}
-\RequirePackage{float,enumitem}
+\RequirePackage{colortbl,xcolor,tabularx,float,graphicx}
+\RequirePackage{hologo,makeidx,verbatim,fancyvrb,layouts}
 \RequirePackage[nottoc]{tocbibind}
 \RequirePackage{amsmath,amsthm}
-\RequirePackage[hmargin=1.25in,vmargin=1in]{geometry}
+\RequirePackage[inner=1in,outer=1.5in,vmargin=1in,marginparwidth=1in]{geometry}
 %\RequirePackage[all]{xy}
 %\RequirePackage{tikz}
 %\usetikzlibrary{%
@@ -62,7 +62,8 @@
 %
 % 字体和符号宏包
 % 
-\RequirePackage{lmodern,amssymb,latexsym,textcomp,mathrsfs,euscript}
+\RequirePackage{lmodern}  % 正文字体使用 Latin Modern
+\RequirePackage{amssymb,latexsym,textcomp,mathrsfs,euscript} % 与正文字体不冲突的一些符号包
 \RequirePackage[LGR,T1]{fontenc}
 % marvosym 宏包已经解决了命名冲突，不需要再 Hack 了。
 % \let\org@Rightarrow\Rightarrow
@@ -70,8 +71,19 @@
 % \let\MVRightarrow\Rightarrow
 % \let\Rightarrow\org@Rightarrow
 
-\RequirePackage[colorlinks,hyperindex]{hyperref}
-\hypersetup{bookmarksnumbered=true,pdfstartview=FitH}
+%
+% 解决 layouts 引入的 warning
+% 
+\expandafter\ifx\csname stockheight\endcsname\relax\else
+  \stockheight\paperheight
+\fi
+\expandafter\ifx\csname stockwidth\endcsname\relax\else
+  \stockwidth\paperwidth
+\fi
+\RequirePackage{hyperref}
+\hypersetup{colorlinks,%
+  bookmarksnumbered=true,%
+  pdfstartview=FitH}
 
 \raggedbottom
 
@@ -97,7 +109,7 @@
 \pagestyle{fancyplain}
 
 %
-% 改写 theindex 环境令其能够正确链接
+% 改写 theindex 环境，修正索引标题的超链接锚点
 %
 \renewenvironment{theindex}%
   {\if@twocolumn
@@ -105,8 +117,7 @@
    \else
      \@restonecoltrue
    \fi
-   \twocolumn[\vspace*{2\topskip}\phantomsection%
-     \@makeschapterhead{\indexname}]%
+   \twocolumn[\phantomsection\@makeschapterhead{\indexname}]%
    \prw@mkboth{\indexname}
    \addcontentsline{toc}{chapter}{\indexname}
    \thispagestyle{plain}\parindent\z@
@@ -132,31 +143,21 @@
 \def\mailto|#1|{\href{mailto:#1}{\Email|#1|}}        % url to mail somewhere
 \def\CTANref{\begingroup \urlstyle{tt}\Url}
 \def\CTAN|#1|{\href{http://mirrors.tuna.tsinghua.edu.cn/CTAN/#1}{\CTANref|CTAN://#1|}}
-\newcommand\Newsgroup{\begingroup \urlstyle{tt}\Url} % newsgroup
-
-%
-% 利用率较高的几个引用
-%
-\newcommand{\manual}{\emph{\LaTeX{} Manual}~\cite{manual}} 
-\newcommand{\companion}{\emph{The \LaTeX{} Companion}~\cite{companion}} 
-\newcommand{\guide}{\emph{Local Guide}~\cite{local}}
 \newcommand{\contrib}[3]{#1\quad\mailto|#2|{\small\\\quad\textit{#3}}\\[1ex]}
 
 %
 % PDF 书签中对符号的特殊处理
 % 
-\ifx\hypersetup\undefined\else
-  \pdfstringdefDisableCommands{\edef\ci{\textbackslash}}%
-  \pdfstringdefDisableCommands{\edef\sim{\textasciitilde}}%
-  \pdfstringdefDisableCommands{\edef\circ{\textdegree}}%
-  \pdfstringdefDisableCommands{\edef\ldots{...}}%
-  \pdfstringdefDisableCommands{\def\AmS{AMS}}%
-\fi
+%  \pdfstringdefDisableCommands{\edef\ci{\textbackslash}}%
+%  \pdfstringdefDisableCommands{\edef\sim{\textasciitilde}}%
+%  \pdfstringdefDisableCommands{\edef\circ{\textdegree}}%
+%  \pdfstringdefDisableCommands{\edef\ldots{...}}%
+\pdfstringdefDisableCommands{\def\AmS{AMS}}%
 
 %
 % 示意长度
 %
-\newcommand{\demowidth}[1]{\rule{0.4pt}{1.2ex}\rule{#1}{0.4pt}\rule{0.4pt}{1.2ex}}
+\def\demowidth#1{\rule{0.4pt}{1.2ex}\rule{#1}{0.4pt}\rule{0.4pt}{1.2ex}}
 
 %
 % 命令和环境的写法
@@ -224,18 +225,18 @@
 %
 \newenvironment{intro}
   {\advance\leftskip\parindent\advance\rightskip\parindent\sffamily}%
-  {\vspace*{2ex minus 1.5ex}}
+  {\par\vspace*{2ex minus 1.5ex}}
 
 %
 % 展示命令
 %
 \newenvironment{command}%
   {\trivlist\item\relax%
-  \renewcommand*\arraystretch{1.2}%
+  \def\arraystretch{1.4}%
   \hskip\parindent%
-  \begin{tabular}{|l|}
-    \hline}
-  {\\ \hline
+  \begin{tabular}{>{\columncolor[gray]{0.95}}l}
+  }%
+  {\\
   \end{tabular}
   \endtrivlist}
 
@@ -257,10 +258,10 @@
   \trivlist\item\relax
   \setlength{\savefboxrule}{\fboxrule}%
   \setlength{\savefboxsep}{\fboxsep}%
-  \setlength{\fboxsep}{0.025\textwidth}%
+  \setlength{\fboxsep}{0.015\textwidth}%
   \setlength{\fboxrule}{0.4pt}%
   \fcolorbox[gray]{0}{0.95}{%
-    \begin{minipage}[c]{0.425\textwidth}%
+    \begin{minipage}[c]{0.45\textwidth}%
       \setlength{\fboxrule}{\savefboxrule}%
       \setlength{\fboxsep}{\savefboxsep}%
       \small\verbatiminput{lshort-example.tex}%
@@ -268,7 +269,7 @@
   }%
   \hfill%
   \fbox{%
-    \begin{minipage}[c]{0.425\textwidth}%
+    \begin{minipage}[c]{0.45\textwidth}%
       \setlength{\fboxrule}{\savefboxrule}%
       \setlength{\fboxsep}{\savefboxsep}%
       \setlength{\parskip}{1ex plus 0.4ex minus 0.2ex}%

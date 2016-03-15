@@ -11,8 +11,8 @@
 
 \section{自定义命令和环境}\label{sec:newcommands}
 
-你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个矩形框里，
-并且出现在本书最后的索引中。我并没有直接使用基础的 \LaTeX\ 命令
+你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个灰色的矩形背景框中。
+笔者并没有直接使用基础的 \LaTeX\ 命令
 来实现这个效果，而是创建了一个宏包 (\wi{package})，并在其中定义了我
 所需要的命令和环境。现在我只需写成这样简单的形式：
 
@@ -22,21 +22,21 @@
 \end{command}
 \end{example}
 
-在这个例子中，我使用了一个新的环境 \env{command}。这个环境负责在命令的周围画出一个矩形框。
+在这个例子中，我使用了一个新的环境 \env{command}。这个环境负责给命令代码加上一个灰色的矩形背景框。
 同时我还使用了一个命令：\cmd{dum}， 这个命令负责输出命令的名字，包括前面的反斜杠。
 
-一旦我不再喜欢在一个矩形框中排版命令，我可以很容易地改变 \env{command} 环境的定义，
-来创建新的外观，而不是挨个修改每个画着矩形框的命令示例。
+一旦我不再喜欢在一个矩形框中排版命令，想要更换颜色、加边框等等，我可以很容易地改变 \env{command} 环境的定义，
+来创建新的外观，而不是挨个修改每个命令示例。
 
 \subsection{定义新命令}
 
 使用如下命令可以定义你自己的命令：
 \begin{command}
-\cmd{newcommand}\marg{name}\oarg{num}\marg{definition}
+\cmd{newcommand}\marg*{\cmd{\Arg{name}}}\oarg{num}\marg{definition}
 \end{command}
 \cih{newcommand}
-基本上，这个命令有两个参数，第一个 \Arg{name} 是你想要建立的命令
-的名称，第二个 \Arg{definition} 是命令的定义。方括号里的参数 \Arg{num} 是可选的，
+基本上，这个命令有两个参数，第一个 \Arg{name} 是你想要建立的命令的名称（带反斜杠），
+第二个 \Arg{definition} 是命令的定义。方括号里的参数 \Arg{num} 是可选的，
 用于指定新命令所需的参数数目（最多 9 个）。如果不给出这个参数，默认就是 0，也就是新建的命令不要任何参数。
 
 接下来的两个例子有助你的理解。第一个例子定义了一个新的命令：\ci{tnss}。
@@ -161,5 +161,94 @@ My humble subjects \ldots
 \end{command}
 
 \section{计数器}\label{sec:counters}
+
+我们早就见识到了 \LaTeX\ 对文档元素自动计数的能力：章节符号、列表、图表……它们都是依靠 \LaTeX\ 提供的“计数器”完成的。
+
+\subsection{定义和修改计数器}\label{subsec:count-defs}
+
+定义一个计数器的方法为：
+\begin{command}
+\cmd{newcounter}\marg{counter name} \\
+\cmd{newcounter}\marg{counter name}\oarg{parent counter name}
+\end{command}
+
+\Arg{counter name} 为计数器的名称，可选参数 \Arg{parent counter name} 定义为 \Arg{counter name} 的父一级计数器。
+
+以下命令修改计数器的数值，\cmd{set\-counter} 将数值设为 \Arg{number}；\cmd{add\-to\-counter} 将数值加上 \Arg{number}；
+\cmd{step\-counter} 将数值加一，并\textbf{将所有子级计数器归零}。
+\begin{command}
+\cmd{setcounter}\marg{counter name}\marg{number} \\
+\cmd{addtocounter}\marg{counter name}\marg{number} \\
+\cmd{stepcounter}\marg{counter name}
+\end{command}
+
+\subsection{计数器的值}\label{subsec:count-value}
+
+计数器 \Arg{counter} 的数值由 \cmd{the\Arg{counter}} 表示，如我们在 \ref{sec:pagestyle} 一节见过的 \cmd{thechapter} 等。
+这个值默认以阿拉伯数字形式输出，如果想改成其它形式，需要重定义 \cmd{the\Arg{counter}}，如定义为大写字母：
+\begin{command}
+\cmd{renewcommand}\marg*{\cmd{the\Arg{counter}}}\marg*{\cmd{Alph}\marg{counter}}
+\end{command}
+
+命令 \cmd{Alph} 控制计数器 \Arg{counter} 的值以大写字母形式显示。下表列出所有可用于修改计数器格式的命令。
+注意：这些命令\textbf{只能用于计数器}，不能直接用于数字，如 \cmd{arabic}\marg*{1} 这样的命令会出错。
+\begin{center}
+\begin{tabular}{cl}
+ \hline
+ \cmd{arabic} & 阿拉伯数字（默认） \\
+ \cmd{alph}  & 小写字母 \\
+ \cmd{Alph}  & 大写字母 \\
+ \cmd{roman} & 小写罗马数字 \\
+ \cmd{Roman} & 大写字母 \\
+ \cmd{fnsymbol} & 一系列符号，用于标题页生成的脚注中 \\
+ \hline
+\end{tabular}
+\end{center}
+
+子级计数器还可以利用父级计数器的值与之组合。如 \cls{article} 文档类里 \cmd{sub\-section} 相关的计数器的定义相当于：
+\begin{verbatim}
+\renewcommand\thesubsection {\thesection.\arabic{subsection}}
+\end{verbatim}
+
+\subsection{\LaTeX\ 中的计数器}\label{subsec:latex-counts}
+
+\begin{itemize}
+  \item 我们当然早就意识到了，所有章节命令 \cmd{chapter}、\cmd{section} 等分别对应计数器 chapter、section 等等，而且有上下级的关系。
+而计数器 part 是独立的。
+  \item 有序列表 \env{enumerate} 的各级计数器为 enumi, enumii, enumiii, enumiv，也是有上下级的关系。
+  \item 图表浮动体的计数器就是 table 和 figure。
+  \item 公式、页码、脚注的计数器分别是 equation、footnote 和 page。
+\end{itemize}
+
+我们可以利用前面介绍过的命令，修改计数器的样式以达到想要的效果，比如把页码修改成大写罗马字母，或是给脚注加上方括号。
+修改页码的样式有个更方便的命令 \cmd{page\-number\-ing}：
+\begin{verbatim}
+\pagenumbering{Roman}
+\renewcommand\thefootnote{[\arabic{footnote}]}
+\end{verbatim}
+
+最后介绍两个有用的计数器：
+
+\begin{itemize}
+  \item secnumdepth
+
+  \LaTeX\ 内部对章节规定了层级：
+  \begin{itemize}
+    \item 在 \cls{article} 文档类里 part 为 0，section 为 1，依此类推；
+    \item 在 \cls{report}/\cls{book} 文档类里part 为 -1，chapter 为 0，section 为 1，等等。
+  \end{itemize}
+
+  secnumdepth 计数器控制章节编号的深度，如果章节的层级大于 secnumdepth，那么章节的标题、在目录和页眉页脚的标题都不编号，计数器也不计数。
+
+  可以用 \cmd{setcounter} 命令设置 secnumdepth 为较大的数使得层级比较深的章节也编号，
+如设置为 4 令 \cmd{paragraph} 也编号；或者设置一个较小的数以取消编号，如设置为 -1 令 \cmd{chapter} 不编号（但照常生成目录和页眉页脚）。
+后者是生成不编号的章节的一个妙招，免去了手动使用 \cmd{add\-contents\-line} 和 \cmd{mark\-both} 的麻烦。
+
+  secnumdepth 计数器在 \cls{article} 文档类里默认为 3 （subsubsection 一级）；在 \cls{report}/\cls{book} 文档类里默认为 2 （subsection 一级）。
+
+  \item tocdepth
+
+  tocdepth 计数器控制目录的深度，如果章节的层级大于 tocdepth，那么章节将不会自动写入目录项。默认值同 secnumdepth。
+\end{itemize}
 
 \endinput
