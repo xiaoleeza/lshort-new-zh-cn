@@ -21,8 +21,8 @@
 \LaTeXe 的一个重要特征是：字体的各种属性是相互独立的，这意味着你可以改变字体的大小，而仍然保留字体原有的粗体或者斜体的特性。
 
 \subsection{字体样式}\label{subsec:fontshape}
-\index{font}\index{font size} 
 
+\pinyinindex{ziti}{字体}
 \LaTeX\ 提供了两组修改字体的命令，见表 \ref{tbl:fonts}。其中诸如 \cmd{bfseries} 形式的命令将会影响之后所有的字符，
 如果想要让它在局部生效，需要用花括号建立\textbf{分组}，也就是写成 \marg*{\cmd{bfseries}\ \Arg{some text}} 这样的形式；
 对应的 \cmd{textbf} 形式带一个参数，它只会改变参数内部的字体，相比之下更为常用。
@@ -32,19 +32,19 @@
 \begin{table}[!tbp]
 \caption{字体命令。} \label{tbl:fonts}
 \centering
-\begin{tabular}{@{}rr@{\quad}l@{}}
+\begin{tabular}{@{}rrcc@{}}
 \hline
-\fni{rmfamily} & \fni{textrm}\marg*{\ldots}   & \textrm{\wi{roman}}      \\
-\fni{sffamily} & \fni{textsf}\marg*{\ldots}   & \textsf{\wi{sans serif}} \\
-\fni{ttfamily} & \fni{texttt}\marg*{\ldots}   & \texttt{\wi{typewriter}} \\[\medskipamount]
-\fni{mdseries} & \fni{textmd}\marg*{\ldots}   & \textrm{medium}          \\
-\fni{bfseries} & \fni{textbf}\marg*{\ldots}   & \textbf{\wi{bold face}}  \\[\medskipamount]
-\fni{upshape}  & \fni{textup}\marg*{\ldots}   & \textup{\wi{upright}}    \\
-\fni{itshape}  & \fni{textit}\marg*{\ldots}   & \textit{\wi{italic}}     \\
-\fni{slshape}  & \fni{textsl}\marg*{\ldots}   & \textsl{\wi{slanted}}    \\
-\fni{scshape}  & \fni{textsc}\marg*{\ldots}   & \textsc{\wi{Small Caps}} \\[\medskipamount]
-\fni{em}       & \ci{emph}\marg*{\ldots}      & \emph{\wi{emphasized}}   \\
-\fni{normalfont}  & \fni{textnormal}\marg*{\ldots}   & \textnormal{\wi{normal font}} \\
+\cmd{rmfamily}\cmdindex{rmfamily} & \cmd{textrm}\cmdindex{textrm}\marg*{\ldots}   & \textrm{roman}      & 衬线字体（罗马体）\\
+\cmd{sffamily}\cmdindex{sffamily} & \cmd{textsf}\cmdindex{textsf}\marg*{\ldots}   & \textsf{sans serif} & 无衬线字体        \\
+\cmd{ttfamily}\cmdindex{ttfamily} & \cmd{texttt}\cmdindex{texttt}\marg*{\ldots}   & \texttt{typewriter} & 等宽字体          \\[\medskipamount]
+\cmd{mdseries}\cmdindex{mdseries} & \cmd{textmd}\cmdindex{textmd}\marg*{\ldots}   & \textrm{medium}     & 正常粗细（中等）  \\
+\cmd{bfseries}\cmdindex{bfseries} & \cmd{textbf}\cmdindex{textbf}\marg*{\ldots}   & \textbf{bold face}  & 粗体              \\[\medskipamount]
+\cmd{upshape}\cmdindex{upshape}   & \cmd{textup}\cmdindex{textup}\marg*{\ldots}   & \textup{upright}    & 直立体            \\
+\cmd{itshape}\cmdindex{itshape}   & \cmd{textit}\cmdindex{textit}\marg*{\ldots}   & \textit{italic}     & 意大利斜体        \\
+\cmd{slshape}\cmdindex{slshape}   & \cmd{textsl}\cmdindex{textsl}\marg*{\ldots}   & \textsl{slanted}    & 倾斜体            \\
+\cmd{scshape}\cmdindex{scshape}   & \cmd{textsc}\cmdindex{textsc}\marg*{\ldots}   & \textsc{Small Caps} & 小字母大写        \\[\medskipamount]
+\cmd{em}\cmdindex{em}             & \cmd{emph}\cmdindex{emph}\marg*{\ldots}     & \emph{emphasized}   & 强调，默认斜体    \\
+\cmd{normalfont}\cmdindex{normalfont}  & \cmd{textnormal}\cmdindex{textnormal}\marg*{\ldots}   & \textnormal{normal font} & 默认字体 \\
 \hline
 \end{tabular}
 \end{table}
@@ -58,20 +58,20 @@
 \caption{字号。} \label{tbl:sizes}
 \begin{tabular}{@{}ll}
 \hline
-\fni{tiny}      & \tiny        tiny font \\
-\fni{scriptsize}   & \scriptsize  very small font\\
-\fni{footnotesize} & \footnotesize  quite small font \\
-\fni{small}        &  \small            small font \\
-\fni{normalsize}   &  \normalsize  normal font \\
-\fni{large}        &  \large       large font \\
+\cmd{tiny}\cmdindex{tiny}         & \tiny        tiny font \\
+\cmd{scriptsize}\cmdindex{scriptsize}   & \scriptsize  very small font\\
+\cmd{footnotesize}\cmdindex{footnotesize} & \footnotesize  quite small font \\
+\cmd{small}\cmdindex{small}        &  \small            small font \\
+\cmd{normalsize}\cmdindex{normalsize}   &  \normalsize  normal font \\
+\cmd{large}\cmdindex{large}        &  \large       large font \\
 \hline
 \end{tabular}%
 \qquad\begin{tabular}{ll@{}}
 \hline
-\fni{Large}        &  \Large       larger font \\[5pt]
-\fni{LARGE}        &  \LARGE       very large font \\[5pt]
-\fni{huge}         &  \huge        huge \\[5pt]
-\fni{Huge}         &  \Huge        largest \\
+\cmd{Large}\cmdindex{Large}        &  \Large       larger font \\[5pt]
+\cmd{LARGE}\cmdindex{LARGE}        &  \LARGE       very large font \\[5pt]
+\cmd{huge}\cmdindex{huge}         &  \huge        huge \\[5pt]
+\cmd{Huge}\cmdindex{Huge}         &  \Huge        largest \\
 \hline
 \end{tabular}
 \end{table}
@@ -82,16 +82,16 @@
 \begin{tabular}{lrrr}
 \hline
 字号 & 10pt 选项（默认）& 11pt 选项 & 12pt 选项 \\
-\cmd{tiny}       & 5pt  & 6pt & 6pt\\
-\cmd{scriptsize} & 7pt  & 8pt & 8pt\\
-\cmd{footnotesize} & 8pt & 9pt & 10pt \\
-\cmd{small}        & 9pt & 10pt & 10.95pt \\
-\cmd{normalsize} & 10pt & 10.95pt & 12pt \\
-\cmd{large}      & 12pt & 12pt & 14.4pt \\
-\cmd{Large}      & 14.4pt & 14.4pt & 17.28pt \\
-\cmd{LARGE}      & 17.28pt & 17.28pt & 20.74pt\\
-\cmd{huge}       & 20.74pt & 20.74pt & 24.88pt\\
-\cmd{Huge}       & 24.88pt & 24.88pt & 24.88pt\\
+\cmd{tiny}\cmdindex{tiny}       & 5pt  & 6pt & 6pt\\
+\cmd{scriptsize}\cmdindex{scriptsize} & 7pt  & 8pt & 8pt\\
+\cmd{footnotesize}\cmdindex{footnotesize} & 8pt & 9pt & 10pt \\
+\cmd{small}\cmdindex{small}        & 9pt & 10pt & 10.95pt \\
+\cmd{normalsize}\cmdindex{normalsize} & 10pt & 10.95pt & 12pt \\
+\cmd{large}\cmdindex{large}      & 12pt & 12pt & 14.4pt \\
+\cmd{Large}\cmdindex{Large}      & 14.4pt & 14.4pt & 17.28pt \\
+\cmd{LARGE}\cmdindex{LARGE}      & 17.28pt & 17.28pt & 20.74pt\\
+\cmd{huge}\cmdindex{huge}       & 20.74pt & 20.74pt & 24.88pt\\
+\cmd{Huge}\cmdindex{Huge}       & 24.88pt & 24.88pt & 24.88pt\\
 \hline
 \end{tabular}
 \end{table}
@@ -102,11 +102,13 @@ He likes {\LARGE large and
 {\small small} letters}.
 \end{example}
 
+\cmdindex{fontsize}
 \LaTeX\ 还提供了一个基础的命令 \cmd{fontsize} 用于设定任意大小的字号：
 \begin{command}
 \cmd{fontsize}\marg{size}\marg{base line-skip}
 \end{command}
 
+\cmd{selectfont}
 \cmd{fontsize} 用到两个参数，\Arg{size} 为字号，\Arg{base line-skip} 为基础行距。
 表 \ref{tbl:ptsizes} 中的命令也都各自设定了与字号对应的基础行距，大小为字号的 1.2 倍。
 如果不是在导言区，\cmd{fontsize} 的设定需要 \cmd{selectfont} 命令才能立即生效，
@@ -132,38 +134,41 @@ He likes {\LARGE large and
 \begin{minipage}{\linewidth}
 \begin{tabular*}{\linewidth}{@{\extracolsep{0pt plus 1fill}}cp{0.65\linewidth}@{}}
  \hline
- \pai{lmodern}     & Latin Modern 字体，对 Computer Modern 字体的扩展  \\
- \pai{txfonts}     & Times 风格的字体宏包  \\
- \pai{pxfonts}     & Palation 风格的字体宏包  \\
- \pai{newtxtext},\pai{newtxmath}  & \pkg{txfonts} 的改进版本，分别设置文本和数学字体  \\
- \pai{newpxtext},\pai{newpxmath}  & \pkg{pxfonts} 的改进版本，分别设置文本和数学字体  \\
- \pai{mathptmx}    & \pkg{psnfss} 组件之一，Times 风格，较为陈旧，不推荐使用  \\
- \pai{mathpazo}    & \pkg{psnfss} 组件之一，Palatino 风格，较为陈旧，不推荐使用  \\
- \pai{ccfonts}     & Concrete 风格字体 \\
- \pai{euler}       & Euler 风格数学字体，也出自于高德纳之手 \\
- \pai{fourier}     & fourier 风格数学字体 \\
- \pai{arev}        & Arev 风格的无衬线字体 \\
- \pai{cmbright}    & 仿 Computer Modern 风格的无衬线字体 \\
- \pai{libertine}   & Linux Libertine 衬线字体 \\
- \pai{droid}       & Droid Serif/Droid Sans 等 \\
- \pai{inconsolata} & Inconsolata 一款不错的开源等宽字体 \\
- \pai{sourcesanspro} & Source Sans Pro 开源无衬线字体 \\
- \pai{sourcecodepro} & Source Code Pro 开源等宽字体 \\
- \pai{mathabx}     & 数学符号宏包之一 \\
- \pai{MnSymbol}    & 数学符号宏包之一 \\
- \pai{fdsymbol}    & 数学符号宏包之一 \\
- \pai{mathdesign}  & 配合 Charter/Garamond/Utopia 正文字体的数学字体宏包（Garamond 字体可能需要单独安装） \\
+ \pkg{lmodern}     & Latin Modern 字体，对 Computer Modern 字体的扩展  \\
+ \pkg{txfonts}     & Times 风格的字体宏包  \\
+ \pkg{pxfonts}     & Palation 风格的字体宏包  \\
+ \pkg{newtxtext},\pkg{newtxmath}  & \pkg{txfonts} 的改进版本，分别设置文本和数学字体  \\
+ \pkg{newpxtext},\pkg{newpxmath}  & \pkg{pxfonts} 的改进版本，分别设置文本和数学字体  \\
+ \pkg{mathptmx}    & \pkg{psnfss} 组件之一，Times 风格，较为陈旧，不推荐使用  \\
+ \pkg{mathpazo}    & \pkg{psnfss} 组件之一，Palatino 风格，较为陈旧，不推荐使用  \\
+ \pkg{ccfonts}     & Concrete 风格字体 \\
+ \pkg{euler}       & Euler 风格数学字体，也出自于高德纳之手 \\
+ \pkg{fourier}     & fourier 风格数学字体 \\
+ \pkg{arev}        & Arev 风格的无衬线字体 \\
+ \pkg{cmbright}    & 仿 Computer Modern 风格的无衬线字体 \\
+ \pkg{libertine}   & Linux Libertine 衬线字体 \\
+ \pkg{droid}       & Droid Serif/Droid Sans 等 \\
+ \pkg{inconsolata} & Inconsolata 一款不错的开源等宽字体 \\
+ \pkg{sourcesanspro} & Source Sans Pro 开源无衬线字体 \\
+ \pkg{sourcecodepro} & Source Code Pro 开源等宽字体 \\
+ \pkg{mathabx}     & 数学符号宏包之一 \\
+ \pkg{MnSymbol}    & 数学符号宏包之一 \\
+ \pkg{fdsymbol}    & 数学符号宏包之一 \\
+ \pkg{mathdesign}  & 配合 Charter/Garamond/Utopia 正文字体的数学字体宏包（Garamond 字体可能需要单独安装） \\
  \hline
 \end{tabular*}
 \end{minipage}
 \end{table}
 
 \subsection{\texttt{xelatex} 命令下使用 \pkg{fontspec} 宏包更改字体}\label{subsec:fontspec}
-\paih{fontspec}
 
 \texttt{xelatex} 编译命令能够支持直接调用系统安装的 \texttt{.ttf} 或 \texttt{.otf} 格式字体%
 \footnote{Linux 下的 \TeX\ Live 为了支持系统安装的字体，需要额外的配置。详见附录 \ref{app:install}。}。相比于上一小节，我们有了更多修改字体的余地。
 
+\pkgindex{fontspec}
+\cmdindex[fontspec]{setmainfont}
+\cmdindex[fontspec]{setsansfont}
+\cmdindex[fontspec]{setmonofont}
 \texttt{xelatex} 命令下支持用户调用字体的宏包是 \pkg{fontspec}。宏包提供了几个设置全局字体的命令，设置 \cmd{rmfamily} 等对应命令的默认字体%
 \footnote{新版本 \pkg{fontspec} 的命令支持把必选参数 \Arg{font name} 放在可选参数 \Arg{font features} 的前面。}：
 \begin{command}
@@ -171,9 +176,6 @@ He likes {\LARGE large and
 \cmd{setsansfont}\oarg{font features}\marg{font name} \\
 \cmd{setmonofont}\oarg{font features}\marg{font name}
 \end{command}
-\cih{setmainfont}
-\cih{setsansfont}
-\cih{setmonofont}
 其中 \Arg{font name} 使用字体的文件名（带扩展名）或者字体的英文名称。\Arg{font features} 用来手动配置对应的粗体或斜体
 （如果有配套的粗体和斜体，则自动设置），如 \texttt{Bold\-Font=\Arg{font name},Italic\-Font=\Arg{font name}}。
 \Arg{font features} 还能配置字体本身的各种特性，这里不再赘述，感兴趣的读者请参考 \pkg{fontspec} 宏包的帮助文档。
@@ -183,17 +185,17 @@ He likes {\LARGE large and
 则在文档类一开头的 \cmd{document\-class} 里加上 \texttt{no-math} 选项。
 
 \subsection{使用 \pkg{xeCJK} 宏包更改中文字体}\label{subsec:CJKfont}
-\paih{xeCJK}
 
+\pkgindex{xeCJK}
+\cmdindex[xeCJK]{setCJKmainfont}
+\cmdindex[xeCJK]{setCJKsansfont}
+\cmdindex[xeCJK]{setCJKmonofont}
 前文已经介绍过的 \pkg{xeCJK} 宏包使用了和 \pkg{fontspec} 宏包非常类似的语法设置中文字体：
 \begin{command}
 \cmd{setCJKmainfont}\oarg{font features}\marg{font name} \\
 \cmd{setCJKsansfont}\oarg{font features}\marg{font name} \\
 \cmd{setCJKmonofont}\oarg{font features}\marg{font name}
 \end{command}
-\cih{setCJKmainfont}
-\cih{setCJKsansfont}
-\cih{setCJKmonofont}
 
 由于中文字体少有对应的粗体或斜体，\Arg{font features} 里多用其他字体来配置，
 比如许多人习惯将宋体的 \texttt{BoldFont} 配置为黑体，而 \texttt{ItalicFont} 配置为楷体。
@@ -215,16 +217,19 @@ He likes {\LARGE large and
 
 长度的数值 \Arg{length} 由数字和单位组成。常用的单位如下：
 
+\def\unitindex#1{\index{#1@\texttt{#1} (\textit{长度单位})}}
+
 \begin{center}
 \begin{tabular}{cp{140pt}}
  \hline
- \texttt{pt} & 点阵宽度，1/72.27\texttt{in} \\
- \texttt{in} & 英寸 \\
- \texttt{cm} & 厘米 \\
- \texttt{mm} & 毫米 \\
+ \texttt{pt}\unitindex{pt} & 点阵宽度，1/72.27\texttt{in} \\
+ \texttt{bp}\unitindex{bp} & 点阵宽度，1/72\texttt{in} \\
+ \texttt{in}\unitindex{in} & 英寸 \\
+ \texttt{cm}\unitindex{cm} & 厘米 \\
+ \texttt{mm}\unitindex{mm} & 毫米 \\
  \hline
- \texttt{em} & 当前字号下大写字母 M 的宽度，常用于水平距离的设定 \\
- \texttt{ex} & 当前字号下小写字母 x 的高度，常用于垂直距离的设定 \\
+ \texttt{em}\unitindex{em} & 当前字号下大写字母 M 的宽度，常用于水平距离的设定 \\
+ \texttt{ex}\unitindex{ex} & 当前字号下小写字母 x 的高度，常用于垂直距离的设定 \\
  \hline
 \end{tabular}
 \end{center}
@@ -237,12 +242,12 @@ He likes {\LARGE large and
 
 \subsection{行距}\label{subsec:linespread}
 
+\cmdindex{linespread}
 前文中我们提到过 \cmd{fontsize} 命令可以修改行距，但我们很少直接用这个命令，常用的是 \cmd{linespread}命令，
 它通常放在导言区：
 \begin{command}
 \cmd{linespread}\marg{factor}
 \end{command}
-\cih{linespread}
 
 \cmd{linespread} 命令的参数 \Arg{factor} 还并不是最终的行距。前文所叙述的 \cmd{fontsize} 命令设置了一个基本行距。
 \cmd{small}、\cmd{large} 等命令也设置了 1.2 倍的基本行距。
@@ -264,9 +269,10 @@ curly brace has been closed,
 everything is back to normal.
 \end{example}
 
+\cmdindex{par}
 字号的改变是即时生效的，而行距的改变直到文字\textbf{分段}时才生效。
-如果你想改变某一部分文字的行距，那么不能简单地将文字包含在花括号内。注意下面两个例子中\ci{par} 命令的位置%
-\footnote{\cmd{par} 的作用相当于一个空行。}。
+如果你想改变某一部分文字的行距，那么不能简单地将文字包含在花括号内。注意下面两个例子中 \cmd{par} 命令的位置
+（\cmd{par} 相当于分段，见 \ref{subsec:spaces} 小节）。
 \begin{example}
 {\Large Don't read this!
  It is not true.
@@ -299,9 +305,10 @@ But remember I am a liar.}\par
 \end{command}
 命令强制开启一段首行缩进的段落。
 
+\pkgindex{indentfirst}
 \LaTeX\ 还默认\textbf{在 \cmd{chapter}、\cmd{section} 等章节命令之后的第一段不缩进}%
 \footnote{\pkg{ctex} 宏包按照中文习惯保持第一段的首行缩进。}。
-如果你想使之缩进，当然可以使用 \cmd{indent} 逐个调整段落，但更简单的方式是在导言区使用 \pai{indentfirst} 宏包：
+如果你想使之缩进，当然可以使用 \cmd{indent} 逐个调整段落，但更简单的方式是在导言区使用 \pkg{indentfirst} 宏包：
 \begin{verbatim}
 \usepackage{indentfirst}
 \end{verbatim}
@@ -313,13 +320,14 @@ But remember I am a liar.}\par
 
 \subsection{水平间距}\label{subsec:hspace}
 
+\cmdindex{hspace}
 \LaTeX 默认为单词之间增添了水平间距。我们可以用已经在数学公式中出现的 \cmd{quad} 和 \cmd{qquad} 命令制造一个额外的间距。
 但是如果想要得到任意长度的间距，需要用到如下命令：
 \begin{command}
 \cmd{hspace}\marg{length}
 \end{command}
-\cih{hspace}
 
+\cmdindex{hspace*}
 \cmd{hspace} 命令生成的间距如果位于一行的开头或末尾，则有可能被“吞掉”。这时可以使用 \cmd{hspace*} 代替 \cmd{hspace} 命令
 得到不会因断行而消失的水平间距。
 
@@ -347,12 +355,13 @@ x\hspace{\stretch{3}}x
 
 在页面中，段落、章节标题、行间公式、列表、浮动体等元素之间的间距是 \LaTeX\ 预设的。比如 \cmd{parskip} ，默认设置为 \texttt{0pt plus 1pt}。
 
+\cmdindex{vspace}
 如果我们想要人为地增加段落之间的垂直间距，可以在\textbf{两个段落之间}的位置使用如下命令：
 \begin{command}
 \cmd{vspace}\marg{length}
 \end{command}
-\cih{vspace}
 
+\cmdindex{vspace*}
 \cmd{vspace} 的间距在一页的顶端或底端可能被“吞掉”，类似 \cmd{hspace} 在一行的开头和末尾那样。
 对应地，\cmd{vspace*} 命令产生不会因断页而消失的垂直间距。\cmd{vspace} 也可用 \cmd{stretch} 设置无限延伸的垂直长度。
 
@@ -476,6 +485,8 @@ x\hspace{\stretch{3}}x
 
 \subsection{基本的页眉页脚样式}\label{subsec:basic-pagesyle}
 
+\cmdindex{pagestyle}
+\cmdindex{thispagestyle}
 \LaTeX\ 中提供了命令 \cmd{pagestyle} 来修改页眉页脚的样式：
 \begin{command}
 \cmd{pagestyle}\marg{page-style}
@@ -538,7 +549,8 @@ x\hspace{\stretch{3}}x
 
 \subsection{\pkg{fancyhdr} 宏包}\label{subsec:fancyhdr}
 
-\pai{fancyhdr} 宏包改善了页眉页脚样式的定义方式，允许我们将内容自由安置在页眉和页脚的左、中、右三个位置，还为页眉和页脚各加了一条横线。
+\pkgindex{fancyhdr}
+\pkg{fancyhdr} 宏包改善了页眉页脚样式的定义方式，允许我们将内容自由安置在页眉和页脚的左、中、右三个位置，还为页眉和页脚各加了一条横线。
 
 \pkg{fancyhdr} 自定义了样式名称 fancy。使用 \pkg{fancyhdr} 宏包定义页眉页脚之前，通常先用 \cmd{pagestyle}\marg*{fancy} 调用这个样式。
 在 \pkg{fancyhdr} 中定义页眉页脚的命令为：

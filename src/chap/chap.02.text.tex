@@ -92,13 +92,15 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 连续的若干个空白字符视为一个空格。另外一行开头的空格是忽略不计的。
 
 行末的回车视为一个空格；但连续两个回车，也就是空行，会将文字分段。多个空行被视为一个空行。
-以下为一个示例，左边为源代码的写法，右边为输出的效果。
+也可以在行末使用 \cmd{par} 命令分段：
 \begin{example}
 Several spaces     equal one.
   Front spaces are ignored.
 
 An empty line starts a new
-paragraph.
+paragraph.\par
+A \verb|\par| command also 
+starts a new line.
 \end{example}
 
 \subsection{注释}\label{subsec:comments}

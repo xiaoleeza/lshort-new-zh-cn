@@ -13,7 +13,7 @@
 
 你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个灰色的矩形背景框中。
 笔者并没有直接使用基础的 \LaTeX\ 命令
-来实现这个效果，而是创建了一个宏包 (\wi{package})，并在其中定义了我
+来实现这个效果，而是创建了一个\textbf{宏包}，并在其中定义了我
 所需要的命令和环境。现在我只需写成这样简单的形式：
 
 \begin{example}
@@ -30,16 +30,16 @@
 
 \subsection{定义新命令}
 
+\cmdindex{newcommand}
 使用如下命令可以定义你自己的命令：
 \begin{command}
 \cmd{newcommand}\marg*{\cmd{\Arg{name}}}\oarg{num}\marg{definition}
 \end{command}
-\cih{newcommand}
 基本上，这个命令有两个参数，第一个 \Arg{name} 是你想要建立的命令的名称（带反斜杠），
 第二个 \Arg{definition} 是命令的定义。方括号里的参数 \Arg{num} 是可选的，
 用于指定新命令所需的参数数目（最多 9 个）。如果不给出这个参数，默认就是 0，也就是新建的命令不要任何参数。
 
-接下来的两个例子有助你的理解。第一个例子定义了一个新的命令：\ci{tnss}。
+接下来的两个例子有助你的理解。第一个例子定义了一个新的命令：\cmd{tnss}。
 这个命令是句子 ``The Not So Short Introduction to \LaTeXe'' 的简写。
 如果你需要在文档中多次使用本书的名称，那么定义这个命令将是非常方便的。
 
@@ -66,26 +66,29 @@ This is ``\tnss'' \ldots{}
 \end{itemize}
 \end{example}
 
+\cmdindex{renewcommand}
 \LaTeX\ 不允许你新建一个与现有命令重名的命令。 如果你确实需要这么做，有一个专门
-的命令用于处理这种情况：\ci{renewcommand}。它使用与命令 \cmd{newcommand}
+的命令用于处理这种情况：\cmd{renewcommand}。它使用与命令 \cmd{newcommand}
 相同的语法。
 
-在某些情况之下，你可能会希望使用 \ci{providecommand} 命令。它完成与 \cmd{newcommand} 
+\cmd{providecommand}
+在某些情况之下，你可能会希望使用 \cmd{providecommand} 命令。它完成与 \cmd{newcommand} 
 命令相同的工作。但如果命令已经存在，\LaTeXe{} 将会忽略你的定义。
 
 \subsection{定义环境}
 
+\cmdindex{newenvironment}
 与 \cmd{newcommand} 命令类似，有一个命令用于定义新的环境。这个命令是 \cmd{newenvironment}，它的语法如下所示：
 
 \begin{command}
 \cmd{newenvironment}\marg{name}\oarg{num}\marg{before}\marg{after}
 \end{command}
-\cih{newenvironment}
 
+\cmdindex{newenvironment}
 同样地，\cmd{newenvironment} 命令有一个可选的参数。
 在 \Arg{before} 中的内容将在此环境包含的文本之前处理，而在 \Arg{after} 中的内容将在遇到 \cmd{end\marg{name}} 命令时处理。
 
-下面的例子演示了 \ci{newenvironment} 命令的用法：
+下面的例子演示了 \cmd{newenvironment} 命令的用法：
 \begin{example}
 \newenvironment{king}
 {\rule{1ex}{1ex}%
@@ -98,17 +101,19 @@ My humble subjects \ldots
 \end{king}
 \end{example}
 
+\cmdindex{renewenvironment}
 参数 \Arg{num} 的使用方式与 \cmd{newcommand} 命令相同。\LaTeX\ 还同样保证你
 不会不小心新建重名的环境。如果你确实希望改变一个现有的环境，你可以使用命令
- \ci{renewenvironment}，它使用和命令 \ci{newenvironment} 相同的语法。
+ \cmd{renewenvironment}，它使用和命令 \cmd{newenvironment} 相同的语法。
 
 \section{编写自己的宏包和文档类}
 
 \subsection{编写简单的宏包}
 
+\cmdindex{usepackage}
 如果你定义了很多新的环境和命令，你的文档的导言区将变得相当长，在这种情况下，好的方式是
 建立一个新的 \LaTeX\ 宏包来存放所有你自己定义的命令和环境，
-然后在你的文档中使用 \ci{usepackage} 命令来调用自定义的宏包。
+然后在你的文档中使用 \cmd{usepackage} 命令来调用自定义的宏包。
 
 \begin{sourcecode}[htbp]
 \begin{Verbatim}
@@ -123,12 +128,12 @@ My humble subjects \ldots
 \caption{宏包的一个最简示例。}\label{code:package}
 \end{sourcecode}
 
+\cmdindex{ProvidesPackage}
 写一个宏包的基本工作就是将原本在你的文档导言区里很长的内容拷贝到另一个文件中去，
  这个文件需要以 \texttt{.sty} 作扩展名。你还需要加入一个宏包专用的命令：
 \begin{command}
 \cmd{ProvidesPackage}\marg{package name}
 \end{command}
-\cih{ProvidesPackage}
 这个命令应该放在你的宏包的最前面，并且一定要注意：\textbf{\Arg{package name} 需要和宏包的文件名一致。}
 \cmd{ProvidesPackage} 让 \LaTeX\ 记录宏包的名称，从而在你尝试再次调用同一个宏包的时候忽略后面的引入%
 \footnote{但如果你以\emph{不同的选项}多次引入宏包，则有可能会引起错误。}。
@@ -145,12 +150,12 @@ My humble subjects \ldots
 
 \subsection{编写自己的文档类}
 
+\cmdindex{ProvidesClass}
 当你更进一步，需要编写自己的文档类，如论文模板等，问题就稍稍麻烦了一些。首先，自己的文档类以 \texttt{.cls} 作扩展名，开头使用
 \cmd{ProvidesClass} 命令：
 \begin{command}
 \cmd{ProvidesClass}\marg{class name}
 \end{command}
-\cih{ProvidesClass}
 当然了，\marg{class name}也需要和文档类的文件名一致。
 
 但是有了上述命令和和你之前学到的 \cmd{newcommand} 等，还并不能完成一个文档类的编写，因为诸如 \cmd{chapter}、

@@ -4,13 +4,13 @@ set PDF=%LSHORT%.pdf
 set EXAMPLE=lshort-example.tex
 
 set MODE=-interaction=nonstopmode
-set ENGINE=xelatex
+set TEX=xelatex
 set MAKEINDEX=makeindex
 
 if exist %PDF% (del %PDF%)
-%ENGINE% %MODE% %LSHORT%
-%MAKEINDEX% %LSHORT%
-%ENGINE% %MODE% %LSHORT%
+%TEX% %MODE% %LSHORT%
+%MAKEINDEX% -s %LSHORT%.ist %LSHORT%
+%TEX% %MODE% %LSHORT%
 if exist %EXAMPLE% (del %EXAMPLE%)
 
 if exist %PDF% (

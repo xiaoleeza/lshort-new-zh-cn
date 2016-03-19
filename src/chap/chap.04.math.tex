@@ -8,9 +8,13 @@
 
 \section{\AmS\ 宏集}\label{sec:ams-bundle}
 
+\pkgindex{amsmath}
+\pkgindex{amsfonts}
+\pkgindex{amssymb}
+\pkgindex{amsthm}
 在介绍数学公式排版之前，简单介绍一下 \AmS\ 宏集。\AmS\ 宏集合是美国数学学会(American Mathematical Society)提供的对
-\LaTeX\ 原生的数学公式排版的扩展，其核心是 \pai{amsmath} 宏包，对多行公式的排版提供了有力的支持。
-此外，\pai{amsfonts} 宏包以及基于它的 \pai{amssymb} 宏包提供了丰富的数学符号；\pai{amsthm} 宏包扩展了 \LaTeX\ 定理证明格式。
+\LaTeX\ 原生的数学公式排版的扩展，其核心是 \pkg{amsmath} 宏包，对多行公式的排版提供了有力的支持。
+此外，\pkg{amsfonts} 宏包以及基于它的 \pkg{amssymb} 宏包提供了丰富的数学符号；\pkg{amsthm} 宏包扩展了 \LaTeX\ 定理证明格式。
 
 本章介绍的许多命令和环境依赖于 \pkg{amsmath} 宏包。这些命令和环境将以\textcolor{blue}{蓝色}示意。
 
@@ -216,16 +220,16 @@ f_n(x) \stackrel{*}{\approx} 1
 \hline
 \multicolumn{5}{c}{不带上下限的算符} \\
 \hline
-\ci{sin} & \ci{arcsin} & \ci{sinh} & \ci{exp} & \ci{dim} \\
-\ci{cos} & \ci{arccos} & \ci{cosh} & \ci{log} & \ci{ker} \\
-\ci{tan} & \ci{arctan} & \ci{tanh} & \ci{lg}  & \ci{hom} \\
-\ci{cot} & \ci{arg}    & \ci{coth} & \ci{ln}  & \ci{deg} \\
-\ci{sec} & \ci{csc}    & \\
+\cmd{sin} & \cmd{arcsin} & \cmd{sinh} & \cmd{exp} & \cmd{dim} \\
+\cmd{cos} & \cmd{arccos} & \cmd{cosh} & \cmd{log} & \cmd{ker} \\
+\cmd{tan} & \cmd{arctan} & \cmd{tanh} & \cmd{lg}  & \cmd{hom} \\
+\cmd{cot} & \cmd{arg}    & \cmd{coth} & \cmd{ln}  & \cmd{deg} \\
+\cmd{sec} & \cmd{csc}    & \\
 \hline
 \multicolumn{5}{c}{带上下限的算符} \\
 \hline
-\ci{lim} & \ci{limsup} & \ci{liminf} & \ci{sup} & \ci{inf} \\
-\ci{min} & \ci{max}    & \ci{det}    & \ci{Pr}  & \ci{gcd} \\
+\cmd{lim} & \cmd{limsup} & \cmd{liminf} & \cmd{sup} & \cmd{inf} \\
+\cmd{min} & \cmd{max}    & \cmd{det}    & \cmd{Pr}  & \cmd{gcd} \\
 \hline
 \end{tabular}
 \end{table}
@@ -447,8 +451,8 @@ l + m &= n
 \end{equation}
 \end{example}
 
-\env{split} 环境和 \env{aligned} 环境用法类似，也用于和 \env{equation} 环境套用，区别是 \env{split} 只能将每行的一个公式分两栏，
-\env{aligned} 能分多栏。
+\amsenv{split} 环境和 \amsenv{aligned} 环境用法类似，也用于和 \env{equation} 环境套用，区别是 \amsenv{split} 只能将每行的一个公式分两栏，
+\amsenv{aligned} 允许每行多个公式多栏。
 
 \section{数组和矩阵}
 
@@ -511,7 +515,7 @@ p_{m1} & p_{m2} & \ldots
 \]
 \end{example}
 
-\section{公式中的空格}\label{sec:math-space}
+\section{公式中的间距}\label{sec:math-space}
 
 前文提到过，绝大部分时候，数学公式中各元素的间距是根据符号类型自动生成的，需要我们手动调整的情况极少。
 我们已经认识了两个生成间距的命令 \cmd{quad} 和 \cmd{qquad}。在公式中我们还可能用到的间距包括 \cmd{,}、\cmd{:}、\cmd{;}
@@ -595,7 +599,7 @@ $\mathbb{ABCDE}$                 & \cmd{mathbb}\marg*{\ldots}    & \pkg{amssymb}
 
 \subsection{数学符号的尺寸}
 
-数学符号按照符号出现的位置规定尺寸，从大到小包括行间公式尺寸、行内公式尺寸、上下标尺寸、次级上下标尺寸。
+数学符号按照符号排版的位置规定尺寸，从大到小包括行间公式尺寸、行内公式尺寸、上下标尺寸、次级上下标尺寸。
 除了字号有别之外，行间和行内公式尺寸下的巨算符也使用不一样的大小。\LaTeX\ 为每个数学尺寸指定了一个切换的命令。
 \begin{table}[htbp]
 \centering
@@ -644,7 +648,7 @@ $\mu, M \qquad
 \end{example}
 
 然而定界符、巨算符等一些符号本身没有粗体版本，\amscmd{boldsymbol} 也得不到粗体。
-\LaTeX\ 工具宏集之一的 \pkg{bm} 宏包可以用 \cmd{bm} 生成“伪粗体”，一定程度上解决了不带粗体版本的符号的问题。这里不做过多介绍，
+\LaTeX\ 工具宏集之一的 \pkg{bm} 宏包可以用 \cmd{bm} 命令生成“伪粗体”，一定程度上解决了不带粗体版本的符号的问题。这里不做过多介绍，
 需要使用的用户请参考 \pkg{bm} 宏包的帮助文档。
 
 \section{定理环境}
