@@ -1,13 +1,13 @@
 中文版 lshort 代码用到的命令
 ===
 
-## 命令和环境 ##
+## 命令和环境
 
 ```
 \cmd{cmdname}
 \env{envname}
 ```
-生成命令名 `\cmdname` / 环境 `envname`，等宽字体。cmdname 参数不要带斜杠。
+生成命令名 \cmdname / 环境 envname，等宽字体。cmdname 参数不要带斜杠。
 
 ```
 \pkg{pkgname}
@@ -21,13 +21,13 @@
 \oarg{argument}
 \oarg*{argument}
 ```
-命令的必选参数/可选参数，分别为参数自动包裹大括号和中括号。不带星号的版本生成 meta 形式的 *<argument>*。
+命令的必选参数/可选参数，分别为参数自动包裹大括号和中括号。不带星号的版本生成 meta 形式的 &lt;*argument*&gt;。
 
 ```
 \Arg{argument}
 ```
-独立的 meta 形式 *<argument>*。结合 `\marg*` 和 `\oarg*` 可排版较复杂的参数形式如 key-value。比如
-> \usepackage[*<key1>*=*<value1>*,...]{*<pkgname>*}   
+独立的 meta 形式 &lt;*argument*&gt;。结合 `\marg*` 和 `\oarg*` 可排版较复杂的参数形式如 key-value。比如
+> \usepackage[&lt;*key1*&gt;=&lt;*value1*&gt;,...]{&lt;*pkgname*&gt;}   
 使用如下命令排版：
 > `\cmd{usepackage}\oarg*{\Arg{key1}=\Arg{value1},\ldots}\marg{pkgname}`
 
@@ -37,7 +37,7 @@
 ```
 生成 CTAN 资源的链接。参数 link 为链接的子目录名称，如 systems/win32/miktex，macros/contrib/... 等。
 
-## 索引 ##
+## 索引
 
 ```
 \cmdindex{cmdname}
@@ -58,7 +58,7 @@
 ```
 汉字索引项，通过拼音参与排序。
 
-## 命令环境 ##
+## 命令环境
 
 ```
 \demowidth{length}
