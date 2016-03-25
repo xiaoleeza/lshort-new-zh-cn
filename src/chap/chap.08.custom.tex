@@ -6,15 +6,14 @@
 而不是再在导言区写一堆代码？
 
 本章的内容将有助于你实现这一个目标，让你能编写可重复利用的模块——宏包和文档类，并在其中自己定义命令和环境。
-不过作为入门手册，这些知识仍是不全面的。如果你不满足于此，需要参考更多资料。
+不过作为入门手册，这些知识仍是不全面的。如果你不满足于此，需要参考更多资料，比如 \cite{companion,clsguide}。
 \end{intro}
 
 \section{自定义命令和环境}\label{sec:newcommands}
 
-你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个灰色的矩形背景框中。
-笔者并没有直接使用基础的 \LaTeX\ 命令
-来实现这个效果，而是创建了一个\textbf{宏包}，并在其中定义了我
-所需要的命令和环境。现在我只需写成这样简单的形式：
+你也许已经意识到了，在本手册中介绍的所有命令都被包含在一个带颜色的矩形背景框中。
+笔者并没有直接使用基础的 \LaTeX\ 命令来实现这个效果，而是创建了一个\textbf{宏包}，
+并在其中定义了笔者所需要的命令和环境。现在我只需写成这样简单的形式：
 
 \begin{example}
 \begin{command}
@@ -22,11 +21,11 @@
 \end{command}
 \end{example}
 
-在这个例子中，我使用了一个新的环境 \env{command}。这个环境负责给命令代码加上一个灰色的矩形背景框。
-同时我还使用了一个命令：\cmd{dum}， 这个命令负责输出命令的名字，包括前面的反斜杠。
+这个例子中使用了一个新的环境 \env{command}。这个环境负责给命令代码加上一个带颜色的矩形背景框。
+同时还使用了一个命令：\cmd{cmd}， 这个命令负责输出命令的名字，包括前面的反斜杠。
 
-一旦我不再喜欢在一个矩形框中排版命令，想要更换颜色、加边框等等，我可以很容易地改变 \env{command} 环境的定义，
-来创建新的外观，而不是挨个修改每个命令示例。
+一旦笔者想要修改命令代码的央视，比如更换颜色、加边框等等，可以通过改变 \env{command} 环境的定义来很容易地创建新的外观，
+而不是挨个修改每个命令示例。
 
 \subsection{定义新命令}
 
@@ -37,11 +36,11 @@
 \end{command}
 基本上，这个命令有两个参数，第一个 \Arg{name} 是你想要建立的命令的名称（带反斜杠），
 第二个 \Arg{definition} 是命令的定义。方括号里的参数 \Arg{num} 是可选的，
-用于指定新命令所需的参数数目（最多 9 个）。如果不给出这个参数，默认就是 0，也就是新建的命令不要任何参数。
+用于指定新命令所需的参数数目（最多 9 个）。如果缺省可选参数，默认就是 0，也就是新建的命令不带任何参数。
 
 接下来的两个例子有助你的理解。第一个例子定义了一个新的命令：\cmd{tnss}。
-这个命令是句子 ``The Not So Short Introduction to \LaTeXe'' 的简写。
-如果你需要在文档中多次使用本书的名称，那么定义这个命令将是非常方便的。
+这个命令是本手册英文名称 ``The Not So Short Introduction to \LaTeXe'' 的简写。
+如果你需要在文档中多次使用本手册的名称，那么定义这个命令将是非常方便的。
 
 \begin{example}
 \newcommand{\tnss}{The not
@@ -67,24 +66,22 @@ This is ``\tnss'' \ldots{}
 \end{example}
 
 \cmdindex{renewcommand}
-\LaTeX\ 不允许你新建一个与现有命令重名的命令。 如果你确实需要这么做，有一个专门
-的命令用于处理这种情况：\cmd{renewcommand}。它使用与命令 \cmd{newcommand}
+\LaTeX\ 不允许你新建一个与现有命令重名的命令。如果需要修改的话，使用 \cmd{re\-new\-comm\-and} 命令。它使用与命令 \cmd{new\-comm\-and}
 相同的语法。
 
 \cmd{providecommand}
-在某些情况之下，你可能会希望使用 \cmd{providecommand} 命令。它完成与 \cmd{newcommand} 
-命令相同的工作。但如果命令已经存在，\LaTeXe{} 将会忽略你的定义。
+在某些情况之下，你可能会希望使用 \cmd{pro\-vide\-comm\-and} 命令。在命令不存在时，它相当于 \cmd{new\-comm\-and} 
+；在命令已经存在时，仍沿用存在的定义。
 
 \subsection{定义环境}
 
 \cmdindex{newenvironment}
-与 \cmd{newcommand} 命令类似，有一个命令用于定义新的环境。这个命令是 \cmd{newenvironment}，它的语法如下所示：
+与 \cmd{new\-comm\-and} 命令类似，有一个命令用于定义新的环境。这个命令是 \cmd{new\-environ\-ment}，它的语法如下所示：
 
 \begin{command}
 \cmd{newenvironment}\marg{name}\oarg{num}\marg{before}\marg{after}
 \end{command}
 
-\cmdindex{newenvironment}
 同样地，\cmd{newenvironment} 命令有一个可选的参数。
 在 \Arg{before} 中的内容将在此环境包含的文本之前处理，而在 \Arg{after} 中的内容将在遇到 \cmd{end\marg{name}} 命令时处理。
 
@@ -102,9 +99,9 @@ My humble subjects \ldots
 \end{example}
 
 \cmdindex{renewenvironment}
-参数 \Arg{num} 的使用方式与 \cmd{newcommand} 命令相同。\LaTeX\ 还同样保证你
+参数 \Arg{num} 的使用方式与 \cmd{new\-comm\-and} 命令相同。\LaTeX\ 还同样保证你
 不会不小心新建重名的环境。如果你确实希望改变一个现有的环境，你可以使用命令
- \cmd{renewenvironment}，它使用和命令 \cmd{newenvironment} 相同的语法。
+ \cmd{re\-new\-environ\-ment}，它使用和命令 \cmd{new\-environ\-ment} 相同的语法。
 
 \section{编写自己的宏包和文档类}
 
@@ -113,7 +110,7 @@ My humble subjects \ldots
 \cmdindex{usepackage}
 如果你定义了很多新的环境和命令，你的文档的导言区将变得相当长，在这种情况下，好的方式是
 建立一个新的 \LaTeX\ 宏包来存放所有你自己定义的命令和环境，
-然后在你的文档中使用 \cmd{usepackage} 命令来调用自定义的宏包。
+然后在你的文档中使用 \cmd{use\-package} 命令来调用自定义的宏包。
 
 \begin{sourcecode}[htbp]
 \begin{Verbatim}
@@ -135,12 +132,13 @@ My humble subjects \ldots
 \cmd{ProvidesPackage}\marg{package name}
 \end{command}
 这个命令应该放在你的宏包的最前面，并且一定要注意：\textbf{\Arg{package name} 需要和宏包的文件名一致。}
-\cmd{ProvidesPackage} 让 \LaTeX\ 记录宏包的名称，从而在你尝试再次调用同一个宏包的时候忽略后面的引入%
-\footnote{但如果你以\emph{不同的选项}多次引入宏包，则有可能会引起错误。}。
+\cmd{Provides\-Package} 让 \LaTeX\ 记录宏包的名称，从而在你尝试再次调用同一个宏包的时候忽略后面的引入%
+\footnote{但如果你以\emph{不同的选项}多次引入宏包，则有可能会引起错误，见附录 \ref{subsec:generic-error}。}。
 源代码 \ref{code:package} 给出了一个小的宏包示例，其中包含了我们之前定义的一些命令。
 
 \subsection{在宏包中调用其它宏包}
 
+\cmdindex{RequirePackage}
 如果你想进一步把各种宏包的功能汇总到一个文件里，而不是在文档的导言区罗列一大堆宏包的话，
 \LaTeX\ 允许你在自己编写的宏包中调用其它宏包，命令为 \cmd{RequirePackage}，用法和 \cmd{usepackage}
 一致：
@@ -158,6 +156,7 @@ My humble subjects \ldots
 \end{command}
 当然了，\marg{class name}也需要和文档类的文件名一致。
 
+\cmdindex{LoadClass}
 但是有了上述命令和和你之前学到的 \cmd{newcommand} 等，还并不能完成一个文档类的编写，因为诸如 \cmd{chapter}、
 \cmd{section} 等等许多常用的命令都是在文档类中定义的。事实上，许多时候我们只需要像调用宏包那样调用一个基本的文档类，
 省去许多不必要的麻烦。在你的文档类中调用其它文档类的命令是 \cmd{LoadClass} ，用法和 \cmd{documentclass} 十分相像：
@@ -167,10 +166,12 @@ My humble subjects \ldots
 
 \section{计数器}\label{sec:counters}
 
+\pinyinindex{jishuqi}{计数器}
 我们早就见识到了 \LaTeX\ 对文档元素自动计数的能力：章节符号、列表、图表……它们都是依靠 \LaTeX\ 提供的“计数器”完成的。
 
 \subsection{定义和修改计数器}\label{subsec:count-defs}
 
+\cmdindex{newcounter}
 定义一个计数器的方法为：
 \begin{command}
 \cmd{newcounter}\marg{counter name} \\
@@ -179,6 +180,9 @@ My humble subjects \ldots
 
 \Arg{counter name} 为计数器的名称，可选参数 \Arg{parent counter name} 定义为 \Arg{counter name} 的父一级计数器。
 
+\cmdindex{setcounter}
+\cmdindex{addtocounter}
+\cmdindex{stepcounter}
 以下命令修改计数器的数值，\cmd{set\-counter} 将数值设为 \Arg{number}；\cmd{add\-to\-counter} 将数值加上 \Arg{number}；
 \cmd{step\-counter} 将数值加一，并\textbf{将所有子级计数器归零}。
 \begin{command}
@@ -196,7 +200,7 @@ My humble subjects \ldots
 \end{command}
 
 命令 \cmd{Alph} 控制计数器 \Arg{counter} 的值以大写字母形式显示。下表列出所有可用于修改计数器格式的命令。
-注意：这些命令\textbf{只能用于计数器}，不能直接用于数字，如 \cmd{arabic}\marg*{1} 这样的命令会出错。
+注意：这些命令\textbf{只能用于计数器，不能直接用于数字}，如 \cmd{roman}\marg*{1} 这样的命令会出错。
 \begin{center}
 \begin{tabular}{cl}
  \hline
@@ -235,12 +239,12 @@ My humble subjects \ldots
 最后介绍两个有用的计数器：
 
 \begin{itemize}
-  \item secnumdepth
+  \item secnumdepth \index{secnumdepth@secnumdepth (\textit{计数器})}
 
   \LaTeX\ 内部对章节规定了层级：
   \begin{itemize}
     \item 在 \cls{article} 文档类里 part 为 0，section 为 1，依此类推；
-    \item 在 \cls{report}/\cls{book} 文档类里part 为 -1，chapter 为 0，section 为 1，等等。
+    \item 在 \cls{report}/\cls{book} 文档类里 part 为 -1，chapter 为 0，section 为 1，等等。
   \end{itemize}
 
   secnumdepth 计数器控制章节编号的深度，如果章节的层级大于 secnumdepth，那么章节的标题、在目录和页眉页脚的标题都不编号，计数器也不计数。
@@ -251,7 +255,7 @@ My humble subjects \ldots
 
   secnumdepth 计数器在 \cls{article} 文档类里默认为 3 （subsubsection 一级）；在 \cls{report}/\cls{book} 文档类里默认为 2 （subsection 一级）。
 
-  \item tocdepth
+  \item tocdepth \index{tocdepth@tocdepth (\textit{计数器})}
 
   tocdepth 计数器控制目录的深度，如果章节的层级大于 tocdepth，那么章节将不会自动写入目录项。默认值同 secnumdepth。
 \end{itemize}

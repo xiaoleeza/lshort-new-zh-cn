@@ -1,30 +1,34 @@
 % Definitions
-\def\SYM     #1{$#1$     & \texttt{\string#1}}
-\def\lsym{\textsuperscript{$\ell$}}
+\def\lsym{$\mathsurround=0pt {}^\ell$}
 \def\LSYM    #1{$#1$     & \texttt{\string#1}\lsym}
+
+\def\SYM     #1{$#1$     & \texttt{\string#1}}
 \def\BIGSYM  #1{$#1$     & $\displaystyle #1$ & \texttt{\string#1}}
 \def\ACC   #1#2{$#1{#2}$ & \texttt{\string#1}\marg*{#2}}
-\def\DEL     #1{$\big#1$ & \texttt{\string#1}}
+\def\DEL     #1{$\big#1 \bigg#1$ & \texttt{\string#1}}
 
 \def\AMSSYM  #1{$#1$     & \texttt{\string#1}}
+% These symbols rely on `amsmath' package
+\def\AMSM    #1{$#1$     & \textcolor{blue}{\texttt{\string#1}}}
 \def\AMSACC#1#2{$#1{#2}$ & \textcolor{blue}{\texttt{\string#1}}\marg*{#2}}
+\def\AMSBIG  #1{$#1$     & $\displaystyle #1$ & \textcolor{blue}{\texttt{\string#1}}}
 
 \def\SC      #1{#1       & \texttt{\string#1}}
 
 
 \newsavebox{\symbbox}
 \newenvironment{symbols}[1]%
-  {\vskip\partopsep\vskip\topsep
-  \def\arraystretch{1.1}
+  {\def\arraystretch{1.1}
   \begin{lrbox}{\symbbox}
   \begin{tabular}{@{}#1@{}}}%
-  {\end{tabular}\end{lrbox}\makebox[\linewidth]{\usebox{\symbbox}}\par\vskip\topsep\vskip\partopsep}
+  {\end{tabular}\end{lrbox}\makebox[\linewidth]{\usebox{\symbbox}}}
 
 \newcount\savesecdepth
 
 \clearpage
 \section{符号表}\label{sec:math-tables}
 
+\pkgindex{latexsym}
 有几个注意事项：
 \begin{enumerate}
   \item \textcolor{blue}{蓝色}的命令依赖 \pkg{amsmath} 宏包（非 \pkg{amssymb} 宏包）；
@@ -35,7 +39,9 @@
 
 \begin{table}[!htbp]
 \caption{文本/数学模式通用符号}\label{tbl:general-syms}
-{\small 这些符号可用于文本和数学模式。\par}
+\begin{trivlist}\item\relax\small%
+这些符号可用于文本和数学模式。
+\end{trivlist}
 \begin{symbols}{*4{cl}}
 \hline
  \SC{\{}    &  \SC{\}}  &  \SC{\$}         &  \SC{\%}               \\
@@ -47,8 +53,10 @@
 
 \begin{table}[!htbp]
 \caption{希腊字母。} \label{tbl:math-greek}
-{\small\cmd{Alpha}，\cmd{Beta} 等希腊字母符号不存在，因为它们和拉丁字母 A,B 等一模一样；
-小写字母里也不存在 \cmd{omicron}，直接用$o$代替。\par}
+\begin{trivlist}\item\relax\small%
+\cmd{Alpha}，\cmd{Beta} 等希腊字母符号不存在，因为它们和拉丁字母 A,B 等一模一样；
+小写字母里也不存在 \cmd{omicron}，直接用 $o$ 代替。
+\end{trivlist}
 \begin{symbols}{*4{cl}}
 \hline
  \SYM{\alpha}     & \SYM{\theta}     & \SYM{o}          & \SYM{\upsilon}  \\
@@ -62,13 +70,18 @@
  \SYM{\Gamma}     & \SYM{\Lambda}    & \SYM{\Sigma}     & \SYM{\Psi}      \\
  \SYM{\Delta}     & \SYM{\Xi}        & \SYM{\Upsilon}   & \SYM{\Omega}    \\
  \SYM{\Theta}     & \SYM{\Pi}        & \SYM{\Phi}       &                 \\
+ \AMSM{\varGamma} & \AMSM{\varLambda}& \AMSM{\varSigma}  & \AMSM{\varPsi}      \\
+ \AMSM{\varDelta} & \AMSM{\varXi}    & \AMSM{\varUpsilon}& \AMSM{\varOmega}    \\
+ \AMSM{\varTheta} & \AMSM{\varPi}    & \AMSM{\varPhi}    &                 \\
 \hline
 \end{symbols}
 \end{table}
 
 \begin{table}[!htbp]
 \caption{二元关系符。} \label{tbl:math-rel}
-{\small 所有的二元关系符都可以加 \cmd{not} 前缀得到相反意义的关系符，例如 \cmd{not}\texttt{=} 就得到不等号（同 \cmd{ne}）。\par}
+\begin{trivlist}\item\relax\small%
+所有的二元关系符都可以加 \cmd{not} 前缀得到相反意义的关系符，例如 \cmd{not}\texttt{=} 就得到不等号（同 \cmd{ne}）。
+\end{trivlist}
 \begin{symbols}{*3{cl}}
 \hline
  \SYM{<}              & \SYM{>}                    & \SYM{=}          \\
@@ -78,7 +91,7 @@
  \SYM{\preceq}        & \SYM{\succeq}              & \SYM{\simeq}     \\
  \SYM{\subset}        & \SYM{\supset}              & \SYM{\approx}    \\
  \SYM{\subseteq}      & \SYM{\supseteq}            & \SYM{\cong}      \\
- \LSYM{\sqsubset}     & \LSYM{\sqsupset}           & \LSYM{\Join}     \\% latexsym
+ \LSYM{\sqsubset}     & \LSYM{\sqsupset}           & \LSYM{\Join}     \\
  \SYM{\sqsubseteq}    & \SYM{\sqsupseteq}          & \SYM{\bowtie}    \\
  \SYM{\in}            & \SYM{\ni}, \cmd{owns}      & \SYM{\propto}    \\
  \SYM{\vdash}         & \SYM{\dashv}               & \SYM{\models}    \\
@@ -112,6 +125,7 @@
 
 \begin{table}[!htbp]
 \caption{巨算符。}\label{tbl:math-bigop}
+\def\arraystretch{1.8}
 \begin{symbols}{*3{ccl}}
 \hline
  \BIGSYM{\sum}      & \BIGSYM{\bigcup}   & \BIGSYM{\bigvee}  \\
@@ -119,19 +133,25 @@
  \BIGSYM{\coprod}   & \BIGSYM{\bigsqcup} & \BIGSYM{\biguplus} \\
  \BIGSYM{\int}      & \BIGSYM{\oint}     & \BIGSYM{\bigodot} \\
  \BIGSYM{\bigoplus} & \BIGSYM{\bigotimes} & \\
+ \AMSBIG{\iint}     & \AMSBIG{\iiint}    & \AMSBIG{\iiiint}  \\
+ \AMSBIG{\idotsint} &                    & \\
 \hline
 \end{symbols}
 \end{table}
 
 \begin{table}[!htbp]
 \caption{数学重音符号。}\label{tbl:math-accents}
+\begin{trivlist}\item\relax\small
+最后一个 \cmd{wideparen} 依赖 \pkg{yhmath} 宏包。
+\end{trivlist}
 \begin{symbols}{*3{cl}}
 \hline
 \ACC{\hat}{a}   & \ACC{\check}{a} & \ACC{\tilde}{a}       \\
-\ACC{\grave}{a} & \ACC{\dot}{a}   & \ACC{\ddot}{a}        \\
-\ACC{\bar}{a}   & \ACC{\vec}{a}   & \ACC{\widehat}{AAA}   \\
-\ACC{\acute}{a} & \ACC{\breve}{a} & \ACC{\widetilde}{AAA} \\
-\ACC{\mathring}{a} &              &                       \\
+\ACC{\acute}{a} & \ACC{\grave}{a} & \ACC{\breve}{a}       \\
+\ACC{\bar}{a}   & \ACC{\vec}{a}   & \ACC{\mathring}{a}    \\
+\ACC{\dot}{a}   & \ACC{\ddot}{a}  & \AMSACC{\dddot}{a}    \\
+\AMSACC{\ddddot}{a} \\[1ex]
+\ACC{\widehat}{AAA} & \ACC{\widetilde}{AAA} & \ACC{\wideparen}{AAA} \\
 \hline
 \end{symbols}
 \end{table}
@@ -190,6 +210,7 @@
 
 \begin{table}[!tbp]
 \caption{用于行间公式的大定界符。}\label{tbl:math-large-delims}
+\def\arraystretch{1.8}
 \begin{symbols}{*3{cl}}
 \hline
  \DEL{\lgroup}      & \DEL{\rgroup}      & \DEL{\lmoustache}  \\
@@ -301,10 +322,10 @@
  \AMSSYM{\looparrowleft}      & \AMSSYM{\looparrowright}     \\
  \AMSSYM{\curvearrowleft}     & \AMSSYM{\curvearrowright}    \\
  \AMSSYM{\circlearrowleft}    & \AMSSYM{\circlearrowright}   \\
- \AMSSYM{\multimap}  &  \AMSSYM{\upuparrows}  \\
- \AMSSYM{\downdownarrows} & \AMSSYM{\upharpoonleft} \\
- \AMSSYM{\upharpoonright} & \AMSSYM{\downharpoonright} \\
- \AMSSYM{\rightsquigarrow} & \AMSSYM{\leftrightsquigarrow} \\
+ \AMSSYM{\multimap}           & \AMSSYM{\upuparrows}         \\
+ \AMSSYM{\downdownarrows}     & \AMSSYM{\upharpoonleft}      \\
+ \AMSSYM{\upharpoonright}     & \AMSSYM{\downharpoonright}   \\
+ \AMSSYM{\rightsquigarrow}    & \AMSSYM{\leftrightsquigarrow}\\
 \hline
 \end{symbols}
 \end{table}
@@ -344,7 +365,7 @@
  \AMSSYM{\hbar}             & \AMSSYM{\hslash}           & \AMSSYM{\Bbbk}            \\
  \AMSSYM{\square}           & \AMSSYM{\blacksquare}      & \AMSSYM{\circledS}        \\
  \AMSSYM{\vartriangle}      & \AMSSYM{\blacktriangle}    & \AMSSYM{\complement}      \\
- \AMSSYM{\triangledown}     &\AMSSYM{\blacktriangledown} & \AMSSYM{\Game}            \\
+ \AMSSYM{\triangledown}     & \AMSSYM{\blacktriangledown}& \AMSSYM{\Game}            \\
  \AMSSYM{\lozenge}          & \AMSSYM{\blacklozenge}     & \AMSSYM{\bigstar}         \\
  \AMSSYM{\angle}            & \AMSSYM{\measuredangle}    & \\
  \AMSSYM{\diagup}           & \AMSSYM{\diagdown}         & \AMSSYM{\backprime}       \\

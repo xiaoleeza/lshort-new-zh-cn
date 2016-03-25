@@ -2,20 +2,24 @@
 \usepackage{lshort-zh-cn-style}
 
 \newcounter{minutes}
-\makeindex
 
 % 第四章用到的自定义算符
 \DeclareMathOperator{\argh}{argh}
 \DeclareMathOperator*{\nut}{Nut}
 
+\makeindex
+
 \begin{document}
+
 \pagenumbering{Alph}
 \input{chap/titlepage}
+
 \frontmatter
 \input{chap/preface.contrib}
 \input{chap/preface.overview}
 \tableofcontents
 \listofsources
+
 \mainmatter
 \input{chap/chap.01.basics}
 \input{chap/chap.02.text}
@@ -26,11 +30,14 @@
 \input{chap/chap.06.spec}
 \input{chap/chap.07.graphic}
 \input{chap/chap.08.custom}
+
 \appendix
 \input{chap/app.A.install}
 \input{chap/app.B.error.help}
 \refstepcounter{minutes}\label{lshort-minutes}
+
 \backmatter
 \input{chap/biblio}
 \printindex
+
 \end{document}

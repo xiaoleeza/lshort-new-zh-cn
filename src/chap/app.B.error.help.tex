@@ -50,9 +50,9 @@ l.3 Test \LaTEx
 缺少数学环境的符号 \$。多由于将数学符号用在公式之外而导致。
 
 \item \LaTeXerror{Runaway argument? \\
-                  ! Paragraph ended before \ldots was complete.}
+                  ! Paragraph ended before \ldots\ was complete.}
 
-\item \LaTeXerror{! File ended while scanning use of \ldots }.
+\item \LaTeXerror{! File ended while scanning use of \ldots}.
 
 两个错误都是主要由于漏写了包裹命令参数的花括号，导致识别参数时出现错误。
 
@@ -89,13 +89,13 @@ l.3 Test \LaTEx
 \item \LaTeXerror{!  LaTeX Error: Option clash for package `\ldots'.}
 
 以\textbf{不同选项}重复调用宏包造成冲突。有可能是因为其它宏包内部调用了这个宏包，而用户再次调用宏包时带了选项。
-试着不带选项调用宏包有助于解决问题。
+可尝试把引起冲突的宏包去掉选项进行调用。
 
 \item \LaTeXerror{!  LaTeX Error: Unknown option `\ldots' for Package `\ldots'.}
 
-调用宏包时使用了宏包里“不认识”的选项。此时应该查找宏包的帮助文档来解决问题。
+调用宏包时使用了宏包不能识别的选项。此时应该查找宏包的帮助文档来解决问题。
 
-\item \LaTeXerror{!  Package `\ldots` error: \ldots}
+\item \LaTeXerror{!  Package `\ldots' error: \ldots}
 
 宏包或文档类自定义的错误，由于调用宏包/文档类时使用了不正确的选项，或不正确地使用宏包里的命令而导致。
 此时应该查找宏包的帮助文档来解决问题。
@@ -109,62 +109,74 @@ l.3 Test \LaTEx
 \section{常见宏包简介}\label{sec:pkg-list}
 
 \def\pkglabel#1{\makebox[60pt][l]{\pkg{#1}}}
+\newenvironment{pkglist}%
+  {\list{}{%
+    \labelwidth=60pt 
+    \itemindent=0pt 
+    \leftmargin=60pt 
+    \labelsep=0pt 
+    \let\makelabel\pkglabel}}%
+  {\endlist}
 
 \subsection{文字、公式和符号}\label{subsec:text-math-symbols}
 
-\begin{description}
-  \item[\pkglabel{amsmath}]  \AmS\ 数学公式扩展。
-  \item[\pkglabel{mathtools}] 数学公式扩展宏包，提供了公式编号定制和更多的符号、矩阵等。
-  \item[\pkglabel{amsfonts}] \AmS\ 扩展符号的基础字体支持。
-  \item[\pkglabel{amssymb}]  在 \pkg{amsfonts} 基础上将 \AmS\ 符号定义成命令。
-  \item[\pkglabel{bm}]       提供将符号加粗的命令 \cmd{bm}。
-\end{description}
+\begin{pkglist}
+  \item[amsmath]  \AmS\ 数学公式扩展。
+  \item[mathtools] 数学公式扩展宏包，提供了公式编号定制和更多的符号、矩阵等。
+  \item[amsfonts] \AmS\ 扩展符号的基础字体支持。
+  \item[amssymb]  在 \pkg{amsfonts} 基础上将 \AmS\ 扩展符号定义成命令。
+  \item[bm]       提供将符号加粗的命令 \cmd{bm}。
+  \item[siunitx]  以国际单位规范排版物理量的单位。
+  \item[mhchem]   排版化学公式。
+  \item[tipa]     排版国际音标。
+\end{pkglist}
 
 \subsection{排版元素}\label{subsec:pkg-elements}
 
-\begin{description}
-  \item[\pkglabel{ulem}]     提供排版可断行下划线的命令 \cmd{uline} 以及其它装饰文字的命令。
-  \item[\pkglabel{multicol}] 提供将内容自由分栏的 \env{multicols} 环境。
-  \item[\pkglabel{verbatim}] 对原始的 \env{verbatim} 环境的改善。提供了命令 \cmd{verbatim\-input} 调用源文件。
-  \item[\pkglabel{fancyvrb}] 提供了代码排版环境 \env{Verbatim} 以及对版式的自定义。
-  \item[\pkglabel{listings}] 提供了排版关键字高亮的代码环境 \env{lst\-listing} 以及对版式的自定义。类似宏包有 \pkg{minted}。
-  \item[\pkglabel{algorithm2e}] 排版算法。
-  \item[\pkglabel{ntheorem}] 定制定理环境。类似宏包包括 \pkg{theorem}、\pkg{thmtools}、\pkg{amsthm} 等。
-\end{description}
+\begin{pkglist}
+  \item[ulem]     提供排版可断行下划线的命令 \cmd{uline} 以及其它装饰文字的命令。
+  \item[multicol] 提供将内容自由分栏的 \env{multicols} 环境。
+  \item[verbatim] 对原始的 \env{verbatim} 环境的改善。提供了命令 \cmd{verbatim\-input} 调用源文件。
+  \item[fancyvrb] 提供了代码排版环境 \env{Verbatim} 以及对版式的自定义。
+  \item[listings] 提供了排版关键字高亮的代码环境 \env{lst\-listing} 以及对版式的自定义。类似宏包有 \pkg{minted}。
+  \item[algorithm2e] 排版算法。
+  \item[ntheorem] 定制定理环境。类似宏包包括 \pkg{theorem}、\pkg{thmtools}、\pkg{amsthm} 等。
+\end{pkglist}
 
 \subsection{图表和浮动体}\label{subsec:pkg-tab-fig}
 
-\begin{description}
-  \item[\pkglabel{booktabs}]  制作三线表。
-  \item[\pkglabel{array}]    对表格列格式的扩展。
-  \item[\pkglabel{tabularx}] 提供 \env{tabularx} 环境排版定宽表格，支持自动计算宽度的 X 列格式。
-  \item[\pkglabel{colortbl}] 支持修改表格的行、列、单元格的颜色。
-  \item[\pkglabel{multirow}] 支持合并多行单元格。
-  \item[\pkglabel{makecell}] 支持在单元格里排版多行内容（嵌套一个单列的小表格）。
-  \item[\pkglabel{diagbox}]  制作斜线表头。
-  \item[\pkglabel{longtable}] 提供排版跨页长表格的 \env{longtable} 环境。
-  \item[\pkglabel{ltxtable}] 可使用 \env{tabularx} 的 X 列格式的长表格。
-  \item[\pkglabel{tabu}]     提供排版复杂格式表格的 \env{tabu} 环境。与 \pkg{longtable} 一同调用时，提供排版复杂格式长表格的 \env{longtabu} 环境。
-  \item[\pkglabel{graphicx}] 支持插图。
-  \item[\pkglabel{bmpsize}]  \texttt{latex} + \texttt{dvipdfmx} 命令下支持 BMP/JPG/PNG 等格式的位图。
-  \item[\pkglabel{epstopdf}] \texttt{pdflatex} 命令下支持 EPS 格式的矢量图。
-  \item[\pkglabel{wrapfig}]  支持简单的文字在图片周围的绕排。
-  \item[\pkglabel{subfig}]   提供子图表和子标题的排版。类似宏包有 \pkg{subfigure} 和 \pkg{subcaption} 等。
-  \item[\pkglabel{caption}]  控制图表标题的格式。
-  \item[\pkglabel{float}]    为浮动体提供不浮动的 H 模式；提供自定义的浮动体结构。
-\end{description}
+\begin{pkglist}
+  \item[booktabs]  制作三线表。
+  \item[array]    对表格列格式的扩展。
+  \item[tabularx] 提供 \env{tabularx} 环境排版定宽表格，支持自动计算宽度的 X 列格式。
+  \item[colortbl] 支持修改表格的行、列、单元格的颜色。
+  \item[multirow] 支持合并多行单元格。
+  \item[makecell] 支持在单元格里排版多行内容（嵌套一个单列的小表格）。
+  \item[diagbox]  制作斜线表头。
+  \item[longtable] 提供排版跨页长表格的 \env{longtable} 环境。
+  \item[ltxtable] 跨页长表格可使用 \env{tabularx} 的 X 列格式。
+  \item[tabu]     提供排版复杂格式表格的 \env{tabu} 环境。与 \pkg{longtable} 一同调用时，提供排版复杂格式跨页长表格的 \env{longtabu} 环境。
+  \item[graphicx] 支持插图。
+  \item[bmpsize]  \texttt{latex} + \texttt{dvipdfmx} 命令下支持 BMP/JPG/PNG 等格式的位图。
+  \item[epstopdf] \texttt{pdflatex} 命令下支持 EPS 格式的矢量图。
+  \item[wrapfig]  支持简单的文字在图片周围的绕排。
+  \item[subfig]   提供子图表和子标题的排版。类似宏包有 \pkg{subfigure} 和 \pkg{subcaption} 等。
+  \item[caption]  控制图表标题的格式。
+  \item[float]    为浮动体提供不浮动的 H 模式；提供自定义的浮动体结构。
+\end{pkglist}
 
 \subsection{修改版式}\label{subsec:pkg-layout}
 
-\begin{description}
-  \item[\pkglabel{geometry}] 修改页面尺寸、页边距、页眉页脚等参数。
-  \item[\pkglabel{fancyhdr}] 修改页眉页脚格式，令页眉页脚可以左对齐、居中、右对齐。
-  \item[\pkglabel{titlesec}] 修改章节标题 \cmd{chapter}、\cmd{section} 等的格式。
-  \item[\pkglabel{titletoc}] 修改目录中各条目的格式。
-  \item[\pkglabel{tocloft}]  类似 \pkg{titletoc} 的修改目录条目格式的宏包。
-  \item[\pkglabel{tocbibind}] 支持将目录、参考文献、索引本身写入目录项。
-  \item[\pkglabel{footmisc}] 修改脚注 \cmd{footnote} 的格式。
-  \item[\pkglabel{enumitem}] 修改列表环境 \env{enumerate} 和 \env{itemize} 等的格式。
-\end{description}
+\begin{pkglist}
+  \item[geometry] 修改页面尺寸、页边距、页眉页脚等参数。
+  \item[fancyhdr] 修改页眉页脚格式，令页眉页脚可以左对齐、居中、右对齐。
+  \item[titlesec] 修改章节标题 \cmd{chapter}、\cmd{section} 等的格式。
+  \item[titletoc] 修改目录中各条目的格式。
+  \item[tocloft]  类似 \pkg{titletoc} 的修改目录条目格式的宏包。
+  \item[tocbibind] 支持将目录、参考文献、索引本身写入目录项。
+  \item[footmisc] 修改脚注 \cmd{footnote} 的格式。
+  \item[indentfirst] 令章节标题后的第一段首行缩进。
+  \item[enumitem] 修改列表环境 \env{enumerate} 和 \env{itemize} 等的格式。
+\end{pkglist}
 
 \endinput

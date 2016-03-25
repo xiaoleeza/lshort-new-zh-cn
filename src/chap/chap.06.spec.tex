@@ -9,9 +9,11 @@
 
 \subsection{基本的参考文献和引用}
 
+\pinyinindex{cankaowenxian}{参考文献}
 \LaTeX\ 提供的参考文献和引用方式比较原始，需要用户自行书写参考文献列表。不同学术论文对参考文献列表的格式要求不一样，
 自行书写是一件极其头疼的事情。相关的命令我们只作最简单的介绍。
 
+\cmdindex{cite}
 \LaTeX\ 提供了最基本的 \cmd{cite} 命令用于在正文中引用参考文献：
 \begin{command}
 \cmd{cite}\marg{citation}
@@ -19,7 +21,8 @@
 
 \cmd{cite} 带一个可选参数，为引用的编号后加上额外的内容，如 \cmd{cite}\oarg*{page 22}\marg{pa} 可能得到形如 [13, page 22] 这样的引用。
 
-参考文献由 \env{thebibliography} 环境包裹，每条参考文献由 \cmd{bibitem} 开头，其后是参考文献本身的内容：
+\envindex{thebibliography}
+参考文献由 \env{thebibliography} 环境包裹。每条参考文献由 \cmd{bibitem} 开头，其后是参考文献本身的内容：
 \begin{command}
 \cmd{bibitem}\oarg{item number}\marg{citation}
 \end{command}
@@ -29,18 +32,26 @@
 
 \env{thebibliography} 环境带一个参数，用以设定 \cmd{cite} 命令生成的引用编号的最大宽度，
 如 99 意味着不超过两位数字。通常设定为与参考文献的数目一致。
+\env{the\-biblio\-graphy} 环境自动生成不带编号的一章（\cls{report} / \cls{book} 文档类）或一节（\cls{article} 文档类）。
+
+以下为一个使用 \env{the\-biblio\-graphy} 排版参考文献的例子：
 
 \begin{verbatim}
+\documentclass{article}
+\begin{document}
+\section{Introduction}
 Partl~\cite{pa} has proposed that \ldots
 
 \begin{thebibliography}{99}
 \bibitem{pa} H.~Partl: \emph{German \TeX}, 
   TUGboat Volume~9, Issue~1 (1988)
 \end{thebibliography}
+\end{document}
 \end{verbatim}
 
 \subsection{\hologo{BibTeX} 数据库}
 
+\index{bibtexdb@\protect\hologo{BibTeX} 数据库}
 \hologo{BibTeX} 是最为流行的参考文献数据组织格式之一。它的出现让我们摆脱手写参考文献条目的麻烦。我们还可以通过参考文献格式的支持，
 让同一份 \hologo{BibTeX} 数据库生成不同格式的参考文献列表。我们首先简单介绍 \hologo{BibTeX} 数据库，之后介绍如何将数据库利用在 \LaTeX\ 中。
 
@@ -69,6 +80,7 @@ Partl~\cite{pa} has proposed that \ldots
 
 \subsection{使用 \hologo{BibTeX} 排版参考文献}\label{subsec:bibtex-use}
 
+\index{bibtex@\protect\hologo{BibTeX} 工具}
 现在我们来看如何利用 \hologo{BibTeX} 数据库生成参考文献和引用。
 
 第一步：我们当然需要一份 \hologo{BibTeX} 数据库，假设起名为 \texttt{books.bib} ，和我们的 \LaTeX\ 源代码\textbf{一般位于同一个目录下}。
@@ -96,6 +108,7 @@ Partl~\cite{pa} has proposed that \ldots
 \caption{\hologo{BibTeX} 数据库示例 \texttt{books.bib}。}
 \end{sourcecode}
 
+\cmdindex{bibliographystyle}
 第二步：在源代码中添加必要的命令。假设源代码的名称为 \texttt{demo.tex}。首先需要的是在\textbf{导言区}设定参考文献的格式：
 \begin{command}
 \cmd{bibliographystyle}\marg{bst-name}
@@ -104,9 +117,12 @@ Partl~\cite{pa} has proposed that \ldots
 其中 \Arg{bst-name} 为格式文件的名称。\hologo{BibTeX} 提供了几个预定义的格式，如 plain, unsrt, alpha 等。
 一些学术论文的模板会提供自有的格式文件，以 \texttt{.bst} 作为扩展名，同样和 \LaTeX\ 源代码\textbf{放在同一个目录下}。
 
+\cmdindex{cite}
+\cmdindex{nocite}
 其次就是在正文中引用参考文献了。\hologo{BibTeX} 程序在生成参考文献列表的时候，通常只列出你用 \cmd{cite} 命令引用的那些。
 如果需要列出没有被引用的文献，则需要 \cmd{nocite}\marg{citation} 命令；而 \cmd{nocite}\marg*{*} 则让所有未引用的参考文献都列出。
 
+\cmdindex{bibliography}
 再次，在你需要列出参考文献的位置，使用 \cmd{biblio\-graphy} 命令代替 \env{the\-biblio\-graphy} 环境：
 \begin{command}
 \cmd{bibliography}\marg{bib-name}
@@ -133,10 +149,10 @@ and \cite{Mittelbach2004} \ldots
 
 第三步：写好了以上两个文件之后，我们就可以开始编译了。
 \begin{enumerate}
-  \item 首先使用 \texttt{latex} 或 \texttt{pdflatex} 等命令编译 \LaTeX\ 源代码 \texttt{demo.tex}；
+  \item 首先使用 \texttt{pdflatex} 或 \texttt{xelatex} 等命令编译 \LaTeX\ 源代码 \texttt{demo.tex}；
   \item 接下来用 \texttt{bibtex} 命令处理 \texttt{demo.aux} 文件记录的参考文献格式、引用条目等信息。
   \texttt{bibtex} 命令处理完毕后会生成 \texttt{demo.bbl} 文件，内容就是一个 \env{thebibliography} 环境；
-  \item 然后再使用\textbf{两遍} \texttt{latex} 或 \texttt{pdflatex} 等命令编译源代码，读入参考文献并正确生成引用。
+  \item 再使用 \texttt{pdflatex} 或 \texttt{xelatex} 等命令把源代码 \texttt{demo.tex} 编译\textbf{两遍}，读入参考文献并正确生成引用。
 \end{enumerate}
 
 整个过程使用的命令如下（可以略去扩展名）：
@@ -147,14 +163,17 @@ pdflatex demo
 pdflatex demo
 \end{verbatim}
 
-我们当然也可以换成 \texttt{xelatex} 命令；如果使用 \texttt{latex + dvipdfmx} 命令，则 \texttt{dvipdfmx} 命令放在最后，相当于先后使用
+如果使用 \texttt{latex} 和 {dvipdfmx} 命令编译，则 \texttt{dvipdfmx} 命令放在最后，相当于先后使用
 \texttt{latex}, \texttt{bibtex}, \texttt{latex}, \texttt{latex}, \texttt{dvipdfmx}。
 
 \subsection{\pkg{natbib} 宏包}
 
+\pkgindex{natbib}
 时下许多学术期刊比较喜欢使用人名——年份的引用方式，形如(\emph{Alice et~al.}, 2005)。
 \pkg{natbib} 宏包提供了对这种“自然”引用方式的处理。
 
+\cmdindex[natbib]{citep}
+\cmdindex[natbib]{citet}
 \pkg{natbib} 宏包在正文中支持两种引用方式：
 \begin{command}
 \cmd{citep}\marg{citation} \\
@@ -167,43 +186,52 @@ pdflatex demo
 \begin{verbatim}
 \usepackage[numbers,sort&compress]{natbib}
 \end{verbatim}
-用以上选项调用 \pkg{natbib} 宏包后，连续引用多篇文献时，会生成形如 [3-7] 的引用而不是 [3, 4, 5, 6, 7]。
+用以上选项调用 \pkg{natbib} 宏包后，连续引用多篇文献时，会生成形如 (3-7) 的引用而不是 (3, 4, 5, 6, 7)。
 
 \pkg{natbib} 宏包还有更多选项和用法，比如默认的引用是用小括号包裹的，可以为宏包添加 \texttt{square} 选项改为中括号；
 再比如 \cmd{citep} 命令也支持可选参数，为引用前后都添加额外内容。这里不再赘述，请参考 \pkg{natbib} 宏包的帮助文档。
 
 \section{索引和 makeindex 工具}\label{sec:index}
 
+\pinyinindex{suoyin}{索引}
+\index{makeindex@makeindex 工具}
 书籍和大文档通常用索引来归纳关键词，方便用户查阅。\LaTeX\ 借助配套的 makeindex 程序完成对索引的排版。
 
 \subsection{使用 makeindex 工具的方法}\label{subsec:makeidx}
 
 要使用索引，须经过这么几个步骤（仍设源代码名为 \texttt{demo.tex}）：
 
-第一步，在 \LaTeX\ 源代码的导言区加载 \pkg{makeidx} 宏包，并使用 \cmd{makeindex} 命令开启索引的收集：
+\pkgindex{makeidx}
+\cmdindex[makeidx]{makeindex}
+第一步，在 \LaTeX\ 源代码的导言区调用 \pkg{makeidx} 宏包，并使用 \cmd{makeindex} 命令开启索引的收集：
 \begin{verbatim}
 \usepackage{makeidx}
 \makeindex
 \end{verbatim}
 
+\cmdindex{index}
+\cmdindex[makeidx]{printindex}
 第二步，在正文中需要索引的地方使用 \cmd{index} 命令。\cmd{index} 命令的参数写法详见下一小节；
-并在需要输出索引的地方（如源代码所有章节之后）使用 \cmd{printindex} 命令。
+并在需要输出索引的地方（如所有章节之后）使用 \cmd{printindex} 命令。
 
-第三步，用 \hologo{pdfLaTeX} 等命令编译源代码 \texttt{demo.tex}，编译过程中产生索引记录文件 \texttt{demo.idx}。
+第三步，编译过程：
 
-第四步，用 makeindex 程序处理 \texttt{demo.idx}，生成用于排版的索引列表文件 \texttt{demo.ind}。
-
-第五步，再次编译源代码 \texttt{demo.tex}，正确生成索引列表。
+\begin{enumerate}
+  \item 首先用 \texttt{pdflatex} 等命令编译源代码 \texttt{demo.tex}。编译过程中产生索引记录文件 \texttt{demo.idx}；
+  \item 用 makeindex 程序处理 \texttt{demo.idx}，生成用于排版的索引列表文件 \texttt{demo.ind}；
+  \item 再次编译源代码 \texttt{demo.tex}，正确生成索引列表。
+\end{enumerate}
 
 \subsection{索引项的写法}\label{subsec:index-entry}
 
+\cmdindex{index}
 添加索引项的命令为：
 \begin{command}
 \cmd{index}\marg{index entry}
 \end{command}
 
 其中 \Arg{index entry} 为索引项，写法由表 \ref{tbl:index-entry} 汇总。其中 \texttt!、\texttt @ 和 \texttt| 
-为特殊符号，如果要向索引项直接输出这些符号，需要加前缀 \texttt"；而 \texttt" 需要输入两个引号 \texttt{""} 才能输出。
+为特殊符号，如果要向索引项直接输出这些符号，需要加前缀 \texttt"；而 \texttt" 需要输入两个引号 \texttt{""} 才能输出到索引项。
 
 \begin{table}[tp]
 \centering
@@ -212,31 +240,26 @@ pdflatex demo
   \hline
   \textbf{举例} &\textbf{索引项} &\textbf{备注}\\
   \hline
-  \multicolumn{3}{l}{普通索引} \\
-  \hline
+  \multicolumn{3}{@{}l@{}}{普通索引} \\
   \verb+hello+              & hello, 1             & 普通索引 \\ 
   \hline
   \multicolumn{3}{@{}l@{}}{分级索引，以 \texttt! 分隔，最多支持三级} \\
-  \hline
   \verb+hello+              & hello, 1             & 一级索引 \\ 
   \verb+hello!Peter+        &\hspace*{2ex}Peter, 3 & 二级索引 \\ 
   \verb+hello!Peter!Jack+   &\hspace*{4ex}Jack,  3 & 三级索引 \\ 
   \hline
   \multicolumn{3}{@{}l@{}}{格式化索引，形式为 \Arg{alpha}\texttt @\Arg{format}} \\
   \multicolumn{3}{@{}l@{}}{\Arg{alpha}为纯字母，用来排序} \\
-  \multicolumn{3}{@{}l@{}}{\Arg{format}为索引的格式，可以包括 \LaTeX 代码和公式} \\
-  \hline
-  \verb+Mobius@M\"obius+    & M\"obius, 2          & 输出重音 \\
+  \multicolumn{3}{@{}l@{}}{\Arg{format}为索引的格式，可以包括 \LaTeX 代码和简单的公式} \\
+  \verb+Mobius@M\""obius+   & M\"obius, 2          & 输出重音 \\
   \verb+alpha@$\alpha$+     & $\alpha$, 7          & 输出公式 \\
   \verb+bold@\textbf{bold}+ & \textbf{bold}, 12    & 输出粗体 \\
   \hline
   \multicolumn{3}{@{}l@{}}{页码范围} \\
-  \hline
   \verb+morning|(+          & morning, 6-7         & 范围索引的开头 \\
   \verb+morning|)+          &                      & 范围索引的结尾 \\
   \hline
   \multicolumn{3}{@{}l@{}}{格式化索引页码} \\
-  \hline
   \verb+Jenny|textbf+       & Jenny, \textbf{3}       & 调用 \cmd{textbf} 加粗页码 \\
   \verb+Joe|see{Jenny}+     & Joe, \textit{see} Jenny & 调用 \cmd{see} 生成特殊形式 \\
   \verb+Joe|seealso{Jenny}+ & Joe, \textit{see also} Jenny & 调用 \cmd{seealso} 生成特殊形式 \\
@@ -257,20 +280,21 @@ Test index.
 
 \section{使用颜色}\label{sec:color}
 
-\def\showcolor#1{\texttt{#1} \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1em height 1ex}}\endgroup}
-
-\LaTeX\ 原生不支持颜色，它依赖 \texttt{dvipdfmx} 或者 \hologo{pdfLaTeX} / \hologo{XeLaTeX} 等命令输出带颜色的内容。
-为了使用颜色，须调用 \pkg{color} 宏包或者 \pkg{xcolor} 宏包。
+\pinyinindex{yanse}{颜色}
+\LaTeX\ 原生不支持颜色，它依赖 \pkg{color} 宏包或者 \pkg{xcolor} 宏包，在编译过程中给 PDF 输出生成颜色的特殊指令。
 
 \subsection{颜色的表达方式}
 
+\pkgindex{color}
+\cmdindex[color/xcolor]{color}
 调用 \pkg{color} 宏包后，我们就可以用如下命令切换颜色：
 \begin{command}
 \cmd{color}\oarg{color-mode}\marg{code} \\
 \cmd{color}\marg{color-name}
 \end{command}
 
-颜色的表达方式有两种，其一是使用色彩模型和色彩代码，代码用 $0\sim1$ 的数字代表成分的比例：
+颜色的表达方式有两种，其一是使用色彩模型和色彩代码，代码用 $0\sim1$ 的数字代表成分的比例。
+\pkg{color} 宏包支持 \texttt{rgb}、\texttt{cmyk} 和 \texttt{gray} 模型，\pkg{xcolor} 支持更多的模型如 \texttt{hsb} 等。
 \begin{example}
 \large\sffamily
 {\color[gray]{0.6} 
@@ -279,26 +303,42 @@ Test index.
   青色} 
 \end{example}
 
-\pkg{color} 宏包支持 \texttt{rgb}、\texttt{cmyk} 和 \texttt{gray} 模型，\pkg{xcolor} 支持更多的模型如 \texttt{hsb} 等。
-
-还可以直接使用名称代表颜色，前提是已经定义了颜色名称（没定义的话会报错）：
+其二是直接使用名称代表颜色，前提是已经定义了颜色名称（没定义的话会报错）：
 \begin{example}
 \large\sffamily
 {\color{red} 红色} \\
 {\color{blue} 蓝色} 
 \end{example}
 
-\pkg{color} 宏包\textbf{仅定义了八种颜色名称}：
-\begin{center}
-\begin{tabular}{rrrr}
+\pkgindex{xcolor}
+\pkg{color} 宏包仅定义了 8 种颜色名称，\pkg{xcolor} 补充了一些，总共有 19 种，见表 \ref{tbl:colors}。
+
+\def\showcolor#1{%
+  \texttt{#1}\index{yanse@颜色!#1@\texttt{#1}}%
+  \ \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1.2em height 1.4ex}}\endgroup}
+\def\showxcolor#1{%
+  \texttt{#1}\index{yanse@颜色!#1@\texttt{#1} (\pkg{xcolor})}
+  \ \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1.2em height 1.4ex}}\endgroup}
+
+\begin{table}[!hbp]
+\centering
+\caption{\pkg{color} 和 \pkg{xcolor} 宏包可用的颜色名称。}\label{tbl:colors}
+\renewcommand\arraystretch{1.25}
+\begin{tabularx}{0.8\textwidth}{*{4}{>{\raggedleft\arraybackslash}X}}
  \hline
+ \multicolumn{4}{c}{基本的 8 种颜色名称：} \\
  \showcolor{black} & \showcolor{red} & \showcolor{green} & \showcolor{blue} \\
  \showcolor{white} & \showcolor{cyan} & \showcolor{magenta} & \showcolor{yellow} \\
  \hline
-\end{tabular}
-\end{center}
+ \multicolumn{4}{c}{\pkg{xcolor} 额外可用的颜色名称：} \\
+ \showxcolor{darkgray} & \showxcolor{gray} & \showxcolor{lightgray} &    \\
+ \showxcolor{brown}  & \showxcolor{olive} & \showxcolor{orange} & \showxcolor{lime}\\
+ \showxcolor{purple} & \showxcolor{teal} & \showxcolor{violet} & \showxcolor{pink} \\
+ \hline
+\end{tabularx}
+\end{table}
 
-\pkg{xcolor} 宏包定义了 19 种颜色名称，并且还支持将颜色通过表达式混合或互补：
+\pkg{xcolor} 还支持将颜色通过表达式混合或互补：
 \begin{example}
 \large\sffamily
 {\color{red!40} 40\% 红色}\\
@@ -321,18 +361,21 @@ Test index.
 原始的 \cmd{color} 命令类似于字体命令 \cmd{bfseries}，它使之后排版的内容全部变成指定的颜色，
 所以直接使用时通常要加花括号分组。\pkg{color} / \pkg{xcolor} 宏包都定义了一些方便用户使用的带颜色元素。
 
+\cmdindex[color/xcolor]{textcolor}
 输入带颜色的文本可以用类似 \cmd{textbf} 的命令：
 \begin{command}
 \cmd{textcolor}\oarg{color-mode}\marg{code}\marg{text} \\
 \cmd{textcolor}\marg{color-name}\marg{text}
 \end{command}
 
+\cmdindex[color/xcolor]{colorbox}
 以下命令构造一个带背景色的盒子，\Arg{material} 为盒子中的内容：
 \begin{command}
 \cmd{colorbox}\oarg{color-mode}\marg{code}\marg{material} \\
 \cmd{colorbox}\marg{color-name}\marg{material}
 \end{command}
 
+\cmdindex[color/xcolor]{fcolorbox}
 以下命令构造一个带背景色和有色边框的盒子，\Arg{fcode} 或 \Arg{fcolor-name} 用于设置边框颜色：
 \begin{command}
 \cmd{fcolorbox}\oarg{color-mode}\marg{fcode}\marg{code}\marg{material} \\
@@ -345,18 +388,20 @@ Test index.
 \colorbox[gray]{0.95}{浅灰色背景} \\
 \fcolorbox{blue}{yellow}{%
  \textcolor{blue}{蓝色边框+文字，%
-  白色背景}
+  黄色背景}
 }
 \end{example}
 
-\section{使用超链接}
+\section{使用超链接}\label{sec:hyperlinks}
 
-PDF 文档格式是现今最流行的电子文档格式，而电子文档的最实用的功能之一就是链接功能。
+\pinyinindex{chaolianjie}{超链接}
+PDF 文档格式是现今最流行的电子文档格式，而电子文档最实用的功能之一就是链接功能。
 \LaTeX\ 中实现这一功能的 \pkg{hyperref} 宏包堪称 \LaTeX\ 里最强大也最复杂的宏包。
 
-\subsection{\pkg{hyperref} 宏包}
+\subsection{\pkg{hyperref} 宏包}\label{subsec:hyperref}
 
-\pkg{hyperref} 宏包涉及到的链接涉及到 \LaTeX\ 的每一个角落——目录、引用、脚注、索引、参考文献等等都被封装成链接。
+\pkgindex{hyperref}
+\pkg{hyperref} 宏包涉及到的链接遍布 \LaTeX\ 的每一个角落——目录、引用、脚注、索引、参考文献等等都被封装成链接。
 但这也使得它与其它宏包的冲突机会大大增加，虽然宏包已经尽力解决各方面的兼容性，但仍不能面面俱到。
 为减少冲突的可能性，习惯上将 \pkg{hyperref} 宏包\textbf{放在其它宏包之后调用}。
 
@@ -366,14 +411,17 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
 \end{verbatim}
 而 \texttt{pdflatex} 或 \texttt{xelatex} 命令下，直接可用 \cmd{use\-package}\marg*{hyper\-ref} 调用宏包。
 
+\cmdindex[hyperref]{hypersetup}
 \pkg{hyperref} 宏包提供了命令 \cmd{hypersetup} 配置各种选项，或者也可以作为宏包选项，在调用宏包时使用：
 \begin{command}
 \cmd{hypersetup}\marg*{\Arg{option1},\Arg{option2}=\marg*{value},\ldots} \\
 \cmd{usepackage}\oarg*{\Arg{option1},\Arg{option2}=\marg*{value},\ldots}\marg*{hyperref}
 \end{command}
 
-\subsection{超链接}
+\subsection{超链接}\label{subsec:url-href}
 
+\cmdindex[hyperref]{url}
+\cmdindex[hyperref]{nolinkurl}
 \pkg{hyperref} 宏包提供了直接书写超链接的命令，用于在 PDF 中生成 URL：
 \begin{command}
 \cmd{url}\marg{url} \\
@@ -383,6 +431,7 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
 其中 \cmd{url} 生成可以点击的 URL，而 \cmd{nolinkurl} 只生成文本。在 \cmd{url} 命令中作为参数的 URL 里，
 \textbf{可直接输入如 \texttt\%、\texttt\& 这样的特殊符号}。
 
+\cmdindex[hyperref]{href}
 我们也可以像网页一样，把一段文字赋予其“超链接”的作用：
 \begin{command}
 \cmd{href}\marg{url}\marg{text}
@@ -401,30 +450,33 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
 \cmd{hyperref}\oarg{label}\marg{text}
 \end{command}
 
-默认的超链接在文字外边加上一个带颜色的方框（在打印 PDF 时边框不会打印），可使用 \texttt{color\-links} 选项修改为将文字本身加上颜色；
-\texttt{hide\-links} 则令超链接既不变色也不加框：
+默认的超链接在文字外边加上一个带颜色的方框（在打印 PDF 时边框不会打印），可使用 \texttt{color\-links} 选项修改为将文字本身加上颜色，
+或修改 \texttt{pdf\-border} 选项的参数；\texttt{hide\-links} 则令超链接既不变色也不加框。
 \begin{verbatim}
 \hypersetup{hidelinks}
 % or:
 \hypersetup{pdfborder={0 0 0}}
 \end{verbatim}
 
-\subsection{PDF 书签}
+\subsection{PDF 书签}\label{subsec:pdf-bookmark}
 
+\pinyinindex{PDFshuqian}{PDF 书签}
 \pkg{hyperref} 宏包另一个强大的功能是为 PDF 生成书签。对于章节命令 \cmd{chapter}、\cmd{section} 等，
-默认情况下会为 PDF 自动生成书签。和交叉引用、索引等类似，\texttt{latex} 等命令也需要多次编译，第一次编译将书签写入 \texttt{.out} 文件，
+默认情况下会为 PDF 自动生成书签。和交叉引用、索引等类似，生成书签也需要多次编译源代码，第一次编译将书签记录写入 \texttt{.out} 文件，
 第二次编译才正确生成书签。
 
 书签的一些属性见表 \ref{tbl:hyperref-settings}。
 在 \texttt{latex} + \texttt{dvipdfmx} 或 \texttt{pdflatex} 下使用 \pkg{ctex} 宏包或 \pkg{CJK} 宏包时，
-为了正确生成书签而不出现乱码，需要更加繁琐的工序（这也是我们推荐使用 \texttt{xelatex} 命令处理中文的原因）。
+为了正确生成书签而不出现乱码，需要额外的设置，甚至繁琐的工序（这也是我们推荐使用 \texttt{xelatex} 命令处理中文的原因）。
 
+\cmdindex[hyperref]{pdfbookmark}
 \pkg{hyperref} 还提供了手动生成书签的命令：
 \begin{command}
 \cmd{pdfbookmark}\oarg{level}\marg{bookmark}\marg{anchor}
 \end{command}
 \Arg{bookmark} 为书签名称，\Arg{anchor} 为书签项使用的锚点（类似交叉引用的标签）。可选参数 \Arg{level} 为书签的层级，默认为 0。
 
+\cmdindex[hyperref]{texorpdfstring}
 章节命令里往往有 \LaTeX\ 命令甚至数学公式，而 PDF 书签是纯文本，对命令和公式的处理很困难，有出错的风险。
 \pkg{hyperref} 宏包已经为我们处理了许多常见命令，如 \cmd{LaTeX} 和字体命令 \cmd{textbf} 等，
 其它一些情况就要使用在 \cmd{section} 等命令中使用如下命令，分别提供 \LaTeX\ 代码和 PDF 书签可用的纯文本：
@@ -436,7 +488,7 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
 \section{\texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
 \end{verbatim}
 
-\subsection{PDF 文档属性}
+\subsection{PDF 文档属性}\label{subsec:pdf-settings}
 
 \pkg{hyperref} 宏包还提供了一些选项用于改变 PDF 文档的属性，部分见表 \ref{tbl:hyperref-settings}。
 
@@ -447,19 +499,19 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
  \hline
  选项                         &  默认值         & \multicolumn{1}{c}{含义} \\
  \hline
- \texttt{colorlinks=}\Arg{true\textrm|false} 
+ \texttt{colorlinks=}\Arg{true\textnormal|false} 
                               & \textit{false}  & 设置为 \textit{true} 为链接文字带颜色，反之加上带颜色的边框 \\
  \texttt{hidelinks}           &                 & 取消链接的颜色和边框 \\
- \texttt{pdfborder=}\marg*{\Arg{num} \Arg{num} \Arg{num}}   
+ \texttt{pdfborder=}\marg*{\Arg{n} \Arg{n} \Arg{n}}   
                               &  0 0 1          & 超链接边框设置，设为 0 0 0 可取消边框 \\
  \hline
- \texttt{bookmarks=}\Arg{true\textrm|false} 
+ \texttt{bookmarks=}\Arg{true\textnormal|false} 
                               & \textit{true}   & 是否生成书签 \\
- \texttt{bookmarksopen=}\Arg{true\textrm|false} 
+ \texttt{bookmarksopen=}\Arg{true\textnormal|false} 
                               & \textit{false}  & 是否展开书签 \\
- \texttt{bookmarksnumbered=}\Arg{true\textrm|false} 
+ \texttt{bookmarksnumbered=}\Arg{true\textnormal|false} 
                               & \textit{false}  & 书签是否带章节编号 \\
- \texttt{CJKbookmarks=}\Arg{true\textrm|false} 
+ \texttt{CJKbookmarks=}\Arg{true\textnormal|false} 
                               & \textit{false}   & 使用 \pkg{CJK} 宏包/ \pkg{GBK} 编码时必须的选项，
                                                  在第一次编译后需要将生成的 \texttt{.out} 文件用工具处理编码 \\
  \texttt{unicode}             &                  & 使用 \pkg{CJKutf8} 宏包/ \pkg{UTF-8} 编码时必须的选项 \\
@@ -472,7 +524,7 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档的最�
                               & 空               & 主题 \\
  \texttt{pdfkeywords=}\Arg{string} 
                               & 空               & 关键词 \\
- \texttt{pdfstartview=}\Arg{Fit\textrm|FitH\textrm|FitV}
+ \texttt{pdfstartview=}\Arg{Fit\textnormal|FitH\textnormal|FitV}
                               & \textit{Fit}     & 设置 PDF 页面以适合页面/适合宽度/适合高度等方式显示，默认为适合页面 \\
  \hline
 \end{tabular}

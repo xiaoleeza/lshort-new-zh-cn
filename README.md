@@ -7,14 +7,17 @@ The Not So Short Introduction To LaTeX (中文版 lshort)
 
 lshort 中文版使用 Fandol 宏包作为中文字体。fontspec 会对此字体报 script-not-exist 的警告，可以忽视。
 
-按照以下顺序编译：
+在 src 目录下按照以下顺序编译，然后移动到根目录：
 ```
 xelatex lshort-zh-cn
 makeindex lshort-zh-cn
 xelatex lshort-zh-cn
 ```
 
+Windows 下已在 src 目录提供 bat 脚本。
+
 进度：
+---
 
 - [x] 第一章 简介
 - [ ] 第二章 排版文字

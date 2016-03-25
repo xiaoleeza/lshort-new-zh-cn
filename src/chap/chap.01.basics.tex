@@ -10,6 +10,7 @@
 \subsection{\protect\TeX}\label{subsec:tex}
 
 \index{Knuth@Knuth, Donald E. (\textit{高德纳})} 
+\index{TeX@\TeX}
 \TeX\ 是高德纳 (Donald E.Knuth)开发的、以排版文字和数学公式为目的的一个计算机软件 \cite{texbook}。
 高德纳从 1977 年开始开发 \TeX\ ，以发掘当时开始进入出版工业的数字印刷设备的潜力。
 正在编写著作《计算机程序设计艺术》的高德纳，意图扭转排版质量每况愈下的状况，以免影响他的出书。
@@ -21,8 +22,10 @@
 
 \subsection{\LaTeX}\label{subsec:latex}
 
+\index{LaTeX@\LaTeX}
+\index{LaTeX2e@\LaTeXe}
 \LaTeX\ 为 \TeX\ 基础上的一套格式，令作者能够使用预定义的专业格式以较高质量排版和印刷他们的作品。
-\LaTeX\ 的最初开发者为Leslie Lamport 博士\cite{manual}。\LaTeX\ 使用 \TeX\ 程序作为自己的排版引擎。
+\LaTeX\ 的最初开发者为 Leslie Lamport 博士\cite{manual}。\LaTeX\ 使用 \TeX\ 程序作为自己的排版引擎。
 当下 \LaTeX\ 主要的维护者为 Frank Mittelbach。
 
 \LaTeX\ 读作``Lah-tech''或者``Lay-tech''，近似于汉字“拉泰赫”或“雷泰赫”。\LaTeX\ 在 ASCII 字符环境写作 \texttt{LaTeX}。
@@ -76,6 +79,7 @@ TeXworks / TeXstudio / WinEdt 等提供了一些语法高亮、命令补全等�
 
 \subsection{\LaTeX\ 命令和环境}\label{subsec:cmds}
 
+\index{LaTeX macro@\LaTeX\ 命令}
 \LaTeX\ 的命令贯穿于代码的文本之中。命令以反斜线 \texttt\textbackslash 开头，为以下两种形式之一：
 \begin{itemize}
   \item 反斜线和后面的一串字母，如 \cmd{LaTeX}。它们以任意非字母符号（空格、数字、标点等）作为分隔符。
@@ -99,6 +103,7 @@ or \TeX{} users?
 有些命令带一个或多个可选参数，以方括号 \texttt[ 和 \texttt] 包裹。
 还有些命令在命令名称后可以带一个星号 \texttt*，带星号和不带星号的命令效果有一定差异。
 
+\index{LaTeX macro@\LaTeX\ 环境}
 \LaTeX\ 还引入了\textbf{环境}的用法，用以令一些效果在局部生效，或是生成特定的文档元素。
 \LaTeX\ 环境的用法为一对命令 \cmd{begin} \cmd{end}：
 \begin{command}
@@ -112,22 +117,28 @@ or \TeX{} users?
 
 \subsection{\LaTeX\ 源代码结构}\label{subsec:struct}
 
+\cmdindex{documentclass}
+\pinyinindex{wendanglei}{文档类}
 \LaTeX\ 源代码以一个 \cmd{document\-class} 命令作为开头，它规定了文档使用的\textbf{文档类}：
 \begin{verbatim}
 \documentclass{...}
 \end{verbatim}
 
+\cmdindex{usepackage}
+\pinyinindex{hongbao}{宏包}
 紧接着我们可以用 \cmd{usepackage} 命令调用\textbf{宏包}：
 \begin{verbatim}
 \usepackage{...}
 \end{verbatim}
 
+\envindex{document}
 再接着，我们需要用以下一对命令来标记正文内容的开始位置和结束位置，而将正文内容写入其中：
 \begin{verbatim}
 \begin{document}
 \end{document}
 \end{verbatim}
 
+\pinyinindex{daoyanqu}{导言区}
 在 \cmd{documentclass} 和 \cmd{begin}\marg*{document} 之间的位置称为\textbf{导言区}，除了使用 \cmd{use\-package}
 调用宏包之外，一些对文档的全局设置命令也在这里使用。当然你也可以什么都不写，一个宏包都不调用。一切视自己需求。
 
@@ -150,6 +161,9 @@ or \TeX{} users?
 
 \subsection{引擎、格式和命令}
 
+\pinyinindex{paibanyinqing}{排版引擎}
+\index{pdfTeX@\hologo{pdfTeX}}
+\index{XeTeX@\hologo{XeTeX}}
 在开始示例编译过程之前，有必要澄清几个概念：
 \begin{description}
   \item[引擎] 全称为排版引擎，是读入源代码并编译生成文档的程序，如\hologo{pdfTeX}、\hologo{XeTeX} 等。有时也直接称为编译器。
@@ -196,6 +210,7 @@ xdvi helloworld.dvi
 
 Windows 下大多预装了 yap 软件（Mik\TeX) 或 dviout 软件（\TeX\ Live），可以双击 \texttt{hello\-world.dvi} 打开它。
 
+\index{dvipdfmx@\texttt{dvipdfmx} 命令}
 要进一步生成现今流行的 PDF 文档格式，我们还需要用额外的命令将 DVI 转为 PDF：
 \begin{verbatim}
 dvipdfmx helloworld.dvi
@@ -205,6 +220,7 @@ dvipdfmx helloworld.dvi
 
 \subsection{\texttt{pdflatex} 和 \texttt{xelatex}命令}
 
+\index{pdflatex@\texttt{pdflatex} 命令}
 这两个命令相比于 \texttt{latex} 命令更为方便，我们可以直接生成 PDF：
 \begin{verbatim}
 pdflatex helloworld.tex
@@ -215,6 +231,7 @@ pdflatex helloworld.tex
 xelatex helloworld.tex
 \end{verbatim}
 
+\index{xelatex@\texttt{xelatex} 命令}
 \texttt{xelatex}命令（有时写作 \hologo{XeLaTeX}）有着各种新的特性，如能够直接支持使用系统预装的字体、
 原生支持 UTF-8 编码等。尤其是排版中文，\texttt{xelatex}命令配合适当的宏包是现在最新、最方便的方式。
 
@@ -224,12 +241,19 @@ xelatex helloworld.tex
 
 \subsection{文档类}\label{subsec:classes}
 
+\pinyinindex{wendanglei}{文档类}
 文档类规定了 \LaTeX\ 源代码所要生成的文档的性质——普通文章、书籍、演示文稿、个人简历等等。\LaTeX\ 源代码的开头须用
 \cmd{document\-class}指定文档类：
 \begin{command}
 \cmd{documentclass}\oarg{options}\marg{class-name}
 \end{command}
 
+\clsindex{article}
+\clsindex{book}
+\clsindex{report}
+\clsindex{ctexart}
+\clsindex{ctexbook}
+\clsindex{report}
 其中 \Arg{class-name} 为文档类的名称，如 \LaTeX\ 提供的 \cls{article}, \cls{book}, \cls{report}，
 在其基础上派生的一些文档类如支持中文排版的 \cls{ctexart} / \cls{ctexbook} / \cls{ctexrep}，
 或者有其它功能的一些文档类。\LaTeX\ 提供的基础文档类见表 \ref{tbl:ltx-classes}。
@@ -292,15 +316,24 @@ xelatex helloworld.tex
 
 \subsection{宏包}\label{subsec:packages}
 
+\cmdindex{usepackage}
+\pinyinindex{hongbao}{宏包}
 在编写 \LaTeX\ 源代码时，你时常会发现 \LaTeX\ 的基础功能不能满足你的需求，比如排版复杂的表格、插入图片、增加颜色甚至超链接等等。
 这时你需要依赖一些扩展来增强或补充 \LaTeX\ 的功能。这些扩展称为\textbf{宏包}。调用宏包的方法非常类似使用文档类的方法：
 \begin{command}
 \cmd{usepackage}\oarg{options}\marg{package-name}
 \end{command}
 
+\cmd{usepackage}的参数里可以使用不止一个宏包，多个宏包用逗号隔开。这种用法一般不要加选项%
+\footnote{使用多个宏包时加选项，相当于给每个宏包加了同样的选项。如果有某个宏包不能识别某个选项，则会出错。}：
+\begin{verbatim}
+% 一次性载入三个排版表格常用的宏包
+\usepackage{tabularx,longtable,multirow}
+\end{verbatim}
+
 附录中的 \ref{sec:pkg-list} 汇总了常用的一些宏包。我们在手册接下来的章节中，也会穿插介绍一些最常用的宏包的使用方法。
 
-在使用宏包和文档类之前，一定要首先确认它们是否安装在你的计算机中，否则 \cmd{usepackage} 等命令会报错误。
+在使用宏包和文档类之前，一定要首先确认它们是否安装在你的计算机中，否则 \cmd{use\-package} 等命令会报错误。
 详见附录 \ref{sec:pkg-manager} 。
 
 每个宏包（包括前面所说的文档类）都定义了许多命令和环境，或者修改了 \LaTeX\ 已有的命令和环境。
@@ -343,6 +376,7 @@ xelatex helloworld.tex
 
 当编写较大规模的 \LaTeX\ 源代码，如书籍、毕业论文等，你有理由将源代码分成若干个文件而不是写到一堆，比如很自然地每章写一个文件。
 
+\cmdindex{include}
 \LaTeX\ 提供了命令 \cmd{include} 用来在源代码里插入文件：
 \begin{command}
 \cmd{include}\marg{filename}
@@ -350,11 +384,13 @@ xelatex helloworld.tex
 \Arg{filename} 为文件名，如果和要编译的主文件不在一个目录中，则要加上相对路径。
 \Arg{filename} 可以不带扩展名，此时默认为 \texttt{.tex}；扩展名不是 \texttt{.tex} 的文件必须带扩展名。
 
+\cmdindex{input}
 值得注意的是 \cmd{include} 在读入 \Arg{filename} 之前会另起一页。有的时候我们并不需要这样，而是用 \cmd{input} 命令，它纯粹是把文件里的内容插入：
 \begin{command}
 \cmd{input}\marg{filename}
 \end{command}
 
+\cmdindex{includeonly}
 另外 \LaTeX\ 提供了一个 \cmd{includeonly} 命令来组织文件，用于\textbf{导言区}，指定只载入某些文件：
 \begin{command}
 \cmd{includeonly}\marg*{\Arg{filename1},\Arg{filename2},\ldots}
@@ -362,6 +398,7 @@ xelatex helloworld.tex
 
 导言区使用了 \cmd{includeonly} 后，正文中不在其列表范围的 \cmd{include} 命令不会起效。
 
+\pkgindex{syntonly}
 最后介绍一个实用的工具宏包 \pkg{syntonly}。加载这个宏包后，在导言区使用 \cmd{syntaxonly} 命令，
 可令 \LaTeX\ 编译后不生成 DVI 或者 PDF 文档，只排查错误，编译速度会快不少：
 \begin{verbatim}

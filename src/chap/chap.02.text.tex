@@ -2,14 +2,16 @@
 
 \section{语言文字和编码}\label{sec:encoding}
 
+\pinyinindex{bianma}{编码}
 \LaTeX\ 源代码为文本文件，而文本文件的一个至关重要的性质是它的编码。在此用尽量短的篇幅介绍一下。
 
 \subsection{ASCII 编码}\label{subsec:ascii}
 
+\index{bianma@编码!ASCII}
 计算机的基本存储单位是字节（byte），每个字节为八位（8-bit），能够代表 0-255 这 256 个数。
 ASCII （美国通用信息交换码）覆盖前 128 个数 0-127，也就是 7-bit，能够表示 QWERTY 键盘上能够输入的拉丁字母、数字和符号。
 
-由于 \TeX\ 最初面向英语文档的排版，ASCII 编码完全够用，而 \TeX\ 最早也只支持 7-bit 和 ASCII。
+由于 \TeX\ 最初面向英语文档的排版，ASCII 编码完全够用，而早期版本的 \TeX\ 也只支持 7-bit 和 ASCII。
 如果要排版西欧语系中带重音的字符，就要用到后文所叙述的重音命令了，如 M\"obius 必须输入 \texttt{M\char`\\"obius}。
 
 \subsection{扩展编码}\label{subsec:ext-encoding}
@@ -17,7 +19,9 @@ ASCII （美国通用信息交换码）覆盖前 128 个数 0-127，也就是 7-
 在 ASCII 之后，各种语言都发展出来了自己的编码，比如西欧语言的 Latin-1，日本的 Shift-JIS，中国大陆的 GB2312-80 和 GBK 等。
 它们之中的绝大多数都向下兼容 ASCII，因此无论是在哪种编码下，\TeX\ 以及 \LaTeX\ 的命令和符号都能用。
 
-西欧（拉丁字母）、俄语系（西里尔字母）等的编码较容易处理，因为它们刚好能够利用 128-255 这个编码范围。
+\index{bianma@编码!Latin-1}
+\pkgindex{inputenc}
+现在的 \TeX\ 程序支持 8-bit，能够识别源代码里 128-255 范围的字符。西欧（拉丁字母）、俄语系（西里尔字母）等语言的编码刚好能够利用 128-255 这个编码范围，处理起来较为方便。
 \texttt{latex} 命令及 \texttt{pdflatex} 命令下，这些编码的支持由 \pkg{inputenc} 宏包提供。比如将文档保存为 Latin-1 编码，并在导言区使用：
 \begin{verbatim}
 \usepackage[latin1]{inputenc}
@@ -26,15 +30,18 @@ ASCII （美国通用信息交换码）覆盖前 128 个数 0-127，也就是 7-
 接下来，M\"obius 就直接可以通过（用适当输入法）输入 \texttt{M\"obius} 得到了。其它一些语言也可以使用 \pkg{inputenc} 宏包
 配合 \pkg{babel} 宏包排版。
 
-GBK 等编码是多字节编码，ASCII 字符为一个字节，而非 ASCII 字符为两个字节，这就需要借助一些宏包进行较为复杂的判断和处理。
+\index{bianma@编码!GBK}
+GBK 等编码是多字节编码，ASCII 字符为一个字节，汉字等非 ASCII 字符为两个字节，这就需要借助一些宏包进行较为复杂的判断和处理。
 \pkg{CJK} 宏包就是处理汉语等多字节编码的语言使用的宏包。但 \pkg{CJK} 宏包的使用非常不方便，笔者不再推荐直接使用。
 后一节将会简单介绍现在推荐的中文支持方案。
 
 \subsection{UTF-8 编码}\label{subsec:utf8}
 
+\index{bianma@编码!UTF-8}
 Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的语言文字。UTF-8 是 Unicode 的一套编码方案，
-一个字符可以由一个到四个（现在用到三个）字节编码，其中单字节范围仍然是 ASCII 字符。
+一个字符可以由一个到四个（现在用到三个）字节编码，其中单字节字符仍然是 ASCII 字符。
 
+\pkgindex{inputenc}
 \texttt{latex} 命令及 \texttt{pdflatex} 命令下可以使用 \pkg{inputenc} 宏包支持 UTF-8：
 \begin{verbatim}
 \usepackage[utf8]{inputenc}
@@ -42,19 +49,20 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 
 \texttt{xelatex} 命令原生支持 UTF-8 编码，而且也\textbf{不适用 \pkg{inputenc} 宏包}。将源代码以 UTF-8 格式保存，
 并用 \pkg{fontspec} 宏包（见 \ref{subsec:fontspec} 小节）载入所需的字体，就可以在 \texttt{.tex} 源代码中输入任意语言的文字。
-但各个语言的特殊排版要求需要更多的宏包支持（印地语、阿拉伯语等等），如 \pkg{babel}、 \pkg{polyglossia} 等。
+但各个语言（印地语、阿拉伯语等）的特殊排版要求需要更多的宏包支持，如 \pkg{babel}、 \pkg{polyglossia} 等。
 
 \section{排版中文}
 
 \subsection{\pkg{xeCJK} 宏包}
 
+\pkgindex{xeCJK}
 用 \LaTeX\ 排版中文的一大门槛是中文字体。\TeX\ 使用的字体格式仅支持不超过 256 个字符，要想排版中文，比如旧式的 \pkg{CJK} 宏包，
 往往需要复杂的预处理，将中文字体拆分成数百个小字体，非常麻烦%
 \footnote{现在的 \texttt{pdflatex} 以及 \texttt{latex} + \texttt{dvipdfmx} 命令通过字体映射的方式支持直接使用中文字体，不需要经过预处理，
 但仍然是不方便新手操作的。}。
 
-\hologo{XeLaTeX} 支持直接使用系统安装的 TTF/OTF 等格式的字体，加上对 UTF-8 编码的原生支持，免去了预处理字体的麻烦。
-在此基础上的 \pkg{xeCJK} 宏包更进一步完善了中英文混排、标点符号等排版细节，比如中英文之间插入空隙、
+\hologo{XeLaTeX} 支持直接使用系统安装的 TrueType (\texttt{.ttf}) / OpenType(\texttt{.otf}) 等格式的字体，加上对 UTF-8 编码的原生支持，
+免去了预处理字体的麻烦。在此基础上的 \pkg{xeCJK} 宏包更进一步完善了排版中文的一些细节，比如中英文之间插入空隙、
 中文行尾的回车不引入空格、标点符号不出现在行首，等等。
 
 \pkg{xeCJK} 宏包支持用简单的命令配置中文字体。举一个在 Windows 下使用 \pkg{xeCJK} 的例子，源代码须保存为 UTF-8 编码
@@ -70,6 +78,10 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 
 \subsection{\pkg{ctex} 宏包和文档类}
 
+\pkgindex{ctex}
+\clsindex{ctexart}
+\clsindex{ctexbook}
+\clsindex{ctexrep}
 \pkg{ctex} 宏包和文档类是在 \pkg{CJK} 和 \pkg{xeCJK} 基础上的进一步封装。\pkg{ctex} 文档类包括
 \cls{ctexart} / \cls{ctexrep} / \cls{ctexbook}，是对 \LaTeX\ 的三个标准文档类的封装，对 \LaTeX\ 的排版样式做了许多调整，
 以切合中文排版风格。最新版本的 \pkg{ctex} 宏包/文档类甚至支持自动配置字体。比如上述例子可进一步简化为：
@@ -80,17 +92,18 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 \end{document}
 \end{verbatim}
 
-\pkg{ctex} 宏包/文档类支持源代码使用 UTF-8 和 GBK 编码（要在文档类指定 UTF8 或 GBK 选项，详见 \pkg{ctex} 宏包参考手册），
-用 \texttt{latex} + \texttt{dvipdfmx} 命令、\texttt{pdflatex} 或 \texttt{xelatex} 命令（不支持 GBK）都能够编译。
-推荐使用 UTF-8 编码编写源代码，用 \texttt{xelatex} 命令编译。
+\pkg{ctex} 宏包/文档类支持源代码保存为 UTF-8 和 GBK 编码\footnote{使用 GBK 编码时，要在文档类加上 GBK 选项。}，
+用 \texttt{latex} + \texttt{dvipdfmx} 命令、\texttt{pdflatex} 或 \texttt{xelatex} 命令（只支持 UTF-8 编码）都能够编译。
+笔者建议总是将源代码保存为 UTF-8 编码，用 \texttt{xelatex} 命令编译。
 
 \section{\LaTeX\ 中的符号}
 
 \subsection{空格和分段}\label{subsec:spaces}
 
 \LaTeX\ 源代码中，空格键和 Tab 键输入的空白字符视为“空格”。
-连续的若干个空白字符视为一个空格。另外一行开头的空格是忽略不计的。
+连续的若干个空白字符视为一个空格。一行开头的空格忽略不计。
 
+\cmdindex{par}
 行末的回车视为一个空格；但连续两个回车，也就是空行，会将文字分段。多个空行被视为一个空行。
 也可以在行末使用 \cmd{par} 命令分段：
 \begin{example}
@@ -105,6 +118,7 @@ starts a new line.
 
 \subsection{注释}\label{subsec:comments}
 
+\index{%@\texttt\% (\textit{注释})}
 \LaTeX\ 用 \texttt\% 字符作为注释。在这个字符之后直到行末，所有的字符都被忽略，连同回车引入的空格。
 我们需要注意以下示例中“回车引入的空格被忽略”的效果：
 \begin{example}

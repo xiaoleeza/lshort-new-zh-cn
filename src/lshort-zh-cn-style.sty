@@ -1,16 +1,16 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 内容：lshort 文档用到的宏包和命令
-% $Id: lshort.sty,v 1.2 2003/03/19 20:57:45 oetiker Exp $
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{lshort-zh-cn-style}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% lshort 调用的宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % 基本工具宏包
 % 
-\RequirePackage{colortbl,xcolor,tabularx,multirow,float,graphicx}
-\RequirePackage{hologo,makeidx,verbatim,fancyvrb,layouts}
-\RequirePackage[nottoc]{tocbibind}
+\RequirePackage{colortbl,xcolor,tabularx,multirow}
+\RequirePackage{graphicx,float}
+\RequirePackage{hologo,verbatim,fancyvrb,layouts,multicol}
+\RequirePackage{makeidx}
 \RequirePackage{amsmath,amsthm}
 \RequirePackage[inner=1in,outer=1.5in,vmargin=1in,marginparwidth=1in]{geometry}
 %\RequirePackage[all]{xy}
@@ -63,7 +63,7 @@
 % 字体和符号宏包
 % 
 \RequirePackage{lmodern}  % 正文字体使用 Latin Modern
-\RequirePackage{amssymb,latexsym,textcomp,mathrsfs,euscript} % 与正文字体不冲突的一些符号包
+\RequirePackage{amssymb,latexsym,textcomp,mathrsfs,euscript,yhmath} % 与默认字体不冲突的一些符号包
 \RequirePackage[LGR,T1]{fontenc}
 %\RequirePackage{marvosym}
 
@@ -80,6 +80,10 @@
 \hypersetup{colorlinks,%
   bookmarksnumbered=true,%
   pdfstartview=FitH}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% lshort 的版式设置
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \raggedbottom
 
@@ -105,21 +109,35 @@
 \pagestyle{fancyplain}
 
 %
-% 改写 theindex 环境，修正索引标题的超链接锚点
-%
+% 不依赖 tocbibind 的参考文献/索引修改
+% 索引依赖 multicols 环境排版
+% 
+\renewenvironment{thebibliography}[1]
+     {\chapter{\bibname}%
+      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
 \renewenvironment{theindex}%
-  {\if@twocolumn
-     \@restonecolfalse
-   \else
-     \@restonecoltrue
-   \fi
-   \twocolumn[\phantomsection\@makeschapterhead{\indexname}]%
-   \prw@mkboth{\indexname}
-   \addcontentsline{toc}{chapter}{\indexname}
-   \thispagestyle{plain}\parindent\z@
+  {\chapter{\indexname}%
+   \@mkboth{\MakeUppercase{\indexname}}{\MakeUppercase{\indexname}}
    \parskip\z@ \@plus .3\p@\relax
-   \let\item\@idxitem}
-   {\if@restonecol\onecolumn\else\clearpage\fi}
+   \let\item\@idxitem
+   \begin{multicols}{2}}
+   {\end{multicols}}
 
 %
 % 令 \cleardoublepage 的偶数页页眉页脚为空
@@ -129,7 +147,7 @@
     \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% lshort 用到的自定义命令和环境
+% lshort 用到的自定义命令
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % 源自 TeX FAQ 的超链接命令
@@ -149,7 +167,7 @@
 %
 % 示意长度
 %
-\def\demowidth#1{\rule{0.4pt}{2pt}\rule{#1}{0.4pt}\rule{0.4pt}{2pt}}
+\def\demowidth#1{\rule{0.4pt}{1ex}\rule{#1}{1.2pt}\rule{0.4pt}{1ex}}
 
 %
 % 命令和环境的写法
@@ -157,11 +175,11 @@
 \DeclareRobustCommand*\cmd[1]{\texttt{\char`\\#1}}
 \DeclareRobustCommand*\env[1]{\texttt{#1}}
 \DeclareRobustCommand*\pkg[1]{\textsf{#1}}
-\let\cls\pkg
+\DeclareRobustCommand*\cls[1]{\textsf{#1}}
 \DeclareRobustCommand*\marg{\@ifstar\@marg\@margmeta}
 \DeclareRobustCommand*\oarg{\@ifstar\@oarg\@oargmeta}
 \DeclareRobustCommand*\Arg[1]{\@meta{#1}}
-\def\@oarg#1{\texttt{[#1]}}
+\def\@oarg#1{\textcolor{gray}{\texttt{[#1]}}}
 \def\@oargmeta#1{\@oarg{\@meta{#1}}}
 \def\@marg#1{\texttt{\{#1\}}}
 \def\@margmeta#1{\@marg{\@meta{#1}}}
@@ -178,13 +196,18 @@
 \def\ltxenvindex#1{\index{#1@\env{#1} 环境}}
 \def\pkgcmdindex[#1]#2{\index{#2@\cmd{#2} (\pkg{#1})}}
 \def\pkgenvindex[#1]#2{\index{#2@\env{#2} 环境 (\pkg{#1})}}
+\def\symindex#1{\index{#1@\cmd{#1} (\expandafter\protect\csname #1\endcsname)}}
+\def\accindex#1{\index{#1@\cmd{#1} (\textit{重音符号} \expandafter\protect\csname #1\endcsname{a})}}
+% 数学符号索引
+\def\mathindex#1{\index{#1@\cmd{#1} (\textit{数学命令})}}
+\def\msymindex#1{\index{#1@\cmd{#1} (\textit{数学符号}$\expandafter\protect\csname #1\endcsname$)}}
+\def\maccindex#1{\index{#1@\cmd{#1} (\textit{数学重音}$\expandafter\protect\csname #1\endcsname{a}$)}}
+\def\waccindex#1{\index{#1@\cmd{#1} (\textit{数学重音}$\expandafter\protect\csname #1\endcsname{AB}$)}}
 \def\pinyinindex#1#2{\index{#1@#2}}
 
-%
-% 代码片段环境 code
-%
-\let\code\quote \let\endcode\endquote
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% lshort 用到的自定义环境
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % 每章最前的介绍内容环境 intro
 %
@@ -199,7 +222,7 @@
   {\trivlist\item\relax%
   \def\arraystretch{1.4}%
   \hskip\parindent%
-  \begin{tabular}{>{\columncolor[gray]{0.95}}l}
+  \begin{tabular}{>{\columncolor{blue!5}}l}
   }%
   {\\
   \end{tabular}
@@ -252,5 +275,6 @@
 \newfloat{sourcecode}{tbp}{los}[chapter]
 \floatname{sourcecode}{源代码}
 \def\listofsources{\listof{sourcecode}{源代码示例列表}}
+
 
 \endinput
