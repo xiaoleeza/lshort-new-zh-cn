@@ -73,7 +73,7 @@ or
 \envindex{displaymath}
 \envindex[amsmath]{equation*}
 当然你不会愿意为每个公式都手动取消编号。\LaTeX\ 提供了一对命令 \cmd{[} 和 \cmd{]} 用于生成不带编号的行间公式%
-\footnote{\TeX\ 原生排版行间公式的方法是用一对 \texttt{\$\$} 命令包裹，不过无法通过 \texttt{fleqn} 选项控制左对齐，
+\footnote{\TeX\ 原生排版行间公式的方法是用一对 \texttt{\$\$} 符号包裹，不过无法通过指定 \texttt{fleqn} 选项控制左对齐，
 与上下文之间的间距也不好调整，故不太推荐使用。}，
 与之等效的是 \env{displaymath} 环境。有的人更喜欢 \amsenv{equation*} 环境，体现了带星号和不带星号的环境之间的区别。
 
@@ -94,11 +94,12 @@ a^2 + b^2 = c^2
 我们通过一个例子展示行内公式和行间公式的对比。为了与文字相适应，行内公式在排版大的公式元素（分式、巨算符等）时显得很“局促”：
 
 \begin{example}
-This is text style:
+In text:
 $\lim_{n \to \infty}
 \sum_{k=1}^n \frac{1}{k^2}
 = \frac{\pi^2}{6}$.
-And this is display style:
+
+In display:
 \[
 \lim_{n \to \infty}
 \sum_{k=1}^n \frac{1}{k^2}
@@ -112,14 +113,15 @@ And this is display style:
 \subsection{数学模式和文本}\label{subsec:math-mode}
 
 \pinyinindex{shuxuemoshi}{数学模式}
+\cmdindex[amsmath]{text}
 当你使用 \texttt\$ 开启行内公式输入，或是使用 \cmd{[} 命令、\env{equation} 环境时，你就进入了所谓的\textbf{数学模式}。
 数学模式相比于文本模式有以下特点：
 \begin{enumerate}
   \item 数学模式中输入的空格全部被忽略。数学符号的间隙默认完全由符号的性质（关系符号、运算符等）决定。
-  需要人为引入空隙时，使用 \cmd{quad} 和 \cmd{qquad} 等命令。详见\ref{sec:math-space} 节。
+  需要人为引入空隙时，使用 \cmd{quad} 和 \cmd{qquad} 等命令。详见 \ref{sec:math-space} 节。
   \item \textbf{不允许有空行（分段）。}每个公式（每组多行公式）自成一个段落。
   \item 所有的字母被当作数学公式中的变量处理，字母间距与文本模式不一致，也无法生成单词之间的空格。
-  如果想在数学公式中输入正体的文本，简单情况下用 \ref{subsec:math-alpha} 中提供的 \cmd{mathrm} 命令，或者 \pkg{amsmath} 提供的更方便的 \amscmd{text} 命令%
+  如果想在数学公式中输入正体的文本，简单情况下可用 \ref{subsec:math-alpha} 小节中提供的 \cmd{mathrm} 命令。\pkg{amsmath} 提供的更方便的 \amscmd{text} 命令%
   \footnote{\amscmd{text} 命令仅适合在公式中穿插少量文字。如果你的情况正好相反，需要在许多文字中穿插使用公式，
   则应该像正常的行内公式那样，而不是滥用 \amscmd{text} 命令。}。
 \end{enumerate}
@@ -128,13 +130,13 @@ $x^{2} \geq 0 \qquad
 \text{for all }x\in\mathbb{R}$
 \end{example}
 
-\section{公式元素}
+\section{数学符号}\label{sec:math-symbols}
 
 \def\msym#1{$\csname #1\endcsname$ (\cmd{#1})}
 
 \pkgindex{amssymb}
 本节我们将接触到形形色色的数学符号，它们是 \LaTeX\ 卓越的数学公式排版能力的基础。\LaTeX\ 默认提供了常用的数学符号，
-\pkg{amssymb} 宏包提供了一些次常用的符号。这些符号全部能在本章末尾的 \ref{sec:math-tables} 节列出的表格里查到。
+\pkg{amssymb} 宏包提供了一些次常用的符号。大多数常用的数学符号都能在本章末尾的 \ref{sec:math-tables} 节列出的表格里查到。
 
 \subsection{一般符号}
 
@@ -154,7 +156,7 @@ $a_1 + a_2 + \cdots + a_n$
 
 除此之外在矩阵中会用到竖排的 \msym{vdots} 和斜排的 \msym{ddots}。
 
-\subsection{指数、上下标和导数}
+\subsection{指数、上下标和导数}\label{subsec:math-scripts}
 
 \index{^@\texttt\textasciicircum\ (\textit{数学上标})}
 \index{_@\texttt\textunderscore\ (\textit{数学下标})}
@@ -255,10 +257,10 @@ f_n(x) \stackrel{*}{\approx} 1
 \LaTeX\ 将数学函数的名称作为一个算符排版，字体为直立字体。其中有一部分符号在上下位置可以书写一些内容作为条件，
 类似于后文所叙述的巨算符。
 
-\begin{table}[htbp]
+\begin{table}[htp]
 \centering
 \caption{\LaTeX\ 作为算符的函数名称一览。}\label{tbl:math-functions}
-\begin{tabular}{lllll}
+\begin{tabular}{*{5}{p{5em}}}
 \hline
 \multicolumn{5}{c}{不带上下限的算符} \\
 \hline
@@ -292,14 +294,13 @@ $a\bmod b \\
 \end{example}
 
 \cmdindex[amsmath]{DeclareMathOperator}
-上表中的算符如果不满足使用的话，\pkg{amsmath} 允许用户用 \amscmd{Declare\-Math\-Operator} 
+如果表 \ref{tbl:math-functions} 中的算符不满足使用的话，\pkg{amsmath} 允许用户用 \amscmd{Declare\-Math\-Operator} 
 定义自己的算符，其中带星号的命令定义带上下限的算符：
 \begin{verbatim}
 \DeclareMathOperator{\argh}{argh}
 \DeclareMathOperator*{\nut}{Nut}
 \end{verbatim}
 
-效果为：
 \begin{example}
 \[\argh 3 = \nut_{x=1} 4x\]
 \end{example}
@@ -476,11 +477,11 @@ a + b + c + d + e + f
 
 更多的情况是，我们需要罗列一系列公式，并令其按照等号对齐。
 
-读者可能阅读过其它手册或者资料，知道 \LaTeX\ 有个 \env{eqnarray} 环境。它按照等号左边--等号--等号右边呈三列对齐，
-但等号周围的空隙过大，加上公式编号等一些 bug，目前已不推荐使用。
+读者可能阅读过其它手册或者资料，知道 \LaTeX\ 提供了 \env{eqnarray} 环境。它按照等号左边——等号——等号右边呈三列对齐，
+但等号周围的空隙过大，加上公式编号等一些 bug，目前已不推荐使用\footnote{\url{http://tug.org/pracjourn/2006-4/madsen/madsen.pdf}}。
 
 \envindex[amsmath]{align}
-目前最常用的是 \amsenv{align} 环境，它将公式用 \texttt\& 隔为两部分并对齐。分隔符通常放在等号左边（放在右边会使符号间距不太正常）：
+目前最常用的是 \amsenv{align} 环境，它将公式用 \texttt\& 隔为两部分并对齐。分隔符通常放在等号左边：
 \begin{example}
 \begin{align}
 a & = b + c \\
@@ -489,16 +490,15 @@ a & = b + c \\
 \end{example}
 
 \cmdindex[amsmath]{notag}
-\cmdindex{quad}
 \amsenv{align} 环境会给每行公式都编号。我们仍然可以用 \amscmd{notag} 去掉某行的编号。
-在以下的例子，我们还需调整加号的对齐位置：
+在以下的例子，为了对齐加号，我们将分隔符放在等号右边，这时需要给等号后添加一对括号 \texttt\{\texttt\} 以产生正常的间距：
 \begin{example}
 \begin{align}
-a & = b + c \\
-  & = d + e + f + g + h + i
-  + j + k + l \notag \\
-  &\quad + m + n + o \\
-  & = p + q + r + s
+a ={} & b + c \\
+  ={} & d + e + f + g + h + i
+        + j + k + l \notag \\
+      & + m + n + o \\
+  ={} & p + q + r + s
 \end{align}
 \end{example}
 
@@ -606,14 +606,10 @@ x & \text{if } x > 0.
 3 & 4
 \end{matrix} \qquad
 \begin{bmatrix}
-p_{11} & p_{12} & \ldots
-& p_{1n} \\
-p_{21} & p_{22} & \ldots
-& p_{2n} \\
-\vdots & \vdots & \ddots
-& \vdots \\
-p_{m1} & p_{m2} & \ldots
-& p_{mn}
+p_{11} & p_{12} & \ldots & p_{1n} \\
+p_{21} & p_{22} & \ldots & p_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+p_{m1} & p_{m2} & \ldots & p_{mn}
 \end{bmatrix}
 \]
 \end{example}
@@ -632,18 +628,18 @@ p_{m1} & p_{m2} & \ldots
 文本中的 \cmd{\textvisiblespace} 也能使用在数学公式中。
 \begin{center}
 \newdimen\testdimen \testdimen=\fontdimen6\textfont2 \divide\testdimen18\relax
-\begin{tabular}{lll}
+\begin{tabularx}{0.9\textwidth}{*{3}{>{\raggedright\arraybackslash}X}|*{3}{>{\raggedright\arraybackslash}X}}
  \hline
- 无额外间距  &                          & $a a$   \\
- \cmd{quad}  & \demowidth{18\testdimen} & $a\quad a$   \\
- \cmd{qquad} & \demowidth{36\testdimen} & $a\qquad a$  \\
+ 无额外间距  &                          & $a a$        &
  \cmd{,}     & \demowidth{3\testdimen}  & $a\,a$       \\
+ \cmd{quad}  & \demowidth{18\testdimen} & $a\quad a$   &
  \cmd{:}     & \demowidth{4\testdimen}  & $a\:a$       \\
+ \cmd{qquad} & \demowidth{36\testdimen} & $a\qquad a$  &
  \cmd{;}     & \demowidth{5\testdimen}  & $a\;a$       \\
+ \cmd{\textvisiblespace}     & \demowidth{\fontdimen2\textfont0} & $a\ a$ &
  \cmd{!}     & $-$\demowidth{3\testdimen} & $a\!a$     \\
- \cmd{\textvisiblespace}     & \demowidth{\fontdimen2\textfont0} & $a\ a$ \\
  \hline
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 一个常见的用途是修正积分的被积函数$f(x)$和微元$\mathrm{d}x$之间的距离。注意微元里的$\mathrm{d}$用的是直立体：
@@ -686,10 +682,10 @@ $\mathcal{R} \quad \mathfrak{R}
 \[\mathcal{L}
 = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}\]
 $\mathfrak{su}(2)$ and
-$\mathfrak{so}(3)$ algebra
+$\mathfrak{so}(3)$ Lie algebra
 \end{example}
 
-\begin{table}[!htbp]
+\begin{table}[htp]
 \centering
 \caption{数学字母字体。} \label{tbl:math-fonts}
 \begin{tabular}{@{}*3l@{}}
@@ -702,8 +698,8 @@ $\mathit{ABCDE abcde 1234}$      & \cmd{mathit}\marg*{\ldots}    &       \\
 $\mathbf{ABCDE abcde 1234}$      & \cmd{mathbf}\marg*{\ldots}    &       \\
 $\mathsf{ABCDE abcde 1234}$      & \cmd{mathsf}\marg*{\ldots}    &       \\
 $\mathtt{ABCDE abcde 1234}$      & \cmd{mathtt}\marg*{\ldots}    &       \\
-\hline
 $\CMcal{ABCDE}$                  & \cmd{mathcal}\marg*{\ldots}   & 只大写字母 \\
+\hline
 $\EuScript{ABCDE}$               & \cmd{mathcal}\marg*{\ldots}   & \pkg{eucal}，只大写字母 \\
 $\mathscr{ABCDE}$                & \cmd{mathscr}\marg*{\ldots}   & \pkg{mathrsfs}，只大写字母\\
 $\mathfrak{ABCDE abcde 1234}$    & \cmd{mathfrak}\marg*{\ldots}  & \pkg{amssymb} 或 \pkg{eufrak}  \\
@@ -720,7 +716,7 @@ $\mathbb{ABCDE}$                 & \cmd{mathbb}\marg*{\ldots}    & \pkg{amssymb}
 \mathindex{scriptscriptstyle}
 数学符号按照符号排版的位置规定尺寸，从大到小包括行间公式尺寸、行内公式尺寸、上下标尺寸、次级上下标尺寸。
 除了字号有别之外，行间和行内公式尺寸下的巨算符也使用不一样的大小。\LaTeX\ 为每个数学尺寸指定了一个切换的命令。
-\begin{table}[htbp]
+\begin{table}[htp]
 \centering
 \caption{数学符号尺寸。}\label{tbl:math-size}
 \begin{tabular}{lll}
@@ -795,27 +791,27 @@ $\mu, M \qquad
 
 如果两个可选参数都不用的话，则使用一个默认的计数器。
 
-例如，我们用以下代码定义了一个 \env{mytheorem} 环境：
+例如，我们用以下代码定义了一个 \env{mythm} 环境：
 \begin{verbatim}
-\newtheorem{mytheorem}{My Theorem}[chapter]
+\newtheorem{mythm}{My Theorem}[section]
 \end{verbatim}
-\newtheorem{mytheorem}{My Theorem}[chapter]
 
 \cmdindex{label}
-于是我们可以使用 \env{mytheorem} 环境排版定理。定理带一个可选参数，用于注明定理的名称，如“法拉第定律”等。
+于是我们可以使用 \env{mythm} 环境排版定理。定理带一个可选参数，用于注明定理的名称，如“法拉第定律”等。
 在环境内还可以用 \cmd{label} 声明引用：
 \begin{example}
-\begin{mytheorem}\label{thm:light}
+\newtheorem{mythm}{My Theorem}[section]
+\begin{mythm}\label{thm:light}
 The light speed in vaccum
-is $299,792,458 \mathrm{m/s}$.
-\end{mytheorem}
-\begin{mytheorem}[Relativity]
+is $299,792,458\,\mathrm{m/s}$.
+\end{mythm}
+\begin{mythm}[Energy]
 The relationship of energy, 
 momentum and mass is 
-$E^2 = m^2 c^4 + p^2 c^2$,
+\[E^2 = m_0^2 c^4 + p^2 c^2\]
 where $c$ is the light speed 
 described in theorem \ref{thm:light}.
-\end{mytheorem}
+\end{mythm}
 \end{example}
 
 \subsection{\pkg{amsthm} 宏包}
@@ -867,7 +863,7 @@ statement.\end{jury}
 \begin{proof}
 For simplicity, we use
 \[
-E=mc^2.
+E=mc^2
 \]
 That's it.
 \end{proof}
@@ -880,7 +876,7 @@ That's it.
 \begin{proof}
 For simplicity, we use
 \[
-E=mc^2.\qedhere
+E=mc^2 \qedhere
 \]
 \end{proof}
 \end{example}

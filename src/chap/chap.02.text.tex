@@ -1,4 +1,12 @@
-\chapter{用 \LaTeX\ 排版文字}
+\chapter{用 \LaTeX\ 排版文字}\label{chap:text}
+
+\begin{intro}
+文字是排版的基础。在介绍 \LaTeX\ 支持的各种文档元素之前，首先应当了解一下如何在 \LaTeX\ 源代码中输入并排版文字，
+尤其是（西文中的）标点符号、连字符、重音等一些细节。
+
+本文的开头首先介绍了中文的支持方式。随着 \LaTeX\ 和底层 \TeX\ 引擎的发展，旧方式（CCT、CJK 宏包等）日渐退出舞台，
+xelatex 配合 xeCJK 宏包的方式成为主流。
+\end{intro}
 
 \section{语言文字和编码}\label{sec:encoding}
 
@@ -9,36 +17,37 @@
 
 \index{bianma@编码!ASCII}
 计算机的基本存储单位是字节（byte），每个字节为八位（8-bit），能够代表 0-255 这 256 个数。
-ASCII （美国通用信息交换码）覆盖前 128 个数 0-127，也就是 7-bit，能够表示 QWERTY 键盘上能够输入的拉丁字母、数字和符号。
+ASCII （美国通用信息交换码）使用前 128 个数 0-127 对文字编码，也就是 7-bit，能够表示 QWERTY 键盘上能够输入的拉丁字母、数字和符号。
 
 由于 \TeX\ 最初面向英语文档的排版，ASCII 编码完全够用，而早期版本的 \TeX\ 也只支持 7-bit 和 ASCII。
-如果要排版西欧语系中带重音的字符，就要用到后文所叙述的重音命令了，如 M\"obius 必须输入 \texttt{M\char`\\"obius}。
+要排版西欧语系中带重音的字符，就必须用到后文所叙述的重音命令，如 M\"obius 必须输入 \texttt{M\char`\\"obius}。
 
 \subsection{扩展编码}\label{subsec:ext-encoding}
 
-在 ASCII 之后，各种语言都发展出来了自己的编码，比如西欧语言的 Latin-1，日本的 Shift-JIS，中国大陆的 GB2312-80 和 GBK 等。
+在 ASCII 之后，各种语言文字都发展了自己的编码，比如西欧语言的 Latin-1，日本的 Shift-JIS，中国大陆的 GB2312-80 和 GBK 等。
 它们之中的绝大多数都向下兼容 ASCII，因此无论是在哪种编码下，\TeX\ 以及 \LaTeX\ 的命令和符号都能用。
 
 \index{bianma@编码!Latin-1}
 \pkgindex{inputenc}
-现在的 \TeX\ 程序支持 8-bit，能够识别源代码里 128-255 范围的字符。西欧（拉丁字母）、俄语系（西里尔字母）等语言的编码刚好能够利用 128-255 这个编码范围，处理起来较为方便。
+现在的 \TeX\ 程序支持 8-bit，能够识别源代码里 128-255 范围的字符。
+西欧（拉丁字母）、俄语系（西里尔字母）等语言的编码刚好能够利用 128-255 这个编码范围，处理起来较为方便。
 \texttt{latex} 命令及 \texttt{pdflatex} 命令下，这些编码的支持由 \pkg{inputenc} 宏包提供。比如将文档保存为 Latin-1 编码，并在导言区使用：
 \begin{verbatim}
 \usepackage[latin1]{inputenc}
 \end{verbatim}
 
-接下来，M\"obius 就直接可以通过（用适当输入法）输入 \texttt{M\"obius} 得到了。其它一些语言也可以使用 \pkg{inputenc} 宏包
-配合 \pkg{babel} 宏包排版。
+接下来，M\"obius 就直接可以通过（用适当输入法）输入 \texttt{M\"obius} 得到了。
+其它一些语言也可以使用 \pkg{inputenc} 宏包配合 \pkg{babel} 宏包排版。
 
 \index{bianma@编码!GBK}
 GBK 等编码是多字节编码，ASCII 字符为一个字节，汉字等非 ASCII 字符为两个字节，这就需要借助一些宏包进行较为复杂的判断和处理。
-\pkg{CJK} 宏包就是处理汉语等多字节编码的语言使用的宏包。但 \pkg{CJK} 宏包的使用非常不方便，笔者不再推荐直接使用。
-后一节将会简单介绍现在推荐的中文支持方案。
+\pkg{CJK} 宏包就是处理中、日、韩等多字节编码的语言使用的宏包。但 \pkg{CJK} 宏包的使用非常不方便，笔者不再推荐直接使用。
+后一节将简单介绍现在推荐的中文支持方案。
 
 \subsection{UTF-8 编码}\label{subsec:utf8}
 
 \index{bianma@编码!UTF-8}
-Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的语言文字。UTF-8 是 Unicode 的一套编码方案，
+Unicode 是一个多国字符的集合，覆盖了几乎全球范围内的语言文字。UTF-8 是 Unicode 的一套编码方案，
 一个字符可以由一个到四个（现在用到三个）字节编码，其中单字节字符仍然是 ASCII 字符。
 
 \pkgindex{inputenc}
@@ -51,22 +60,23 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 并用 \pkg{fontspec} 宏包（见 \ref{subsec:fontspec} 小节）载入所需的字体，就可以在 \texttt{.tex} 源代码中输入任意语言的文字。
 但各个语言（印地语、阿拉伯语等）的特殊排版要求需要更多的宏包支持，如 \pkg{babel}、 \pkg{polyglossia} 等。
 
-\section{排版中文}
+\section{排版中文}\label{sec:chinese}
 
-\subsection{\pkg{xeCJK} 宏包}
+\subsection{\pkg{xeCJK} 宏包}\label{subsec:xeCJK}
 
-\pkgindex{xeCJK}
 用 \LaTeX\ 排版中文的一大门槛是中文字体。\TeX\ 使用的字体格式仅支持不超过 256 个字符，要想排版中文，比如旧式的 \pkg{CJK} 宏包，
 往往需要复杂的预处理，将中文字体拆分成数百个小字体，非常麻烦%
 \footnote{现在的 \texttt{pdflatex} 以及 \texttt{latex} + \texttt{dvipdfmx} 命令通过字体映射的方式支持直接使用中文字体，不需要经过预处理，
 但仍然是不方便新手操作的。}。
 
-\hologo{XeLaTeX} 支持直接使用系统安装的 TrueType (\texttt{.ttf}) / OpenType(\texttt{.otf}) 等格式的字体，加上对 UTF-8 编码的原生支持，
+\index{xelatex@\texttt{xelatex} 命令}
+\pkgindex{xeCJK}
+\texttt{xelatex} 命令支持直接使用系统安装的 TrueType (\texttt{.ttf}) / OpenType(\texttt{.otf}) 等格式的字体，加上对 UTF-8 编码的原生支持，
 免去了预处理字体的麻烦。在此基础上的 \pkg{xeCJK} 宏包更进一步完善了排版中文的一些细节，比如中英文之间插入空隙、
 中文行尾的回车不引入空格、标点符号不出现在行首，等等。
 
-\pkg{xeCJK} 宏包支持用简单的命令配置中文字体。举一个在 Windows 下使用 \pkg{xeCJK} 的例子，源代码须保存为 UTF-8 编码
-（设置字体的命令详见 \ref{subsec:CJKfont} 小节）：
+\pkg{xeCJK} 宏包支持用简单的命令配置中文字体。举一个在 Windows 下使用 \pkg{xeCJK} 的例子（设置字体的命令详见 \ref{subsec:CJKfont} 小节），
+源代码须保存为 UTF-8 编码，并使用 \texttt{xelatex} 命令编译：
 \begin{verbatim}
 \documentclass{article}
 \usepackage{xeCJK}
@@ -76,13 +86,13 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 \end{document}
 \end{verbatim}
 
-\subsection{\pkg{ctex} 宏包和文档类}
+\subsection{\pkg{ctex} 宏包和文档类}\label{subsec:ctex}
 
 \pkgindex{ctex}
 \clsindex{ctexart}
 \clsindex{ctexbook}
 \clsindex{ctexrep}
-\pkg{ctex} 宏包和文档类是在 \pkg{CJK} 和 \pkg{xeCJK} 基础上的进一步封装。\pkg{ctex} 文档类包括
+\pkg{ctex} 宏包和文档类是对 \pkg{CJK} 和 \pkg{xeCJK} 等宏包的进一步封装。\pkg{ctex} 文档类包括
 \cls{ctexart} / \cls{ctexrep} / \cls{ctexbook}，是对 \LaTeX\ 的三个标准文档类的封装，对 \LaTeX\ 的排版样式做了许多调整，
 以切合中文排版风格。最新版本的 \pkg{ctex} 宏包/文档类甚至支持自动配置字体。比如上述例子可进一步简化为：
 \begin{verbatim}
@@ -92,11 +102,11 @@ Unicode 是一个多国语言文字的集合，覆盖了几乎全球范围内的
 \end{document}
 \end{verbatim}
 
-\pkg{ctex} 宏包/文档类支持源代码保存为 UTF-8 和 GBK 编码\footnote{使用 GBK 编码时，要在文档类加上 GBK 选项。}，
+\pkg{ctex} 宏包/文档类支持源代码保存为 UTF-8 和 GBK 编码\footnote{使用 GBK 编码时，要为文档类指定 GBK 选项。详见 \pkg{ctex} 宏包手册。}，
 用 \texttt{latex} + \texttt{dvipdfmx} 命令、\texttt{pdflatex} 或 \texttt{xelatex} 命令（只支持 UTF-8 编码）都能够编译。
-笔者建议总是将源代码保存为 UTF-8 编码，用 \texttt{xelatex} 命令编译。
+笔者建议在使用 \pkg{ctex} 宏包和文档类时总是将源代码保存为 UTF-8 编码，用 \texttt{xelatex} 命令编译。
 
-\section{\LaTeX\ 中的符号}
+\section{\LaTeX\ 中的符号}\label{sec:text-symbols}
 
 \subsection{空格和分段}\label{subsec:spaces}
 
@@ -147,7 +157,7 @@ ak a word.
 \end{example}
 
 事实上这些带反斜线的形式就是 \LaTeX\ 命令。\cmd{\textasciicircum} 和 \cmd{\textasciitilde} 
-两个命令的形式比较特殊，如果不加一对括号，就和后面的字符形成了重音效果（详见某节）。
+两个命令是需要带参数的，如果不加一对花括号（空参数），就将后面的字符作为参数，形成重音效果（详见某节）。
 \cmd{\char`\\} 被直接定义成了手动换行的命令，输入反斜杠就只好用 \cmd{text\-back\-slash}。
 
 \section{段落}

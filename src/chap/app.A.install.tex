@@ -15,12 +15,12 @@
 \begin{itemize}
   \item \textbf{\TeX\ Live}\par
   \TeX\ Live 由类 Unix 系统上的 te\TeX\ 发展并取而代之，最终成为跨平台的 \TeX\ 发行版。
-  \TeX\ Live 自 2011 年起以年份作为发行版的版本号，保持了一年一更的速度。
+  \TeX\ Live 自 2011 年起以年份作为发行版的版本号，保持了一年一更的频率。
 
   Mac\TeX\ 是 OS X 系统下的一个定制化的 \TeX\ Live 版本，与 \TeX\ Live 同步更新。
 
   \item \textbf{Mik\TeX}\par
-  Mik\TeX\ 是主要用于 Windows 平台的一个稳定发展的 \TeX\ 发行版，对 Linux 平台的支持不如 \TeX\ Live。
+  Mik\TeX\ 是主要用于 Windows 平台的一个稳定发展的 \TeX\ 发行版。
   中国的 \LaTeX\ 用户应该对“C\TeX\ 套装”比较熟悉，它是一个经过本地化配置的 Mik\TeX 。
 \end{itemize}
 
@@ -47,6 +47,14 @@
   \end{itemize}
 \end{itemize}
 
+Linux 下 \TeX\ Live 安装完毕后，还需要在 root 权限下进行以下操作，使得 \texttt{xelatex} 命令能正确通过 \pkg{fontspec}
+等宏包使用字体\footnote{\url{http://www.tug.org/texlive/doc/texlive-zh-cn/texlive-zh-cn.pdf}，%
+可用 \texttt{texdoc texlive-zh-cn} 在本地打开。}：
+\begin{enumerate}
+  \item 将 \texttt{texlive-fontconfig.conf} 文件复制到 \texttt{/etc/fonts/conf.d/09-texlive.conf}。
+  \item 运行 \texttt{fc-cache -fsv}。
+\end{enumerate}
+
 Mik\TeX\ 在 \url{http://www.miktex.org/} 提供了 Windows 安装程序 basic-miktex-***.exe。下载后直接双击安装程序即可。
 
 \section{安装和更新宏包}\label{sec:pkg-manager}
@@ -61,8 +69,7 @@ Mik\TeX\ Package Manager。用户可直接打开程序进行宏包的安装和�
 \subsection{手动安装宏包}\label{sec:pkg-manual-install}
 
 首先，\textbf{\textcolor{red}{如非万不得已，尽量不要手动安装宏包}}。绝大多数宏包都已打包到 \TeX\ Live 和 Mik\TeX\ 两大发行版的安装源，
-可用宏包管理器安装。如果你知道某个宏包的名称，但不确定是否在发行版中已打包，
-可浏览 \nolinkurl{http://www.ctan.org/pkg/}\Arg{package-name} 查询。
+可用宏包管理器安装。如果你知道某个宏包的名称，但不确定是否在发行版中已打包，可在 CTAN 中搜索。
 
 如果确实有手动安装宏包的需要，可以往下看。在手动安装之前，有必要了解一下 \TeX\ 目录结构（\TeX\ Directory Structure, TDS）。
 它是 \TeX\ 发行版中宏包、字体、帮助文档等文件的组织结构。TDS 有时也称为 TEXMF 树，取 \TeX$+$\hologo{METAFONT} 之意。

@@ -186,7 +186,7 @@ pdflatex demo
 \begin{verbatim}
 \usepackage[numbers,sort&compress]{natbib}
 \end{verbatim}
-用以上选项调用 \pkg{natbib} 宏包后，连续引用多篇文献时，会生成形如 (3-7) 的引用而不是 (3, 4, 5, 6, 7)。
+调用 \pkg{natbib} 宏包时指定以上选项后，连续引用多篇文献时，会生成形如 (3-7) 的引用而不是 (3, 4, 5, 6, 7)。
 
 \pkg{natbib} 宏包还有更多选项和用法，比如默认的引用是用小括号包裹的，可以为宏包添加 \texttt{square} 选项改为中括号；
 再比如 \cmd{citep} 命令也支持可选参数，为引用前后都添加额外内容。这里不再赘述，请参考 \pkg{natbib} 宏包的帮助文档。
@@ -287,7 +287,7 @@ Test index.
 
 \pkgindex{color}
 \cmdindex[color/xcolor]{color}
-调用 \pkg{color} 宏包后，我们就可以用如下命令切换颜色：
+调用 \pkg{color} 或 \pkg{xcolor} 宏包后，我们就可以用如下命令切换颜色：
 \begin{command}
 \cmd{color}\oarg{color-mode}\marg{code} \\
 \cmd{color}\marg{color-name}
@@ -317,13 +317,13 @@ Test index.
   \texttt{#1}\index{yanse@颜色!#1@\texttt{#1}}%
   \ \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1.2em height 1.4ex}}\endgroup}
 \def\showxcolor#1{%
-  \texttt{#1}\index{yanse@颜色!#1@\texttt{#1} (\pkg{xcolor})}
+  \texttt{#1}\index{yanse@颜色!#1@\texttt{#1} (\pkg{xcolor})}%
   \ \begingroup\fboxsep=0pt\fbox{{\color{#1}\vrule width 1.2em height 1.4ex}}\endgroup}
 
-\begin{table}[!hbp]
+\begin{table}[htp]
 \centering
 \caption{\pkg{color} 和 \pkg{xcolor} 宏包可用的颜色名称。}\label{tbl:colors}
-\renewcommand\arraystretch{1.25}
+\renewcommand\arraystretch{1.1}
 \begin{tabularx}{0.8\textwidth}{*{4}{>{\raggedleft\arraybackslash}X}}
  \hline
  \multicolumn{4}{c}{基本的 8 种颜色名称：} \\
@@ -395,8 +395,8 @@ Test index.
 \section{使用超链接}\label{sec:hyperlinks}
 
 \pinyinindex{chaolianjie}{超链接}
-PDF 文档格式是现今最流行的电子文档格式，而电子文档最实用的功能之一就是链接功能。
-\LaTeX\ 中实现这一功能的 \pkg{hyperref} 宏包堪称 \LaTeX\ 里最强大也最复杂的宏包。
+PDF 文档格式是现今最流行的电子文档格式，而电子文档最实用的需求之一就是链接功能。
+\LaTeX\ 中实现这一功能的是 \pkg{hyperref} 宏包。
 
 \subsection{\pkg{hyperref} 宏包}\label{subsec:hyperref}
 
@@ -405,11 +405,9 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档最实�
 但这也使得它与其它宏包的冲突机会大大增加，虽然宏包已经尽力解决各方面的兼容性，但仍不能面面俱到。
 为减少冲突的可能性，习惯上将 \pkg{hyperref} 宏包\textbf{放在其它宏包之后调用}。
 
-与 \pkg{graphicx} 宏包类似，\texttt{latex} + \texttt{dvipdfmx} 编译方式下，调用 \pkg{hyperref} 宏包时需显式指定 \texttt{dvipdfmx} 选项：
-\begin{verbatim}
-\usepackage[dvipdfmx]{hyperref}
-\end{verbatim}
-而 \texttt{pdflatex} 或 \texttt{xelatex} 命令下，直接可用 \cmd{use\-package}\marg*{hyper\-ref} 调用宏包。
+\pinyinindex{xuanxiang}{选项（宏包/文档类）}
+与 \pkg{graphicx} 宏包类似，\texttt{latex} + \texttt{dvipdfmx} 命令下调用 \pkg{hyperref} 宏包时，需要指定选项 \texttt{dvipdfmx}；
+而 \texttt{pdflatex} 或 \texttt{xelatex} 命令下不需要。
 
 \cmdindex[hyperref]{hypersetup}
 \pkg{hyperref} 宏包提供了命令 \cmd{hypersetup} 配置各种选项，或者也可以作为宏包选项，在调用宏包时使用：
@@ -443,8 +441,9 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档最实�
 \href{http://wikipedia.org}{Wiki}
 \end{example}
 
+\cmdindex[hyperref]{hyperref}
 使用 \pkg{hyperref} 宏包后，文档中所有的引用、参考文献、索引等等都转换为超链接。
-用户也可将某个交叉引用的标签 \Arg{label} 作为超链接（注意这里的 \Arg{label} 虽然用了方括号，但是是\textbf{必填的}%
+用户也可对某个 \cmd{label} 命令定义的标签 \Arg{label} 作超链接（注意这里的 \Arg{label} 虽然用了方括号，但是是\textbf{必填的}%
 \footnote{不带方括号的 \cmd{hyperref} 命令带四个必选参数，前三个组成特殊格式的超链接，最后一个同 \Arg{text}。}）：
 \begin{command}
 \cmd{hyperref}\oarg{label}\marg{text}
@@ -466,8 +465,8 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档最实�
 第二次编译才正确生成书签。
 
 书签的一些属性见表 \ref{tbl:hyperref-settings}。
-在 \texttt{latex} + \texttt{dvipdfmx} 或 \texttt{pdflatex} 下使用 \pkg{ctex} 宏包或 \pkg{CJK} 宏包时，
-为了正确生成书签而不出现乱码，需要额外的设置，甚至繁琐的工序（这也是我们推荐使用 \texttt{xelatex} 命令处理中文的原因）。
+在 \texttt{latex} + \texttt{dvipdfmx} 或 \texttt{pdflatex} 命令下使用 \pkg{ctex} 宏包或 \pkg{CJK} 宏包时，
+为了正确生成中文书签而不出现乱码，需要额外的设置，甚至繁琐的工序（这也是我们推荐使用 \texttt{xelatex} 命令处理中文的原因）。
 
 \cmdindex[hyperref]{pdfbookmark}
 \pkg{hyperref} 还提供了手动生成书签的命令：
@@ -483,19 +482,19 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档最实�
 \begin{command}
 \cmd{texorpdfstring}\marg{\LaTeX\ code}\marg{PDF bookmark text}
 \end{command}
-比如：
+比如在章节名称里使用公式 $E=mc^2$，而书签使用字符 \texttt{E=mc\textasciicircum 2}：
 \begin{verbatim}
-\section{\texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
+\section{质能公式 \texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
 \end{verbatim}
 
 \subsection{PDF 文档属性}\label{subsec:pdf-settings}
 
 \pkg{hyperref} 宏包还提供了一些选项用于改变 PDF 文档的属性，部分见表 \ref{tbl:hyperref-settings}。
 
-\begin{table}[!hbp]
+\begin{table}[htp]
 \centering
 \caption{\pkg{hyperref} 宏包提供的设置。}\label{tbl:hyperref-settings}
-\begin{tabular}{lcp{18em}}
+\begin{tabular}{lcp{19.5em}}
  \hline
  选项                         &  默认值         & \multicolumn{1}{c}{含义} \\
  \hline
@@ -512,9 +511,9 @@ PDF 文档格式是现今最流行的电子文档格式，而电子文档最实�
  \texttt{bookmarksnumbered=}\Arg{true\textnormal|false} 
                               & \textit{false}  & 书签是否带章节编号 \\
  \texttt{CJKbookmarks=}\Arg{true\textnormal|false} 
-                              & \textit{false}   & 使用 \pkg{CJK} 宏包/ \pkg{GBK} 编码时必须的选项，
+                              & \textit{false}   & 使用 \pkg{CJK} 宏包/ \pkg{GBK} 编码时必须指定的选项，
                                                  在第一次编译后需要将生成的 \texttt{.out} 文件用工具处理编码 \\
- \texttt{unicode}             &                  & 使用 \pkg{CJKutf8} 宏包/ \pkg{UTF-8} 编码时必须的选项 \\
+ \texttt{unicode}             &                  & 使用 \pkg{CJKutf8} 宏包/ \pkg{UTF-8} 编码时必须指定的选项 \\
  \hline
  \texttt{pdftitle=}\Arg{string} 
                               & 空               & 标题 \\

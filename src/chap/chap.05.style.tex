@@ -29,7 +29,7 @@
 
 在公式中，直接使用 \cmd{textbf} 等命令不会起效，甚至报错。\LaTeX\ 已有修改数学字体的命令，详见 \ref{subsec:math-alpha} 小节。
 
-\begin{table}[!tbp]
+\begin{table}[htp]
 \caption{字体命令。} \label{tbl:fonts}
 \centering
 \begin{tabular}{@{}rrcc@{}}
@@ -54,7 +54,7 @@
 \pinyinindex{zihao}{字号}
 字号命令实际大小依赖于所使用的文档类及其选项。表 \ref{tbl:ptsizes} 列出了这些命令在标准文档类中的绝对大小，单位为 pt。
 
-\begin{table}[!tbp]
+\begin{table}[htp]
 \centering
 \caption{字号。} \label{tbl:sizes}
 \begin{tabular}{@{}ll}
@@ -77,7 +77,7 @@
 \end{tabular}
 \end{table}
 
-\begin{table}[!tbp]
+\begin{table}[htp]
 \centering
 \caption{标准文档类中的字号大小。}\label{tbl:ptsizes}
 \begin{tabular}{lrrr}
@@ -187,8 +187,8 @@ He likes {\LARGE large and
 \Arg{font features} 还能配置字体本身的各种特性，这里不再赘述，感兴趣的读者请参考 \pkg{fontspec} 宏包的帮助文档。
 
 需要注意一点：\pkg{fontspec} 宏包会覆盖数学字体设置。需要使用 \ref{tbl:font-pkgs} 中列出的一些数学字体宏包时，
-应当在调用 \pkg{fontspec} 宏包时加上 \texttt{no-math} 选项。\pkg{fontspec} 宏包可能由其它宏包或文档类（如 \pkg{xeCJK}、\pkg{ctex} 文档类）加载时，
-则在文档开头的 \cmd{document\-class} 命令里加上 \texttt{no-math} 选项。
+应当在调用 \pkg{fontspec} 宏包时指定 \texttt{no-math} 选项。\pkg{fontspec} 宏包可能由其它宏包或文档类（如 \pkg{xeCJK}、\pkg{ctex} 文档类）加载时，
+则在文档开头的 \cmd{document\-class} 命令里指定 \texttt{no-math} 选项。
 
 \subsection{使用 \pkg{xeCJK} 宏包更改中文字体}\label{subsec:CJKfont}
 
@@ -204,14 +204,13 @@ He likes {\LARGE large and
 \end{command}
 
 由于中文字体少有对应的粗体或斜体，\Arg{font features} 里多用其他字体来配置，
-比如许多人习惯将宋体的 \texttt{BoldFont} 配置为黑体，而 \texttt{ItalicFont} 配置为楷体。
+比如习惯上将宋体的 \texttt{BoldFont} 配置为黑体，而 \texttt{ItalicFont} 配置为楷体。
 
 \section{段落格式和间距}\label{sec:par-lengths}
 
 \subsection{长度和长度变量}\label{subsec:lengths}
 
-\LaTeX\ 的版面格式由许多长度变量控制。如页面宽度和高度、首行缩进、段落间距等。
-在前面的一些章节，我们已经见到一些长度和长度变量的用法。本节首先统一介绍一下长度和长度变量。
+在前面的一些章节，我们已经见到一些长度和长度变量的用法。本节首先统一介绍长度和长度变量。
 
 长度的数值 \Arg{length} 由数字和单位组成。常用的单位如下：
 
@@ -232,13 +231,14 @@ He likes {\LARGE large and
 \end{tabular}
 \end{center}
 
-在一些情况下，长度还可以表达成可伸缩的“弹性长度”，如 \texttt{12pt plus 2pt minus 3pt} 
+在一些情况下还会用到可伸缩的“弹性长度”，如 \texttt{12pt plus 2pt minus 3pt} 
 表示基础长度为 \texttt{12pt}，可以伸展到 \texttt{14pt} ，也可以收缩到 \texttt{9pt}。
 也可只定义 \texttt{plus} 或者 \texttt{minus} 的部分，如 \texttt{0pt plus 5pt}。
 
 长度的数值还可以用长度变量的倍数来表达，如 \texttt{2.5}\cmd{parindent} 等。
 
-如果需要使用自定义的长度变量：需使用如下命令：
+\LaTeX\ 预定义了大量的长度变量用于控制版面格式。如页面宽度和高度、首行缩进、段落间距等。
+如果需要自定义长度变量，需使用如下命令：
 \begin{command}
 \cmd{newlength}\marg*{\cmd{\Arg{length command}}}
 \end{command}
@@ -251,29 +251,29 @@ He likes {\LARGE large and
 
 \subsection{行距}\label{subsec:linespread}
 
+\pinyinindex{hangju}{行距}
 \cmdindex{linespread}
-前文中我们提到过 \cmd{fontsize} 命令可以修改行距，但我们很少直接用这个命令，常用的是 \cmd{linespread}命令，
-它通常放在导言区：
+前文中我们提到过 \cmd{fontsize} 命令可以为字号设定对应的行距，但我们很少那么用。
+更常用的办法是在导言区使用 \cmd{linespread} 命令，
 \begin{command}
 \cmd{linespread}\marg{factor}
 \end{command}
 
-\cmd{linespread} 命令的参数 \Arg{factor} 还并不是最终的行距。前文所叙述的 \cmd{fontsize} 命令设置了一个基本行距。
-\cmd{small}、\cmd{large} 等命令也设置了 1.2 倍的基本行距。
-而 \cmd{linespread} 相当于在 1.2 倍的基础上乘以 \Arg{factor}。
-所以要想设定 1.5 倍行距的话，应当设 \cmd{linespread}\marg*{1.25} 。
+\cmd{linespread} 命令的参数 \Arg{factor} 还并不是最终的行距。前文所叙述的 \cmd{fontsize} 命令为字号设定了对应的基本行距。
+\cmd{small}、\cmd{large} 等命令也自动设置了基本行距为字号的 1.2 倍。
+而 \cmd{linespread} 设定的行距相当于在 1.2 倍的基础上乘以 \Arg{factor}。
+所以要想设定 1.5 倍行距的话，应当将命令写作 \cmd{linespread}\marg*{1.25} 。
 
-若是想要局部地改变某个段落的行距，需要用到前文所叙述的 \cmd{selectfont} 命令使改动立即生效：
+\cmdindex{selectfont}
+如果不是在导言区全局修改，而想要局部地改变某个段落的行距，需要用 \cmd{select\-font} 命令使 \cmd{line\-spread} 命令的改动立即生效：
 \begin{example}
 {\linespread{1.67}\selectfont
-This paragraph is typeset with
-the baseline skip set to 2.0 times
-the font size. Note the par
-command at the end of the
-paragraph.\par}
+The baseline skip is set to twice
+the font size ($1.67\times 1.2=2$). 
+Note the \verb|\par|
+command at the end. \par}
 
-This paragraph has a clear
-purpose, it shows that after the
+In comparison, after the
 curly brace has been closed,
 everything is back to normal.
 \end{example}
@@ -304,6 +304,8 @@ But remember I am a liar.}\par
 
 它们和设置字号的命令一样，在分段时生效。
 
+\cmdindex{indent}
+\cmdindex{noindent}
 \LaTeX\ 默认在段落开始时缩进，长度为你用上述命令设置的 \cmd{parindent}。如果你在某一段不想使用缩进，可使用某一段开头使用
 \begin{command}
 \cmd{noindent}
@@ -312,16 +314,17 @@ But remember I am a liar.}\par
 \begin{command}
 \cmd{indent}
 \end{command}
-命令强制开启一段首行缩进的段落。
+命令强制开启一段首行缩进的段落。多个 \cmd{indent} 命令
 
 \pkgindex{indentfirst}
 \LaTeX\ 还默认\textbf{在 \cmd{chapter}、\cmd{section} 等章节命令之后的第一段不缩进}%
 \footnote{\pkg{ctex} 宏包按照中文习惯保持第一段的首行缩进。}。
-如果你想使之缩进，当然可以使用 \cmd{indent} 逐个调整段落，但更简单的方式是在导言区使用 \pkg{indentfirst} 宏包：
+如果如果不习惯这种设定，可以调用 \pkg{indent\-first} 宏包：
 \begin{verbatim}
 \usepackage{indentfirst}
 \end{verbatim}
 
+\cmdindex{parskip}
 段与段之间的垂直间距为 \cmd{parskip}，如设置段落间距为弹性长度，可在 \texttt{0.8ex} 到 \texttt{1.5ex} 变动：
 \begin{command}
 \cmd{setlength}\marg*{\cmd{parskip}}\marg*{1ex plus 0.5ex minus 0.2ex}
@@ -330,20 +333,19 @@ But remember I am a liar.}\par
 \subsection{水平间距}\label{subsec:hspace}
 
 \cmdindex{hspace}
-\LaTeX 默认为单词之间增添了水平间距。我们可以用已经在数学公式中出现的 \cmd{quad} 和 \cmd{qquad} 命令制造一个额外的间距。
+\LaTeX 默认为单词之间增添了水平间距。我们可以用之前提到的 \cmd{quad} 和 \cmd{qquad} 命令制造一个额外的间距。
 但是如果想要得到任意长度的间距，需要用到如下命令：
 \begin{command}
 \cmd{hspace}\marg{length}
 \end{command}
-
-\cmdindex{hspace*}
-\cmd{hspace} 命令生成的间距如果位于一行的开头或末尾，则有可能被“吞掉”。这时可以使用 \cmd{hspace*} 代替 \cmd{hspace} 命令
-得到不会因断行而消失的水平间距。
-
 \begin{example}
 This\hspace{1.5cm}is a space
 of 1.5 cm.
 \end{example}
+
+\cmdindex{hspace*}
+\cmd{hspace} 命令生成的间距如果位于一行的开头或末尾，则有可能被“吞掉”。这时可以使用 \cmd{hspace*} 代替 \cmd{hspace} 命令
+得到不会因断行而消失的水平间距。
 
 \cmdindex{stretch}
 \cmdindex{fill}
@@ -359,8 +361,8 @@ x\hspace{\fill}x
 在正文中用 \cmd{hspace} 调节水平间距时，往往使用 \texttt{em} 作为单位，它会随字号大小而变：
 
 \begin{example}
-{\Large{}big\hspace{1em}y}\\
-{\tiny{}tin\hspace{1em}y}
+{\Large big\hspace{1em}y}\\
+{\tiny tin\hspace{1em}y}
 \end{example}
 
 \subsection{垂直间距}\label{subsec:vspace}
@@ -377,7 +379,7 @@ x\hspace{\fill}x
 \cmd{vspace} 的间距在一页的顶端或底端可能被“吞掉”，类似 \cmd{hspace} 在一行的开头和末尾那样。
 对应地，\cmd{vspace*} 命令产生不会因断页而消失的垂直间距。\cmd{vspace} 也可用 \cmd{stretch} 设置无限延伸的垂直长度。
 
-在段落内部的某两行之间增加垂直间距，一般通过给 \cmd{\char`\\} 命令加上可选参数，和表格的用法相同：
+在段落内部的某两行之间增加垂直间距，一般通过给换行命令 \cmd{\char`\\} 加上可选参数，和表格的用法相同：
 \begin{command}
 \cmd{\char`\\}\oarg{length}
 \end{command}
@@ -411,13 +413,9 @@ x\hspace{\fill}x
 反之也可以利用这些长度变量来决定排版内容的尺寸，如设置图片或表格的宽度为 0.8\cmd{textwidth} 这样。
 
 \begin{figure}[!p]
-\setlayoutscale{0.4}
 \oddpagelayouttrue
 \pagediagram
-\begin{center}
-\printheadingsfalse\pagevalues
-\end{center}
-\caption{控制页面的各种参数示意图。图下的数值与本手册的设置一致。} \label{fig:layouts}
+\caption{控制页面的各种参数示意图。} \label{fig:layouts}
 \end{figure}
 
 但是，如果你想要直接设置页边距等参数，着实是一件麻烦事。我们根据图 \ref{fig:layouts} 将各个方向的页边距计算公式给出（以奇数页为例）：
@@ -439,18 +437,22 @@ x\hspace{\fill}x
 \end{align*}
 如果我们想设置合适的 \Arg{left-margin} 和 \Arg{right-margin}，就要靠上述方程组把 \cmd{oddsidemargin} 和 \cmd{textwidth} 等参数解出来！
 
-幸好 \pkg{geometry} 宏包能够帮我们完成背后繁杂的计算，让我们能够用简便一些的方法设置页面参数。
+幸好 \pkg{geometry} 宏包能够帮我们完成背后繁杂的计算，让我们能够用简便的方法设置页面参数。
 
 \subsection{利用 \pkg{geometry} 宏包设置页面参数}\label{subsec:geometry}
 
 \pkgindex{geometry}
+\pinyinindex{xuanxiang}{选项（宏包/文档类）}
+\pkg{geometry} 宏包的调用方式类似于 \pkg{graphicx}，在 \texttt{latex} + \texttt{dvipdfmx} 命令下需要指定选项 \texttt{dvipdfm}
+（注意这里不是 \texttt{dvipdfmx}）；\texttt{pdflatex} 和 \texttt{xelatex} 编译命令下不需要。
+
 \cmdindex[geometry]{geometry}
 你既可以调用 \pkg{geometry} 宏包然后用其提供的 \cmd{geometry} 命令设置页面参数：
 \begin{command}
 \cmd{usepackage}\marg*{geometry} \\
 \cmd{geometry}\marg{geometry-settings}
 \end{command}
-也可以将参数作为宏包的选项使用：
+也可以将参数指定为宏包的选项：
 \begin{command}
 \cmd{usepackage}\oarg{geometry-settings}\marg*{geometry}
 \end{command}
@@ -519,6 +521,9 @@ x\hspace{\fill}x
 \end{multicols}
 \end{verbatim}
 
+\pinyinindex{fudongti}{浮动体}
+\envindex{table}
+\envindex{figure}
 \pkgindex{float}
 \pkg{multicol} 宏包能够在一页之中切换单栏/多栏，也能处理跨页的分栏，且各栏的高度分布平衡。但代价是%
 \textbf{在 \env{multicols} 环境中无法正常使用 \env{table} 和 \env{figure} 等浮动体环境}，它会直接让浮动体丢失。
@@ -545,9 +550,9 @@ x\hspace{\fill}x
 \cmd{thispagestyle}\marg{page-style}
 \end{command}
 
-\Arg{page-style} 参数为样式的名称，在 \LaTeX\ 里预定义了四类样式，见表\ref{tbl:pagestyle}。
+\Arg{page-style} 参数为样式的名称，在 \LaTeX\ 里预定义了四类样式，见表 \ref{tbl:pagestyle}。
 
-\begin{table}[htbp]
+\begin{table}[htp]
 \centering
 \caption{\LaTeX\ 预定义的页眉页脚样式}\label{tbl:pagestyle}
 \begin{tabular}{cp{20em}}

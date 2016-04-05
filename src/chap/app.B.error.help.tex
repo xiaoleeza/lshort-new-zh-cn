@@ -64,7 +64,7 @@ l.3 Test \LaTEx
 \begin{itemize}
   \item 前者的字面意义是“一行中使用的列分隔符 \texttt\& 太多”，有的时候可能确实是 \texttt\& 的个数和列格式不匹配，
   但多数情况是漏了行尾的 \cmd{\char`\\}。
-  \item 后者出现于漏掉了行尾的 \cmd{\char`\\} 而接着使用 \cmd{hline} 画横线的时候。
+  \item 后者常出现于漏掉了行尾的 \cmd{\char`\\} 而接着使用 \cmd{hline} 画横线的时候。
 \end{itemize}
 
 \item \LaTeXerror{! I can't find file `\ldots'.}
@@ -74,7 +74,7 @@ l.3 Test \LaTEx
 两个错误都意味着缺少文件。
 \begin{itemize}
   \item 如果使用 \cmd{input} 或者 \cmd{include} 命令添加文件，文件不存在，或者文件名不正确，将会出现上述错误；
-  \item 如果错误提示里的文件名带 \texttt{.cls} 或者 \texttt{.sty} 扩展名，那么很显然，是\textbf{没有安装需要的宏包或文档类}。
+  \item 如果错误提示里的文件名带 \texttt{.cls} 或者 \texttt{.sty} 扩展名，那么很显然，是因为\textbf{没有安装所需的宏包或文档类}。
 \end{itemize}
 
 \item \LaTeXerror{!  LaTeX Error: Missing \cmd{begin}\marg*{document}.}
@@ -106,7 +106,7 @@ l.3 Test \LaTEx
 
 \leavevmode\nobreakspace
 
-\section{常见宏包简介}\label{sec:pkg-list}
+\section{常用宏包简介}\label{sec:pkg-list}
 
 \def\pkglabel#1{\makebox[60pt][l]{\pkg{#1}}}
 \newenvironment{pkglist}%
@@ -117,6 +117,8 @@ l.3 Test \LaTEx
     \labelsep=0pt 
     \let\makelabel\pkglabel}}%
   {\endlist}
+
+此处不包含设置字体或数学符号的宏包，它们已经在表 \ref{tbl:font-pkgs} 中列出。
 
 \subsection{文字、公式和符号}\label{subsec:text-math-symbols}
 
@@ -136,6 +138,9 @@ l.3 Test \LaTEx
 \begin{pkglist}
   \item[ulem]     提供排版可断行下划线的命令 \cmd{uline} 以及其它装饰文字的命令。
   \item[multicol] 提供将内容自由分栏的 \env{multicols} 环境。
+  \item[multitoc] 生成多栏排版的目录。
+  \item[minitoc]  为章节生成独立的小目录。
+  \item[glossaries] 生成词汇表。
   \item[verbatim] 对原始的 \env{verbatim} 环境的改善。提供了命令 \cmd{verbatim\-input} 调用源文件。
   \item[fancyvrb] 提供了代码排版环境 \env{Verbatim} 以及对版式的自定义。
   \item[listings] 提供了排版关键字高亮的代码环境 \env{lst\-listing} 以及对版式的自定义。类似宏包有 \pkg{minted}。
